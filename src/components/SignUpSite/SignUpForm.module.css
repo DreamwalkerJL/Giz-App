@@ -1,0 +1,127 @@
+.emailHeadline {
+  position: relative;
+  font-weight: 700;
+}
+.emailInputT {
+  flex: 1;
+  position: relative;
+}
+.emailFrame {
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: #1e193b;
+  border: 1px solid #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5px 10px;
+  font-family: Blinker;
+}
+.email {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.signInInput {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 56px;
+  gap: 20px;
+  font-family: Anybody;
+}
+.box {
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+}
+.rememberMeT {
+  position: relative;
+}
+.rememberMeFrame {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+}
+.forgotPasswordT {
+  position: relative;
+  text-decoration: underline;
+}
+.forgotPasswordFrame {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.bonusActionFrame {
+  align-self: stretch;
+  height: 90px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+.bonusActions {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0px;
+}
+.button {
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: #6d58a7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+.signInButton {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 56px;
+  cursor: pointer;
+  font-size: 24px;
+}
+.signUpForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 800px;
+  text-align: left;
+  font-size: 20px;
+  color: #fff;
+  font-family: Blinker;
+}

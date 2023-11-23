@@ -1,0 +1,75 @@
+.headerLogoIcon {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+.nameT {
+  position: relative;
+  display: inline-block;
+  width: 94px;
+  height: 38px;
+  flex-shrink: 0;
+}
+.headerLogoAndTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 0px 0px 16px;
+  z-index: 0;
+}
+.bellIcon {
+  position: relative;
+  width: 21px;
+  height: 24px;
+}
+.notification {
+  background-color: rgba(255, 255, 255, 0);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.menuIcon {
+  position: relative;
+  width: 21px;
+  height: 18.4px;
+}
+.menu {
+  background-color: rgba(0, 0, 0, 0);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.headerIcons {
+  margin: 0 !important;
+  position: absolute;
+  top: 18px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px 27px 0px 0px;
+  gap: 36px;
+  z-index: 1;
+}
+.header {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  max-width: 852px;
+  text-align: left;
+  font-size: 32px;
+  color: #fff;
+  font-family: Blinker;
+}
