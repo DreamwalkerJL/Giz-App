@@ -1,0 +1,146 @@
+.titleT {
+  align-self: stretch;
+  position: relative;
+}
+.userImageIcon {
+  border-radius: 5px;
+  width: 114px;
+  height: 59px;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.profilePictures {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 25px;
+  gap: 20px;
+}
+.users {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.createGizButton {
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: #1e193b;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  height: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.createGizButtonFrame {
+  align-self: stretch;
+  height: 63px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 30px;
+  box-sizing: border-box;
+}
+.cancelButtonT {
+  position: relative;
+  letter-spacing: 0.1em;
+  line-height: 100%;
+}
+.cancelButton {
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: #f15555;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.cancelGizButtonFrame {
+  align-self: stretch;
+  height: 61px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 56px;
+  box-sizing: border-box;
+}
+.createOrCancel {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 24px;
+}
+.gizFrame {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 17px 0px 0px;
+  box-sizing: border-box;
+  background-image: url("/public/giz-frame@3x.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  max-width: 800px;
+}
+.space {
+  align-self: stretch;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0);
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.giz {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 26px;
+}
+.editProfile {
+  position: relative;
+  background: linear-gradient(186.06deg, #1e193b, #fb7878);
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  font-size: 20px;
+  color: #fff;
+  font-family: Blinker;
+  /*ADDED*/
+  height: 100%;
+  min-height: 100vh;
+  z-index: 1;
+}

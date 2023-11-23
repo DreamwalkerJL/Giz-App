@@ -1,0 +1,65 @@
+.gizFrame {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 0px 0px;
+  box-sizing: border-box;
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  max-width: 800px;
+ /* ADDED */
+  background: linear-gradient(158.98deg, #463f71 50%, #fb7885 200%);
+  z-index: 1;
+}
+
+.giz {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 26px;
+}
+.space {
+  align-self: stretch;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0);
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.invitesSite {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+ /* ADDED */
+  background: linear-gradient(158.98deg, #1e193b 50%, #fb7885 180%);
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* ADDED */
+.gizFrame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(/public/invitesBG.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  opacity: 0.075; /* Adjust the opacity as needed */
+  z-index: -1; /* Ensure the image is behind the content */
+}

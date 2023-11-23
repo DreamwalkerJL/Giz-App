@@ -1,0 +1,152 @@
+.findUserHeadline {
+  position: relative;
+  font-weight: 700;
+}
+.findusert {
+  flex: 1;
+  position: relative;
+}
+.finduserinput {
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: #1e193b;
+  border: 1px solid #6ee57a;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5px 10px;
+  font-family: Blinker;
+}
+.findUser {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.adduserbuttont {
+  position: relative;
+  letter-spacing: 0.1em;
+  line-height: 100%;
+}
+.addUserButton {
+  border-radius: 5px;
+  background-color: #1e193b;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  width: 119px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px 2px;
+  box-sizing: border-box;
+}
+.addUser1 {
+  align-self: stretch;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 30px;
+  box-sizing: border-box;
+  font-family: Blinker;
+}
+.addUser {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 30px;
+  gap: 10px;
+  font-family: Anybody;
+}
+.userImageIcon {
+  border-radius: 5px;
+  width: 114px;
+  height: 59px;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.userNameT {
+  align-self: stretch;
+  position: relative;
+}
+.userFrame {
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+.userFrame1 {
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+.userNameT3 {
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.toBeAddedUsers {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 25px 0px;
+  gap: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+.removeSelectedUsersButton {
+  border-radius: 5px;
+  background-color: rgba(241, 85, 85, 0.5);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  width: 258px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px 2px;
+  box-sizing: border-box;
+}
+.removeSelectedUsers {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 0px;
+}
+.users {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 0px;
+  text-align: left;
+  font-size: 20px;
+  color: #fff;
+  font-family: Blinker;
+}
