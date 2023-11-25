@@ -17,11 +17,7 @@ const SingUpSite: FunctionComponent = () => {
 
   return (
     <div className={styles.signUpSite}>
-      <HeaderStart
-        headerFlex="unset"
-        headerHeight="255px"
-        logo="/logoTransp.png"
-      />
+      <HeaderStart />
       <div className={styles.fastSignIn}>
         <div className={styles.google} onClick={onGoogleContainerClick}>
           <img className={styles.googleIcon} alt="" src="/googleIcon.png" />

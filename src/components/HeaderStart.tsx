@@ -1,30 +1,11 @@
-import { FunctionComponent, useMemo, type CSSProperties } from "react";
+import { FunctionComponent } from "react";
 import styles from "./HeaderStart.module.css";
 
-type HeaderStartType = {
-  logo?: string;
-
-  /** Style props */
-  headerFlex?: CSSProperties["flex"];
-  headerHeight?: CSSProperties["height"];
-};
-
-const HeaderStart: FunctionComponent<HeaderStartType> = ({
-  headerFlex,
-  headerHeight,
-  logo,
-}) => {
-  const headerStyle: CSSProperties = useMemo(() => {
-    return {
-      flex: headerFlex,
-      height: headerHeight,
-    };
-  }, [headerFlex, headerHeight]);
-
+const HeaderStart: FunctionComponent = () => {
   return (
-    <div className={styles.header} style={headerStyle}>
+    <div className={styles.header}>
       <div className={styles.logoAndName}>
-        <img className={styles.logoIcon} alt="" src={logo} />
+        <img className={styles.logoIcon} alt="" src="/logoTransp.png" />
         <div className={styles.nameT}>GizApp</div>
       </div>
       <div className={styles.slogan}>
