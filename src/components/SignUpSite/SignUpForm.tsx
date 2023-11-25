@@ -1,34 +1,59 @@
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUpForm.module.css";
+import axios from "axios";
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onSignInButtonClick = useCallback(() => {
-    navigate("/status-site");
-  }, [navigate]);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    event.preventDefault();
+
+    try {
+      // const response = await axios.post('http://localhost:8080/auth/signIn', { email, password });
+      // console.log(response.data);
+      console.log(email, password);
+      navigate("/status-site");
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
 
   return (
-    <div className={styles.signUpForm}>
+    <form className={styles.signUpForm} onSubmit={handleSubmit}>
       <div className={styles.signInInput}>
         <div className={styles.email}>
           <i className={styles.emailHeadline}>E-MAIL ADRESS</i>
-          <div className={styles.emailFrame}>
-            <div className={styles.emailInputT}>monsterdam@google.com</div>
-          </div>
+          <input
+            className={styles.emailFrame}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="E-mail Adress"
+            required
+          />
         </div>
         <div className={styles.email}>
           <i className={styles.emailHeadline}>PASSWORD</i>
-          <div className={styles.emailFrame}>
-            <div className={styles.emailInputT}>***************</div>
-          </div>
+          <input
+            className={styles.passwordFrame}
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
         </div>
       </div>
       <div className={styles.bonusActions}>
         <div className={styles.bonusActionFrame}>
           <div className={styles.rememberMeFrame}>
-            <div className={styles.box} />
+            <input className={styles.box} type="checkbox" />
             <div className={styles.rememberMeT}>Remember me</div>
           </div>
           <div className={styles.forgotPasswordFrame}>
@@ -36,12 +61,12 @@ const SignUpForm: FunctionComponent = () => {
           </div>
         </div>
       </div>
-      <div className={styles.signInButton} onClick={onSignInButtonClick}>
-        <div className={styles.button}>
-          <b className={styles.rememberMeT}>SIGN IN</b>
-        </div>
+      <div className={styles.signInButton}>
+        <button className={styles.button} type="submit">
+          <b className={styles.signInT}>SIGN IN</b>
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
 

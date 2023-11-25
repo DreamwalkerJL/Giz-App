@@ -13,7 +13,7 @@ const RegisterSite: FunctionComponent = () => {
 
   return (
     <div className={styles.registerSite}>
-      <HeaderStart logo="/logoTransp.png" />
+      <HeaderStart />
       <RegisterForm />
       <div className={styles.goBack}>
         <div className={styles.goBackFrame} onClick={onGoBackFrameClick}>
