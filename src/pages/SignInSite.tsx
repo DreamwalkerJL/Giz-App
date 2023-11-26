@@ -3,6 +3,7 @@ import HeaderStart from "../components/HeaderStart";
 import { useNavigate } from "react-router-dom";
 import SignUpForm from "../components/SignInSite/SignInForm";
 import styles from "./SignInSite.module.css";
+import FastSignIn from "../components/SignInSite/FastSignIn";
 
 const SingUpSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -18,11 +19,7 @@ const SingUpSite: FunctionComponent = () => {
   return (
     <div className={styles.signUpSite}>
       <HeaderStart instructionT="Please enter your details to sign in" />
-      <div className={styles.fastSignIn}>
-        <div className={styles.google} onClick={onGoogleContainerClick}>
-          <img className={styles.googleIcon} alt="" src="/googleIcon.png" />
-        </div>
-      </div>
+      <FastSignIn />
       <div className={styles.signin}>
         <div className={styles.line1} />
         <div className={styles.signInT}>Sign In</div>
