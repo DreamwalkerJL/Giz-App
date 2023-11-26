@@ -2,8 +2,6 @@ import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
-import GizInformations from "../components/GizInformations";
-import InvitedUsers from "../components/InvitedUsers";
 import GizActionButtons from "../components/GizActionButtons";
 import styles from "./StatusSite.module.css";
 import StatusGizUsers from "../components/StatusSite/StatusGizUsers";
