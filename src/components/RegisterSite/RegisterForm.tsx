@@ -17,7 +17,7 @@ const RegisterForm: FunctionComponent = () => {
       // const response = await axios.post('http://localhost:8080/auth/register', { username, email, password });
       // console.log(response.data);
       console.log(userName, email, password);
-      navigate("/");
+      navigate("/status-site");
     } catch (error) {
       console.error("There was an error!", error);
     }
