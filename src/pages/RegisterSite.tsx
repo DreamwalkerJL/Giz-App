@@ -13,7 +13,7 @@ const RegisterSite: FunctionComponent = () => {
 
   return (
     <div className={styles.registerSite}>
-      <HeaderStart />
+      <HeaderStart instructionT="Please enter your details to sign up" />
       <RegisterForm />
       <div className={styles.goBack}>
         <div className={styles.goBackFrame} onClick={onGoBackFrameClick}>

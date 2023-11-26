@@ -1,14 +1,14 @@
 import { FunctionComponent, useCallback } from "react";
 import HeaderStart from "../components/HeaderStart";
+import RecoverForm from "../components/RecoverAccountSite/RecoverAccountForm";
 import { useNavigate } from "react-router-dom";
-import SignUpForm from "../components/SignUpSite/SignUpForm";
-import styles from "./SingUpSite.module.css";
+import styles from "./RecoverAccountSite.module.css";
 
 const SingUpSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onGoogleContainerClick = useCallback(() => {
-    navigate("/status-site");
+  const onGoBackFrameClick = useCallback(() => {
+    navigate("/");
   }, [navigate]);
 
   const onRegisterNavigationContainerClick = useCallback(() => {
@@ -16,24 +16,19 @@ const SingUpSite: FunctionComponent = () => {
   }, [navigate]);
 
   return (
-    <div className={styles.signUpSite}>
-      <HeaderStart />
-      <div className={styles.fastSignIn}>
-        <div className={styles.google} onClick={onGoogleContainerClick}>
-          <img className={styles.googleIcon} alt="" src="/googleIcon.png" />
+    <div className={styles.recoverAccountSite}>
+      <HeaderStart instructionT="Please enter your email address to recover your account via email." />
+      <RecoverForm />
+      <div className={styles.goBack}>
+        <div className={styles.goBackFrame} onClick={onGoBackFrameClick}>
+          <div className={styles.goBackT}>Go back</div>
         </div>
       </div>
-      <div className={styles.signin}>
-        <div className={styles.line1} />
-        <div className={styles.signInT}>Sign In</div>
-        <div className={styles.line1} />
-      </div>
-      <SignUpForm />
       <div
         className={styles.registerNavigation}
         onClick={onRegisterNavigationContainerClick}
       >
-        <div className={styles.signInT}>
+        <div className={styles.registerNavigationTContainer}>
           <span>{`Don’t have an account yet? `}</span>
           <b>Sign Up</b>
         </div>

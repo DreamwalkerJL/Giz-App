@@ -10,36 +10,45 @@ const RegisterForm: FunctionComponent = () => {
   }, [navigate]);
 
   return (
-    <div className={styles.registerForm}>
-      <div className={styles.signInInput}>
-        <div className={styles.userName}>
-          <i className={styles.userNameHeadline}>USERNAME</i>
-          <div className={styles.userNameFrame}>
-            <div className={styles.userNameInput}>Monster Dam</div>
-          </div>
+    <form className={styles.registerForm}>
+      <div className={styles.registerInput}>
+        <div className={styles.username}>
+          <i className={styles.usernameHeadline}>USERNAME</i>
+          <input
+            className={styles.usernameInput}
+            placeholder="Username"
+            type="text"
+            required
+          />
         </div>
-        <div className={styles.userName}>
-          <i className={styles.userNameHeadline}>E-MAIL ADRESS</i>
-          <div className={styles.userNameFrame}>
-            <div className={styles.userNameInput}>monsterdam@google.com</div>
-          </div>
+        <div className={styles.username}>
+          <i className={styles.usernameHeadline}>E-MAIL ADRESS</i>
+          <input
+            className={styles.usernameInput}
+            placeholder="E-Mail Adress"
+            type="email"
+            required
+          />
         </div>
-        <div className={styles.userName}>
-          <i className={styles.userNameHeadline}>PASSWORD</i>
-          <div className={styles.userNameFrame}>
-            <div className={styles.userNameInput}>***************</div>
-          </div>
+        <div className={styles.username}>
+          <i className={styles.usernameHeadline}>PASSWORD</i>
+          <input
+            className={styles.usernameInput}
+            placeholder="Password"
+            type="password"
+            required
+          />
         </div>
       </div>
       <div
         className={styles.registerButton}
         onClick={onRegisterButtonContainerClick}
       >
-        <div className={styles.button}>
-          <b className={styles.registerT}>REGISTER</b>
-        </div>
+        <button className={styles.button} type="submit">
+          <b className={styles.registerT}>SIGN UP</b>
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
 
