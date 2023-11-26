@@ -1,0 +1,57 @@
+.titleT {
+    align-self: stretch;
+    position: relative;
+    font-weight: 700;
+  }
+  .descriptionT {
+    align-self: stretch;
+    position: relative;
+    font-size: 16px;
+    font-family: Blinker;
+  }
+  .titleAndDescription {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px 63px 0px 0px;
+  }
+  .dateIsT {
+    position: relative;
+  }
+  .dateHowLong {
+    position: relative;
+    font-weight: 300;
+  }
+  .dateFrame {
+    width: 281px;
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    font-size: 20px;
+    font-family: Blinker;
+  }
+  .invitesInformationFrame,
+  .statusInformationFrame {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px 30px;
+    gap: 10px;
+    z-index: 0;
+    text-align: left;
+    font-size: 24px;
+    color: #fff;
+    font-family: Anybody;
+  }
+
+
+  

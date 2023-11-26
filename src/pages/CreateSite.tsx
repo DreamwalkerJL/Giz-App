@@ -2,9 +2,9 @@ import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
-import GizDetails from "../components/CreateSite/GizDetails";
-import AddUsers from "../components/CreateSite/AddUsers";
 import styles from "./CreateSite.module.css";
+import CreateGizInformationFrame from "../components/CreateSite/CreateInformationFrame";
+import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -40,8 +40,8 @@ const CreateSite: FunctionComponent = () => {
       />
       <div className={styles.giz}>
         <div className={styles.gizFrame}>
-          <GizDetails />
-          <AddUsers />
+        <CreateGizInformationFrame />
+          <CreateGizUsers />
           <div className={styles.createOrCancel}>
             <div className={styles.createGizButtonFrame}>
               <div

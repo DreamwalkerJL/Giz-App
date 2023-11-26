@@ -6,6 +6,8 @@ import GizInformations from "../components/GizInformations";
 import InvitedUsers from "../components/InvitedUsers";
 import GizActionButtons from "../components/GizActionButtons";
 import styles from "./InvitesSite.module.css";
+import InvitesGizUsers from "../components/InvitesSite/InvitesGizUsers";
+import InvitesInformationFrame from "../components/InvitesSite/InvitesInformationFrame";
 
 const InvitesSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -37,8 +39,8 @@ const InvitesSite: FunctionComponent = () => {
       />
       <div className={styles.giz}>
         <div className={styles.gizFrame}>
-          <GizInformations />
-          <InvitedUsers />
+        <InvitesInformationFrame />
+          <InvitesGizUsers />
           <GizActionButtons
             buttonText="ACCEPT"
             actionButtonText="DECLINE"

@@ -1,9 +1,9 @@
 import { FunctionComponent } from "react";
-import styles from "./AddUsers.module.css";
+import styles from "./CreateGizUsers.module.css";
 
-const AddUsers: FunctionComponent = () => {
+const CreateGizUsers: FunctionComponent = () => {
   return (
-    <div className={styles.users}>
+    <div className={styles.createGizUsers}>
       <div className={styles.addUser}>
         <div className={styles.findUser}>
           <i className={styles.findUserHeadline}>FIND USER</i>
@@ -76,4 +76,4 @@ const AddUsers: FunctionComponent = () => {
   );
 };
 
-export default AddUsers;
+export default CreateGizUsers;
