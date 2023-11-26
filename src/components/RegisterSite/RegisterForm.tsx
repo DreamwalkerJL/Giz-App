@@ -1,6 +1,7 @@
-import { FunctionComponent, useCallback, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RegisterForm.module.css";
+import axios from "axios";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
