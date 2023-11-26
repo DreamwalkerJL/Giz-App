@@ -1,7 +1,22 @@
 import { FunctionComponent } from "react";
-import styles from "../RepeatedModules/GizUsers.module.css";
+import styles from "../ModulesForMultipleComponents/GizUsers.module.css";
+import { useNavigate } from "react-router-dom";
 
 const StatusGizUsers: FunctionComponent = () => {
+  const navigate = useNavigate();
+
+  const getStatusGizUsers = async ()=> {
+    try {
+      // GET Users: userName, profilePicture
+      // const response = await axios.get('http://localhost:8080/giz/gizId/users');
+      // console.log(response.data);
+      
+      navigate("/status-site");
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
+
   return (
     <div className={styles.statusGizUsers}>
       <div className={styles.checkBarFrame}>

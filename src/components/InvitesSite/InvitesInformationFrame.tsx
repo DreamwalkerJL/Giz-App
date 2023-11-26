@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "../RepeatedModules/InformationFrame.module.css";
+import styles from "../ModulesForMultipleComponents/InformationFrame.module.css";
 
 const InvitesInformationFrame: FunctionComponent = () => {
   return (

@@ -2,10 +2,10 @@ import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
-import GizActionButtons from "../components/GizActionButtons";
 import styles from "./StatusSite.module.css";
 import StatusGizUsers from "../components/StatusSite/StatusGizUsers";
 import StatusInformationFrame from "../components/StatusSite/StatusInformationFrame";
+import StatusGizButtons from "../components/StatusSite/StatusGizButtons";
 
 const StatusSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const StatusSite: FunctionComponent = () => {
         <div className={styles.gizFrame}>
         <StatusInformationFrame />
           <StatusGizUsers />
-          <GizActionButtons buttonText="CANCEL" actionButtonText="EDIT" />
+          <StatusGizButtons/>
         </div>
       </div>
       <div className={styles.space} />

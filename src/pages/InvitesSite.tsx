@@ -2,10 +2,10 @@ import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
-import GizActionButtons from "../components/GizActionButtons";
 import styles from "./InvitesSite.module.css";
 import InvitesGizUsers from "../components/InvitesSite/InvitesGizUsers";
 import InvitesInformationFrame from "../components/InvitesSite/InvitesInformationFrame";
+import InvitesGizButtons from "../components/InvitesSite/InvitesGizButtons";
 
 const InvitesSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -37,14 +37,9 @@ const InvitesSite: FunctionComponent = () => {
       />
       <div className={styles.giz}>
         <div className={styles.gizFrame}>
-        <InvitesInformationFrame />
+          <InvitesInformationFrame />
           <InvitesGizUsers />
-          <GizActionButtons
-            buttonText="ACCEPT"
-            actionButtonText="DECLINE"
-            propBackgroundColor="#6ee57a"
-            propBackgroundColor1="#f15555"
-          />
+          <InvitesGizButtons />
         </div>
       </div>
       <div className={styles.space} />

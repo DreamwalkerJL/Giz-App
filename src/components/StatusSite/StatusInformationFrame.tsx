@@ -1,7 +1,22 @@
-import { FunctionComponent } from "react";
-import styles from "../RepeatedModules/InformationFrame.module.css";
+import { FunctionComponent, useState } from "react";
+import styles from "../ModulesForMultipleComponents/InformationFrame.module.css";
+import { useNavigate } from "react-router-dom";
 
 const StatusInformationFrame: FunctionComponent = () => {
+  const navigate = useNavigate();
+
+  const getStatusInformations = async ()=> {
+    try {
+      // GET Informations: title, description, date
+      // const response = await axios.get('http://localhost:8080/giz/gizId/informations');
+      // console.log(response.data);
+      
+      navigate("/status-site");
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
+
   return (
     <div className={styles.statusInformationFrame}>
       <div className={styles.titleAndDescription}>

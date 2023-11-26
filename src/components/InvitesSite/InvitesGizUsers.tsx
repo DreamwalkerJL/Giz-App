@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "../RepeatedModules/GizUsers.module.css";
+import styles from "../ModulesForMultipleComponents/GizUsers.module.css";
 
 const InvitesGizUsers: FunctionComponent = () => {
   return (

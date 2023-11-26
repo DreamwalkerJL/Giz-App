@@ -8,10 +8,6 @@ import FastSignIn from "../components/SignInSite/FastSignIn";
 const SingUpSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onGoogleContainerClick = useCallback(() => {
-    navigate("/status-site");
-  }, [navigate]);
-
   const onRegisterNavigationContainerClick = useCallback(() => {
     navigate("/register-site");
   }, [navigate]);
