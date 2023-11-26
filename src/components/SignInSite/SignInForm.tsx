@@ -12,7 +12,7 @@ const SignUpForm: FunctionComponent = () => {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState<boolean>(false)
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -38,7 +38,7 @@ const SignUpForm: FunctionComponent = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail Adress"
+            placeholder="E-Mail Adress"
             required
           />
         </div>
@@ -57,8 +57,12 @@ const SignUpForm: FunctionComponent = () => {
       <div className={styles.bonusActions}>
         <div className={styles.bonusActionFrame}>
           <div className={styles.rememberMeFrame}>
-            <input className={styles.box} type="checkbox" 
-            checked={rememberMe} onChange={() => setRememberMe(prev => !prev)}/>
+            <input
+              className={styles.box}
+              type="checkbox"
+              checked={rememberMe}
+              onChange={() => setRememberMe((prev) => !prev)}
+            />
             <div className={styles.rememberMeT}>Remember me</div>
           </div>
           <div

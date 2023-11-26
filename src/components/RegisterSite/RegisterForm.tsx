@@ -24,7 +24,6 @@ const RegisterForm: FunctionComponent = () => {
     }
   };
 
-
   return (
     <form className={styles.registerForm} onSubmit={handleSubmit}>
       <div className={styles.registerInput}>
@@ -46,7 +45,7 @@ const RegisterForm: FunctionComponent = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail Adress"
+            placeholder="E-Mail Adress"
             required
           />
         </div>
@@ -62,9 +61,7 @@ const RegisterForm: FunctionComponent = () => {
           />
         </div>
       </div>
-      <div
-        className={styles.registerButton}
-      >
+      <div className={styles.registerButton}>
         <button className={styles.button} type="submit">
           <b className={styles.registerT}>SIGN UP</b>
         </button>
