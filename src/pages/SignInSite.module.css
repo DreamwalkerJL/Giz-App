@@ -1,39 +1,5 @@
   /* CHANGED THE STRUCTURE QUITE A BIT */
 
-.googleIcon {
-  position: relative;
-  width: 25px;
-  height: 25px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.google {
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-.google {
-  border-radius: 5px;
-  background-color: #fff;
-  border: 1px solid #000;
-  box-sizing: border-box;
-  width: 110px;
-  overflow: hidden;
-  flex-shrink: 0;
-  padding: 10px;
-  cursor: pointer;
-}
-.fastSignIn {
-  border-radius: 14px;
-  padding: 10px 0;
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
 .line1 {
   position: relative;
   flex: 1;

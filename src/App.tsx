@@ -6,7 +6,7 @@ import {
   useLocation,
 
 } from "react-router-dom";
-import SingUpSite from "./pages/SingUpSite";
+import SignInSite from "./pages/SignInSite";
 import RegisterSite from "./pages/RegisterSite";
 import StatusSite from "./pages/StatusSite";
 import InvitesSite from "./pages/InvitesSite";
@@ -14,6 +14,7 @@ import CreateSite from "./pages/CreateSite";
 import EditProfile from "./pages/EditProfile";
 import MenuSite from "./pages/MenuSite";
 import ContactUsSite from "./pages/ContactUsSite";
+import RecoverAccountSite from "./pages/RecoverAccountSite";
 
 function App() {
   const action = useNavigationType();
@@ -81,7 +82,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<SingUpSite />} />
+      <Route path="/" element={<SignInSite />} />
       <Route path="/register-site" element={<RegisterSite />} />
       <Route path="/status-site" element={<StatusSite />} />
       <Route path="/invites-site" element={<InvitesSite />} />
@@ -89,6 +90,7 @@ function App() {
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/menu-site" element={<MenuSite />} />
       <Route path="/contact-us-site" element={<ContactUsSite />} />
+      <Route path="/recover-account-site" element={<RecoverAccountSite />} />
     </Routes>
   );
 }
