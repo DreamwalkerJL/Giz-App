@@ -1,7 +1,23 @@
 import { FunctionComponent } from "react";
 import styles from "../ModulesForMultipleComponents/InformationFrame.module.css";
+import { useNavigate } from "react-router-dom";
 
 const InvitesInformationFrame: FunctionComponent = () => {
+  const navigate = useNavigate();
+
+  const getInvitesInformations = async ()=> {
+    try {
+      // GET Informations: title, description, date
+      // DB: /users/userName/gizInvitesId
+      // DB2: /giz/gizId/ - "GET title, description, date"
+      // const response = await axios.get('http://localhost:8080/status/informations');
+      // console.log(response.data);
+      
+      navigate("/status-site");
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
   return (
     <div className={styles.invitesInformationFrame}>
       <div className={styles.titleAndDescription}>

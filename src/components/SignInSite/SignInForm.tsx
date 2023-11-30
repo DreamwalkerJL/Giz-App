@@ -2,6 +2,8 @@ import { FunctionComponent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignInForm.module.css";
 import axios from "axios";
+import { signInWithEmailPassword } from "../../firebase/AuthSignInWithEmailPassword";
+import { logCurrentUser } from "../../firebase/AuthFunction";
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -12,24 +14,28 @@ const SignUpForm: FunctionComponent = () => {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const handleSubmit = async (
+
+  const handleSignIn = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
 
     try {
-      // const response = await axios.post('http://localhost:8080/auth/signIn', { email, password });
-      // console.log(response.data);
-      console.log(email, password, rememberMe);
-      navigate("/status-site");
+      const result = await signInWithEmailPassword(email, password);
+      console.log(email, password);
+
+      if (result) {
+        console.log("signed in successfully");
+        console.log(email, password);
+        navigate("/status-site");
+      }
     } catch (error) {
       console.error("There was an error!", error);
     }
   };
-
+  logCurrentUser();
   return (
-    <form className={styles.signInForm} onSubmit={handleSubmit}>
+    <form className={styles.signInForm} onSubmit={handleSignIn}>
       <div className={styles.signInInput}>
         <div className={styles.email}>
           <i className={styles.emailHeadline}>E-MAIL ADRESS</i>
@@ -56,7 +62,7 @@ const SignUpForm: FunctionComponent = () => {
       </div>
       <div className={styles.bonusActions}>
         <div className={styles.bonusActionFrame}>
-          <div className={styles.rememberMeFrame}>
+          {/* <div className={styles.rememberMeFrame}>
             <input
               className={styles.box}
               type="checkbox"
@@ -64,7 +70,7 @@ const SignUpForm: FunctionComponent = () => {
               onChange={() => setRememberMe((prev) => !prev)}
             />
             <div className={styles.rememberMeT}>Remember me</div>
-          </div>
+          </div> */}
           <div
             className={styles.forgotPasswordFrame}
             onClick={onForgotPasswordFrameClick}

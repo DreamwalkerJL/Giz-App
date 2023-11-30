@@ -2,6 +2,9 @@ import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RegisterForm.module.css";
 import axios from "axios";
+import registerUserInDb from "../../apiServices/RegisterApiServices";
+import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
+import { logCurrentUser } from "../../firebase/AuthFunction";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -9,23 +12,27 @@ const RegisterForm: FunctionComponent = () => {
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const handleSubmit = async (
+
+  const handleRegister = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-
     try {
-      // const response = await axios.post('http://localhost:8080/auth/register', { username, email, password });
-      // console.log(response.data);
-      console.log(userName, email, password);
-      navigate("/status-site");
+      const response = await registerUserInDb({ email, password, userName });
+      console.log("Registration successful", response);
+
+      if (response) {
+        updateCurrentUserProfile(userName);
+        logCurrentUser();
+        navigate("/status-site");
+      }
     } catch (error) {
-      console.error("There was an error!", error);
+      console.error("Registration failed", error);
     }
   };
 
   return (
-    <form className={styles.registerForm} onSubmit={handleSubmit}>
+    <form className={styles.registerForm} onSubmit={handleRegister}>
       <div className={styles.registerInput}>
         <div className={styles.username}>
           <i className={styles.usernameHeadline}>USERNAME</i>

@@ -2,21 +2,21 @@
   position: relative;
   font-weight: 700;
 }
-.findusert {
-  flex: 1;
-  position: relative;
-}
-.finduserinput {
+.findUserInput {
+  border: 1px solid #fff;
+  background-color: #1e193b;
   align-self: stretch;
   border-radius: 5px;
-  background-color: #1e193b;
-  border: 1px solid #6ee57a;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 5px 10px;
+  color: white;
   font-family: Blinker;
+  font-size: 20px;
+  padding: 5px 10px;
+}
+.findUserInput:focus {
+  background-color: #1e193b;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  outline: none;
 }
 .findUser {
   align-self: stretch;
@@ -65,7 +65,6 @@
   justify-content: flex-start;
   padding: 0px 30px;
   gap: 10px;
-  font-family: Anybody;
 }
 .userImageIcon {
   border-radius: 5px;
@@ -114,10 +113,23 @@
   gap: 20px;
   text-align: center;
   font-size: 16px;
+  font-family: Blinker;
+}
+.removeselecteduserbuttont {
+  position: relative;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  line-height: 100%;
+  font-family: Blinker;
+  color: #fff;
+  text-align: left;
 }
 .removeSelectedUsersButton {
-  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  padding: 0px 0px 2px;
   background-color: rgba(241, 85, 85, 0.5);
+  border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   width: 258px;
   height: 30px;
@@ -127,7 +139,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 0px 0px 2px;
   box-sizing: border-box;
 }
 .removeSelectedUsers {
@@ -148,5 +159,5 @@
   text-align: left;
   font-size: 20px;
   color: #fff;
-  font-family: Blinker;
+  font-family: Anybody;
 }

@@ -15,7 +15,8 @@ import EditProfile from "./pages/EditProfile";
 import MenuSite from "./pages/MenuSite";
 import ContactUsSite from "./pages/ContactUsSite";
 import RecoverAccountSite from "./pages/RecoverAccountSite";
-
+import ProtectedRoute from "./firebase/ProtectedRoute"
+import LoggedInRoute from "./firebase/LoggedInRoute";
 function App() {
   const action = useNavigationType();
   const location = useLocation();
@@ -80,17 +81,19 @@ function App() {
     }
   }, [pathname]);
 
+
   return (
     <Routes>
-      <Route path="/" element={<SignInSite />} />
-      <Route path="/register-site" element={<RegisterSite />} />
-      <Route path="/status-site" element={<StatusSite />} />
-      <Route path="/invites-site" element={<InvitesSite />} />
-      <Route path="/create-site" element={<CreateSite />} />
-      <Route path="/edit-profile" element={<EditProfile />} />
-      <Route path="/menu-site" element={<MenuSite />} />
-      <Route path="/contact-us-site" element={<ContactUsSite />} />
-      <Route path="/recover-account-site" element={<RecoverAccountSite />} />
+      <Route path="/" element={<LoggedInRoute><SignInSite /></LoggedInRoute>} />
+      <Route path="/register-site" element={<LoggedInRoute><RegisterSite /></LoggedInRoute>} />
+      <Route path="/recover-account-site" element={<LoggedInRoute><RecoverAccountSite /></LoggedInRoute>} />
+
+      <Route path="/status-site" element={<ProtectedRoute><StatusSite /></ProtectedRoute>} />
+      <Route path="/invites-site" element={<ProtectedRoute><InvitesSite /></ProtectedRoute>} />
+      <Route path="/create-site" element={<ProtectedRoute><CreateSite /></ProtectedRoute>} />
+      <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+      <Route path="/menu-site" element={<ProtectedRoute><MenuSite /></ProtectedRoute>} />
+      <Route path="/contact-us-site" element={<ProtectedRoute><ContactUsSite /></ProtectedRoute>} />
     </Routes>
   );
 }

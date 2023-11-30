@@ -1,10 +1,12 @@
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
 import styles from "./CreateSite.module.css";
 import CreateGizInformationFrame from "../components/CreateSite/CreateInformationFrame";
 import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
+import { logCurrentUser } from "../firebase/AuthFunction";
+import dayjs from "dayjs";
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -25,6 +27,22 @@ const CreateSite: FunctionComponent = () => {
     navigate("/status-site");
   }, [navigate]);
 
+  logCurrentUser()
+
+  const [title, setTitle] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [time, setTime] = useState<dayjs.Dayjs>(dayjs());
+  const [date, setDate] = useState<dayjs.Dayjs>(dayjs());
+
+  console.log(time.format("HH:mm:ss")); // Formats the date and time
+  console.log(date.format("DD:MM:YYYY")); // Formats the date and time
+  console.log(title); // Formats the date and time
+  console.log(description); // Formats the date and time
+
+  const [userName, setUserName] = useState<string>('')
+
+  
+
   return (
     <div className={styles.createSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
@@ -40,8 +58,8 @@ const CreateSite: FunctionComponent = () => {
       />
       <div className={styles.giz}>
         <div className={styles.gizFrame}>
-        <CreateGizInformationFrame />
-          <CreateGizUsers />
+        <CreateGizInformationFrame title={title} setTitle={setTitle} description={description} setDescription={setDescription} time={time} setTime={setTime} date={date} setDate={setDate}/>
+          <CreateGizUsers userName={userName} setUserName={setUserName}/>
           <div className={styles.createOrCancel}>
             <div className={styles.createGizButtonFrame}>
               <div
