@@ -1,12 +1,13 @@
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./FastSignIn.module.css";
-
+import { signInWithGoogle } from "../../firebase/AuthGoogleSignInPopup";
 const FastSignIn: FunctionComponent = () => {
   const navigate = useNavigate();
 
   const googleSignIn = async () => {
     try {
+      signInWithGoogle(() => navigate("/status-site"));
       console.log("GOOGLE SIGN LOL");
       navigate("/status-site");
     } catch (error) {
@@ -16,9 +17,11 @@ const FastSignIn: FunctionComponent = () => {
 
   return (
     <div className={styles.fastSignIn}>
-      <button className={styles.google} onClick={googleSignIn}>
-        <img className={styles.googleIcon} alt="" src="/googleIcon.png" />
-      </button>
+      <a>
+        <button className={styles.google} onClick={googleSignIn}>
+          <img className={styles.googleIcon} alt="" src="/googleIcon.png" />
+        </button>
+      </a>
     </div>
   );
 };
