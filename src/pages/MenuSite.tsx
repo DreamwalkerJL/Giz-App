@@ -1,6 +1,7 @@
 import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MenuSite.module.css";
+import { signOutUser } from "../firebase/AuthSignout";
 
 const MenuSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -20,6 +21,20 @@ const MenuSite: FunctionComponent = () => {
   const onGoBackTClick = useCallback(() => {
     navigate("/status-site");
   }, [navigate]);
+
+
+  
+
+    const handleSignOut = async () => {
+      await signOutUser();
+
+      // Additional logic after sign out, like redirecting the user
+    };
+  
+
+  
+
+  
 
   return (
     <div className={styles.menuSite}>
@@ -50,7 +65,7 @@ const MenuSite: FunctionComponent = () => {
         >
           CONTACT US
         </div>
-        <div className={styles.changeProfilePicture} onClick={onSingOutTClick}>
+        <div className={styles.changeProfilePicture} onClick={handleSignOut}>
           SIGN OUT
         </div>
       </div>
