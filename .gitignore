@@ -29,4 +29,4 @@ dev-dist
 #firebase
 src/firebase/firebaseConfig.tsx
 
-env
+.env
