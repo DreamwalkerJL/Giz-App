@@ -5,16 +5,10 @@ export const updateCurrentUserProfile = async (userName: string) => {
   const auth = getAuth();
   const user: User | null = auth.currentUser;
 
-  const getRandomImagePath = () => {
-    const randomIndex = Math.floor(Math.random() * photoUrls.length);
-    return photoUrls[randomIndex];
-  };
-
   if (user) {
     try {
       await updateProfile(user, {
         displayName: userName,
-        photoURL: getRandomImagePath(),
       });
       console.log("Profile updated!");
     } catch (error) {
@@ -25,6 +19,6 @@ export const updateCurrentUserProfile = async (userName: string) => {
       }
     }
   } else {
-    console.log;
+    console.log("User does not exist");
   }
 };

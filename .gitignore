@@ -25,3 +25,8 @@ dist-ssr
 
 #Additional
 dev-dist
+
+#firebase
+src/firebase/firebaseConfig.tsx
+
+env

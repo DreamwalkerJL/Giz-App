@@ -1,0 +1,240 @@
+.titleT {
+  align-self: stretch;
+  position: relative;
+  font-weight: 700;
+}
+.descriptionT {
+  align-self: stretch;
+  position: relative;
+  font-size: 16px;
+  font-family: Blinker;
+}
+.titleAndDescription {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 63px 0px 0px;
+  font-family: Anybody;
+}
+.madeByT {
+  align-self: stretch;
+  position: relative;
+  font-size: 16px;
+}
+.dateIsT {
+  align-self: stretch;
+  position: relative;
+  white-space: nowrap;
+}
+.dateHowLong {
+  align-self: stretch;
+  position: relative;
+  font-size: 16px;
+  font-weight: 300;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+
+}
+.dateFrame {
+  width: 281px;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  font-size: 20px;
+}
+.invitesInformationFrame {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px 30px;
+  gap: 10px;
+}
+.checkAccepted {
+  align-self: stretch;
+  background-color: rgba(85, 224, 99, 0.85);
+  border: 1px solid #000;
+  box-sizing: border-box;
+  width: 62px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.checkDeclined {
+  align-self: stretch;
+  background-color: rgba(239, 56, 56, 0.85);
+  width: 62px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.checkUndecided {
+  align-self: stretch;
+  background-color: rgba(48, 48, 48, 0.75);
+  border: 1px solid #000;
+  box-sizing: border-box;
+  width: 157px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.checkBar {
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.checkBarFrame {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 30px;
+}
+.userImageIcon {
+  border-radius: 5px;
+  width: 114px;
+  height: 59px;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.userNameT {
+  align-self: stretch;
+  position: relative;
+}
+.userFrame {
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+.userFrame1 {
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+.userNameT3 {
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.invitedUsers {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 25px 0px;
+  gap: 20px;
+  text-align: center;
+  color: #fff;
+}
+.invitesGizUsers {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 13px 0px;
+  font-size: 16px;
+  color: #000;
+}
+.gizInfoAndUsers {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 0;
+}
+
+.giz {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 26px;
+  text-align: left;
+  font-size: 24px;
+  color: #fff;
+  font-family: Blinker;
+}
+
+
+
+.gizFrame {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 0px 0px;
+  box-sizing: border-box;
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  max-width: 800px;
+ /* ADDED */
+  background: linear-gradient(158.98deg, #463f71 50%, #fb7885 200%);
+  z-index: 1;
+}
+
+
+
+/* ADDED */
+.gizFrame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(/public/invitesBG.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  opacity: 0.075; /* Adjust the opacity as needed */
+  z-index: -1; /* Ensure the image is behind the content */
+}
+

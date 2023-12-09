@@ -4,13 +4,17 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 import { AuthProvider } from "./firebase/AuthContext";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./apiServices/Apollo/ApolloClient.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
+    <ApolloProvider client={client}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
+      </ApolloProvider>
     </AuthProvider>
   </React.StrictMode>
 );

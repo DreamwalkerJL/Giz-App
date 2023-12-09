@@ -36,13 +36,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [api, setApi] = useState<AxiosInstance | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false); // Define loading state with TypeScript type
 
+
+  
+
   useEffect(() => {
     setIsLoading(true); 
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
-        user.getIdToken().then((token) => {
+        try {
+          const token = await user.getIdToken(true);
           setIdToken(token);
 
           const axiosInstance = axios.create({
@@ -57,16 +61,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           });
 
           setApi(axiosInstance);
-          setIsLoading(false);
-        });
-      } else {
-        setIsLoading(false);
+          console.log(`axios ${api}`)
+          console.log(`axios2 ${axiosInstance}`)
+        } catch (e) {
+          console.log("Error fetching authentication token", e);
+        }
       }
+      setIsLoading(false);
+      console.log(`axios ${api}`)
     });
 
     return () => {
       unsubscribe();
-      setIsLoading(false);
     };
   }, []);
 

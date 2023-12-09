@@ -1,11 +1,23 @@
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
 import styles from "./InvitesSite.module.css";
-import InvitesGizUsers from "../components/InvitesSite/InvitesGizUsers";
-import InvitesInformationFrame from "../components/InvitesSite/InvitesInformationFrame";
 import InvitesGizButtons from "../components/InvitesSite/InvitesGizButtons";
+import {
+  getGizInvites,
+  getGizInvitesResponseType,
+  gizInvitesData,
+} from "../apiServices/InvitesApiServices";
+import { useAuth } from "../firebase/AuthContext";
+import { getAuth } from "firebase/auth";
+import InvitesGizInfoAndUsers from "../components/InvitesSite/InvitesGiz";
+
+import {
+  GizInvitesComponent,
+  SubGizInvitesComponent,
+} from "../apiServices/Apollo/GizInviteComponent";
+import { gql, useQuery } from "@apollo/client";
 
 const InvitesSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -22,6 +34,66 @@ const InvitesSite: FunctionComponent = () => {
     navigate("/invites-site");
   }, [navigate]);
 
+  const { idToken } = useAuth();
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const [gizInvitesData, setGizInvitesData] = useState<
+    gizInvitesData[] | undefined
+  >();
+
+  if (!idToken || !user || !user?.displayName) {
+    console.error("No IdToken / Logged in User / Displayname to User assigned");
+    return;
+  }
+
+  // useEffect(() => {
+  //   // Define an async function inside the useEffect
+  //   const fetchData = async () => {
+  //     if (!idToken || !user || !user?.displayName) {
+  //       console.error(
+  //         "No IdToken / Logged in User / Displayname to User assigned"
+  //       );
+  //       return;
+  //     }
+  //     try {
+
+  //       const response = await getGizInvites(idToken, user.displayName);
+  //       setGizInvitesData(response.gizData); // Set the state with the resolved data
+  //       console.log(response.gizData);
+  //     } catch (error) {
+  //       console.error("Error fetching giz invites data:", error);
+  //     }
+  //   };
+
+  //   // Call the async function
+  //   fetchData();
+  // }, [idToken, user]);
+
+  // Define your GraphQL query
+
+  // React component to fetch and display data
+  const HELLO_QUERY = gql`
+  query Hello($something: String!) {
+    hello(something: $something)
+  }
+  `;
+
+  function HelloWorld() {
+    const something = "lol"
+    const { loading, error, data } = useQuery(HELLO_QUERY, {
+
+      variables: { something: something }
+    });
+    if (data) console.log(data);
+    if (error) console.log("NOPE");
+    if (error) console.log(error);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
+    return <div>{data.hello}</div>;
+  }
+
   return (
     <div className={styles.invitesSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
@@ -35,13 +107,10 @@ const InvitesSite: FunctionComponent = () => {
         onOptionsStatusFrameClick={onOptionsStatusFrameClick}
         onOptionsInvitesFrameClick={onOptionsInvitesFrameClick}
       />
-      <div className={styles.giz}>
-        <div className={styles.gizFrame}>
-          <InvitesInformationFrame />
-          <InvitesGizUsers />
-          <InvitesGizButtons />
-        </div>
-      </div>
+      <GizInvitesComponent userName={user.displayName} idToken={idToken} />
+      <SubGizInvitesComponent userName={user.displayName} idToken={idToken}/>
+      {/* <InvitesGizInfoAndUsers gizInvitesData={gizInvitesData} /> */}
+      <HelloWorld />
       <div className={styles.space} />
     </div>
   );
