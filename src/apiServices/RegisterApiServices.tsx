@@ -36,8 +36,8 @@ const registerUserInDb = async ({
     const response = await axios.post("http://localhost:8080/api/register", {
       uid: user.uid, // Firebase UID
       email: user.email,
-      username: userName,
-      profilepicture: profilePicture,
+      userName: userName,
+      profilePicture: profilePicture,
     });
 
     return response.data;

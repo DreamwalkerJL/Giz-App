@@ -17,10 +17,14 @@ import ContactUsSite from "./pages/ContactUsSite";
 import RecoverAccountSite from "./pages/RecoverAccountSite";
 import ProtectedRoute from "./firebase/ProtectedRoute"
 import LoggedInRoute from "./firebase/LoggedInRoute";
+import { useAuth } from "./firebase/AuthContext";
+import { setTokenRetrievalFunction } from "./apiServices/Apollo/ApolloClient";
 function App() {
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
+
+  const { idToken } = useAuth();
 
   useEffect(() => {
     if (action !== "POP") {
@@ -81,6 +85,9 @@ function App() {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    setTokenRetrievalFunction(() => idToken);
+  }, [idToken]);
 
   return (
     <Routes>

@@ -34,6 +34,9 @@
   font-family: Blinker;
   font-size: 20px;
   padding: 5px 10px;
+  /*ADDED*/
+  max-height: 150px;
+  resize: vertical
 }
 .descriptionTextarea:focus {
   outline: none;

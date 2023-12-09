@@ -1,0 +1,173 @@
+.descriptionT,
+.titleT {
+  align-self: stretch;
+  position: relative;
+}
+.titleT {
+  font-weight: 700;
+}
+.descriptionT {
+  font-size: 16px;
+  font-family: Blinker;
+}
+.titleAndDescription {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 63px 0 0;
+  font-family: Anybody;
+}
+.madeByT {
+  align-self: stretch;
+  font-size: 16px;
+}
+.dateHowLong,
+.dateIsT,
+.madeByT {
+  position: relative;
+}
+.dateHowLong {
+  font-weight: 300;
+}
+.dateFrame,
+.statusInformationFrame {
+  display: flex;
+  justify-content: flex-start;
+}
+.dateFrame {
+  width: 281px;
+  height: 24px;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+}
+.statusInformationFrame {
+  align-self: stretch;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 30px;
+  gap: 10px;
+}
+.checkAccepted {
+  align-self: stretch;
+  background-color: rgba(85, 224, 99, 0.85);
+  border: 1px solid #000;
+  box-sizing: border-box;
+  width: 62px;
+  display: flex;
+  align-items: center;
+}
+.checkAccepted,
+.checkDeclined,
+.checkUndecided {
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-direction: row;
+  justify-content: center;
+}
+.checkDeclined {
+  align-self: stretch;
+  background-color: rgba(239, 56, 56, 0.85);
+  width: 62px;
+  display: flex;
+  align-items: center;
+}
+.checkUndecided {
+  background-color: rgba(48, 48, 48, 0.75);
+  border: 1px solid #000;
+  box-sizing: border-box;
+  width: 157px;
+}
+.checkBar,
+.checkBarFrame,
+.checkUndecided {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+.checkBar {
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.checkBarFrame {
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 30px;
+}
+.userImageIcon {
+  border-radius: 5px;
+  width: 114px;
+  height: 59px;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.userNameT {
+  align-self: stretch;
+  position: relative;
+}
+.userFrame,
+.userFrame1 {
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+.userFrame1 {
+  height: 90px;
+}
+.userNameT3 {
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gizInfoAndUsers,
+.invitedUsers,
+.statusGizUsers {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+.invitedUsers {
+  overflow: hidden;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px 25px 0;
+  gap: 20px;
+  text-align: center;
+  color: #fff;
+}
+.gizInfoAndUsers,
+.statusGizUsers {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.statusGizUsers {
+  padding: 13px 0;
+  font-size: 16px;
+  color: #000;
+}
+.gizInfoAndUsers {
+  z-index: 0;
+  text-align: left;
+  font-size: 24px;
+  color: #fff;
+  font-family: Blinker;
+}

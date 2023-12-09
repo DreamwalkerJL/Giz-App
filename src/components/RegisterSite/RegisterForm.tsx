@@ -19,10 +19,11 @@ const RegisterForm: FunctionComponent = () => {
     event.preventDefault();
     try {
       const response = await registerUserInDb({ email, password, userName });
+      updateCurrentUserProfile(userName);
       console.log("Registration successful", response);
 
       if (response) {
-        updateCurrentUserProfile(userName);
+       
         logCurrentUser();
         navigate("/status-site");
       }
