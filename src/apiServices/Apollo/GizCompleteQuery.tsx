@@ -1,5 +1,6 @@
 import { gql, useQuery, useSubscription } from "@apollo/client";
 import { useEffect } from "react";
+
 export interface userPublic {
   id: number;
   userName: string;
@@ -17,12 +18,12 @@ export interface gizComplete {
   invitedUsers: userPublic[];
 }
 
-export interface getGizCompleteResponseType {
-  gizData: gizComplete[];
+export interface gizCompleteQuery {
+  gizCompleteQuery: gizComplete[];
 }
 
-const GET_GIZ_INVITES_QUERY = gql`
-  query GetGizInvites($userName: String, $status: String) {
+export const GIZ_COMPLETE_QUERY = gql`
+  query GizCompleteQuery($userName: String, $status: String) {
     gizCompleteQuery(userName: $userName, status: $status) {
       id
       title
@@ -45,18 +46,9 @@ interface gizCompleteQueryVariables {
   status: string;
 }
 
-export const gizCompleteQuery = (userName: string, status: string) => {
-  console.log(status)
-  const { data, loading, error } = useQuery<gizComplete[]>(GET_GIZ_INVITES_QUERY, {
-    variables: { userName, status },
-  });
-console.log(data)
-  // Optionally, you can handle side effects, logging, or error handling here
-  // Remember that hooks themselves should not return anything other than
-  // what they are designed to (in this case, the object containing { data, loading, error })
-
-  return { data, loading, error };
-};
+export interface getGizCompleteResponseType {
+  gizData: gizComplete[];
+}
 
 const GIZ_INVITES_SUBSCRIPTION = gql`
   subscription OnGizInvitesUpdated($userName: String!) {

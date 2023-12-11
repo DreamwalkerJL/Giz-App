@@ -4,7 +4,6 @@ import {
   Route,
   useNavigationType,
   useLocation,
-
 } from "react-router-dom";
 import SignInSite from "./pages/SignInSite";
 import RegisterSite from "./pages/RegisterSite";
@@ -15,7 +14,7 @@ import EditProfile from "./pages/EditProfile";
 import MenuSite from "./pages/MenuSite";
 import ContactUsSite from "./pages/ContactUsSite";
 import RecoverAccountSite from "./pages/RecoverAccountSite";
-import ProtectedRoute from "./firebase/ProtectedRoute"
+import ProtectedRoute from "./firebase/ProtectedRoute";
 import LoggedInRoute from "./firebase/LoggedInRoute";
 import { useAuth } from "./firebase/AuthContext";
 import { setTokenRetrievalFunction } from "./apiServices/Apollo/ApolloClient";
@@ -91,16 +90,79 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<LoggedInRoute><SignInSite /></LoggedInRoute>} />
-      <Route path="/register-site" element={<LoggedInRoute><RegisterSite /></LoggedInRoute>} />
-      <Route path="/recover-account-site" element={<LoggedInRoute><RecoverAccountSite /></LoggedInRoute>} />
+      <Route
+        path="/"
+        element={
+          <LoggedInRoute>
+            <SignInSite />
+          </LoggedInRoute>
+        }
+      />
+      <Route
+        path="/register-site"
+        element={
+          <LoggedInRoute>
+            <RegisterSite />
+          </LoggedInRoute>
+        }
+      />
+      <Route
+        path="/recover-account-site"
+        element={
+          <LoggedInRoute>
+            <RecoverAccountSite />
+          </LoggedInRoute>
+        }
+      />
 
-      <Route path="/status-site" element={<ProtectedRoute><StatusSite /></ProtectedRoute>} />
-      <Route path="/invites-site" element={<ProtectedRoute><InvitesSite /></ProtectedRoute>} />
-      <Route path="/create-site" element={<ProtectedRoute><CreateSite /></ProtectedRoute>} />
-      <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
-      <Route path="/menu-site" element={<ProtectedRoute><MenuSite /></ProtectedRoute>} />
-      <Route path="/contact-us-site" element={<ProtectedRoute><ContactUsSite /></ProtectedRoute>} />
+      <Route
+        path="/status-site"
+        element={
+          <ProtectedRoute>
+            <StatusSite />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/invites-site"
+        element={
+          <ProtectedRoute>
+            <InvitesSite />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/create-site"
+        element={
+          <ProtectedRoute>
+            <CreateSite />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/edit-profile"
+        element={
+          <ProtectedRoute>
+            <EditProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/menu-site"
+        element={
+          <ProtectedRoute>
+            <MenuSite />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/contact-us-site"
+        element={
+          <ProtectedRoute>
+            <ContactUsSite />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
