@@ -56,19 +56,22 @@ const httpLink = new HttpLink({
 // Use the authLink to concatenate with the httpLink
 const httpAuthLink = authLink.concat(httpLink);
   
-  const wsLink = new  GraphQLWsLink(
-    createClient({
-      url: 'ws://localhost:8080/graphql-ws',
-      connectionParams: {
-        headers: {
-          Authorization: `Bearer ${getToken()}`, // Assuming getToken() returns the token
-        },
+const wsLink = new GraphQLWsLink(createClient({
+  url: 'ws://localhost:8080/graphql-ws',
+  connectionParams: () => {
+    // This function will be called every time the client connects or reconnects.
+    const token = getToken();
+    return {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
       },
-    })
-  );
+    };
+  },
+}));
   
   const splitLink = split(
     ({ query }) => {
+
       const definition = getMainDefinition(query);
       return (
         definition.kind === 'OperationDefinition' &&

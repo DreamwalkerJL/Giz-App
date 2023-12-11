@@ -4,19 +4,14 @@ import Header from "../components/Header";
 import Options from "../components/Options";
 import styles from "./InvitesSite.module.css";
 import InvitesGizButtons from "../components/InvitesSite/InvitesGizButtons";
-import {
-  getGizInvites,
-  getGizInvitesResponseType,
-  gizInvitesData,
-} from "../apiServices/InvitesApiServices";
+
 import { useAuth } from "../firebase/AuthContext";
 import { getAuth } from "firebase/auth";
 import InvitesGizInfoAndUsers from "../components/InvitesSite/InvitesGiz";
 
 import {
-  GizInvitesComponent,
-  SubGizInvitesComponent,
-} from "../apiServices/Apollo/GizInviteComponent";
+gizCompleteQuery
+} from "../apiServices/Apollo/GizCompleteQuery";
 import { gql, useQuery } from "@apollo/client";
 
 const InvitesSite: FunctionComponent = () => {
@@ -38,14 +33,19 @@ const InvitesSite: FunctionComponent = () => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  const [gizInvitesData, setGizInvitesData] = useState<
-    gizInvitesData[] | undefined
-  >();
 
   if (!idToken || !user || !user?.displayName) {
     console.error("No IdToken / Logged in User / Displayname to User assigned");
     return;
   }
+
+  const { data, loading, error } = gizCompleteQuery(user?.displayName, "invited");
+console.log(data)
+
+
+  // const [gizComplete, setgizComplete] = useState<gizComplete[] | undefined>();
+
+ 
 
   // useEffect(() => {
   //   // Define an async function inside the useEffect
@@ -58,9 +58,9 @@ const InvitesSite: FunctionComponent = () => {
   //     }
   //     try {
 
-  //       const response = await getGizInvites(idToken, user.displayName);
-  //       setGizInvitesData(response.gizData); // Set the state with the resolved data
-  //       console.log(response.gizData);
+  //       const response = getGizComplete(user.displayName, "invites");
+  //       setgizComplete(response); // Set the state with the resolved data
+  //       console.log(response);
   //     } catch (error) {
   //       console.error("Error fetching giz invites data:", error);
   //     }
@@ -68,22 +68,21 @@ const InvitesSite: FunctionComponent = () => {
 
   //   // Call the async function
   //   fetchData();
-  // }, [idToken, user]);
+  // }, []);
 
   // Define your GraphQL query
 
   // React component to fetch and display data
   const HELLO_QUERY = gql`
-  query Hello($something: String!) {
-    hello(something: $something)
-  }
+    query Hello($something: String!) {
+      hello(something: $something)
+    }
   `;
 
   function HelloWorld() {
-    const something = "lol"
+    const something = "lol";
     const { loading, error, data } = useQuery(HELLO_QUERY, {
-
-      variables: { something: something }
+      variables: { something: something },
     });
     if (data) console.log(data);
     if (error) console.log("NOPE");
@@ -107,10 +106,11 @@ const InvitesSite: FunctionComponent = () => {
         onOptionsStatusFrameClick={onOptionsStatusFrameClick}
         onOptionsInvitesFrameClick={onOptionsInvitesFrameClick}
       />
-      <GizInvitesComponent userName={user.displayName} idToken={idToken} />
-      <SubGizInvitesComponent userName={user.displayName} idToken={idToken}/>
-      {/* <InvitesGizInfoAndUsers gizInvitesData={gizInvitesData} /> */}
+
+      {/* <SubGizInvitesComponent userName={user.displayName} idToken={idToken}/> */}
+      {/* <PingComponent/> */}
       <HelloWorld />
+      {/* <InvitesGizInfoAndUsers gizCompleteData={data} loading={loading} error={error}/> */}
       <div className={styles.space} />
     </div>
   );
