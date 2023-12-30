@@ -15,6 +15,7 @@ interface AuthContextType {
   idToken: string | null;
   api: AxiosInstance | null;
   isLoading: boolean; // Add loading state to the context type
+    authInitialized: boolean; // Add this to your context type
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   idToken: null,
   api: null,
   isLoading: false, // Initialize loading state
+  authInitialized: false
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -36,7 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [api, setApi] = useState<AxiosInstance | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false); // Define loading state with TypeScript type
 
-
+  const [authInitialized, setAuthInitialized] = useState(false);
   
 
   useEffect(() => {
@@ -67,6 +69,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           console.log("Error fetching authentication token", e);
         }
       }
+      setAuthInitialized(true); // Set to true after initial check
       setIsLoading(false);
       console.log(`axios ${api}`)
     });
@@ -77,7 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, idToken, api, isLoading }}>
+    <AuthContext.Provider value={{ currentUser, idToken, api, isLoading, authInitialized  }}>
      {!isLoading && children}
 
     </AuthContext.Provider>

@@ -1,0 +1,87 @@
+.invitedUsers {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 25px 0px;
+    gap: 20px;
+    text-align: center;
+    color: #fff;
+  }
+
+  .userFrame {
+
+    height: 95px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+  }
+
+  .userImageBorder {
+    display: inline-block; /* or block, depending on your layout */
+    padding: 2px; /* Adjust this to control the border thickness */
+    background: linear-gradient(to bottom, var(--borderColor)10%, #302B4F 70%);
+    border-radius: 5px; /* Adjust if your images have rounded corners */
+  }
+
+  .userImageIcon {
+    border-radius: 5px;
+    width: 110px;
+    height: 55px;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    opacity: 1;
+    border: #000;
+  
+  }
+
+  .userNameTFrame {
+    border-radius: 0px 0px 5px 5px;
+    background-color: #302b4f;
+    border-right: 2px solid #302b4f;
+    border-bottom: 2px solid #302b4f;
+    border-left: 2px solid #302b4f;
+    box-sizing: border-box;
+    width: 114px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1px;
+    bottom: 5px;
+    position: relative;
+  }
+
+  .userNameT {
+    align-self: stretch;
+    position: relative;
+    flex: 1;
+  
+    
+  }
+
+  
+  @media screen and (min-width: 700px) {  /* Adjust the min-width as needed */
+    .userFrame {
+        height: 195px;
+        font-size: 16px;
+    }
+  
+    .userImageBorder {
+
+    }
+  
+    .userImageIcon {
+  
+        height: 150px;
+      }
+    /* ... other modified styles for desktop ... */
+  }

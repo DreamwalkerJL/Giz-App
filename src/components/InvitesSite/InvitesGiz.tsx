@@ -1,34 +1,47 @@
 import { FunctionComponent } from "react";
 import styles from "./InvitesGiz.module.css";
-import {
-  gizComplete,
-  gizCompleteQuery,
-} from "../../apiServices/Apollo/GizCompleteQuery";
-import InvitesGizButtons from "./InvitesGizButtons";
+
 import dayjs from "dayjs";
 import { ApolloError } from "@apollo/client/core";
 import { checkIfTodayOrTomorrow, getTimeUntil } from "./DateAndTimeCalc";
+import { AcceptButton } from "./AcceptButton";
+import { DeclineButton } from "./DeclineButton";
+import { GizComplete } from "../../apiServices/Apollo/Types";
+import { motion } from "framer-motion";
+import { CheckBar } from "../CheckBar";
 
 interface InvitesGizProps {
-  gizCompleteQuery: gizCompleteQuery | undefined;
-  gizCompleteIds: number[] | undefined
+  gizCompleteQuery: GizComplete[] | undefined;
 }
 
 const InvitesGiz: FunctionComponent<InvitesGizProps> = ({
   gizCompleteQuery,
-  gizCompleteIds
-
 }) => {
+  const pageTransition = {
+    in: {
+      opacity: 1,
+      y: 0,
+    },
+    out: {
+      opacity: 0.7,
+      y: "1.5%",
+    },
+  };
 
-
-
-  
-
+  if (gizCompleteQuery) console.log(gizCompleteQuery);
   if (gizCompleteQuery)
     return (
       <>
-        {gizCompleteQuery.gizCompleteQuery.map((gizComplete) => (
-          <div key={gizComplete.id} className={styles.giz}>
+        {gizCompleteQuery.map((gizComplete, i) => (
+          <motion.div
+            key={gizComplete.id}
+            className={styles.giz}
+            initial="out"
+            animate="in"
+            exit="out"
+            variants={pageTransition}
+            transition={{ duration: 0.3, delay: i * 0.2 }}
+          >
             <div className={styles.gizFrame}>
               <div className={styles.gizInfoAndUsers}>
                 <div className={styles.invitesInformationFrame}>
@@ -53,35 +66,47 @@ const InvitesGiz: FunctionComponent<InvitesGizProps> = ({
                 </div>
                 <div className={styles.invitesGizUsers}>
                   <div className={styles.checkBarFrame}>
-                    <div className={styles.checkBar}>
-                      <div className={styles.checkAccepted}>
-                        <div className={styles.dateIsT}>1</div>
-                      </div>
-                      <div className={styles.checkDeclined}>
-                        <div className={styles.dateIsT}>1</div>
-                      </div>
-                      <div className={styles.checkUndecided}>
-                        <div className={styles.dateIsT}>4</div>
-                      </div>
-                    </div>
+                    <CheckBar invitedUsers={gizComplete.invitedUsers} />
                   </div>
                   <div className={styles.invitedUsers}>
-                    {gizComplete.invitedUsers.map((user) => (
-                      <div key={user.id} className={styles.userFrame}>
+                    {gizComplete.invitedUsers.map((user, k) => (
+                      <motion.div
+                        key={user.userId}
+                        className={styles.userFrame}
+                        initial="out"
+                        animate="in"
+                        exit="out"
+                        variants={pageTransition}
+                        transition={{ duration: 0.3, delay: k * 0.15 }}
+                      >
                         <img
                           className={styles.userImageIcon}
                           alt={user.userName}
                           src={user.profilePicture}
                         />
-                        <div className={styles.userNameT}>MASTERking</div>
-                      </div>
+                        <div className={styles.userNameT}>{user.userName}</div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
               </div>
-              <InvitesGizButtons  gizCompleteIds={gizCompleteIds}/>
+              <div className={styles.gizButtons}>
+                <div className={styles.accept}>
+                  <AcceptButton
+                    gizCompleteId={gizComplete?.id}
+                    decision={"accept"}
+                  />
+                </div>
+                <div className={styles.decline}>
+                  <DeclineButton
+                    gizCompleteId={gizComplete?.id}
+                    decision={"decline"}
+                    decisionText={"decline"}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </>
     );

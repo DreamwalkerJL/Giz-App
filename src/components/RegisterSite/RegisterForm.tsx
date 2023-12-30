@@ -5,6 +5,15 @@ import axios from "axios";
 import registerUserInDb from "../../apiServices/RegisterApiServices";
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
 import { logCurrentUser } from "../../firebase/AuthFunction";
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
+import { UserDto } from "../../apiServices/Apollo/Types";
+import { photoUrls } from "../../photoUrls";
+import {
+  UserCredential,
+  createUserWithEmailAndPassword,
+  getAuth,
+} from "firebase/auth";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -13,21 +22,41 @@ const RegisterForm: FunctionComponent = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const getRandomImagePath = () => {
+    const randomIndex = Math.floor(Math.random() * photoUrls.length);
+    return photoUrls[randomIndex];
+  };
+
+  const auth = getAuth();
+  const profilePicture = getRandomImagePath();
+
+  const [registerUser, { data, loading, error }] = useMutation<UserDto>(
+    REGISTER_USER_MUTATION
+  );
+  console.log(userName);
   const handleRegister = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
     try {
-      const response = await registerUserInDb({ email, password, userName });
+      const userCredential: UserCredential =
+        await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const response = await registerUser({
+        variables: {
+          userDto: { userName, email, profilePicture, uid: user.uid },
+        },
+      });
       updateCurrentUserProfile(userName);
       console.log("Registration successful", response);
 
+      // Handle success
       if (response) {
-       
         logCurrentUser();
         navigate("/status-site");
       }
-    } catch (error) {
+    } catch (e) {
+      console.error(data);
       console.error("Registration failed", error);
     }
   };

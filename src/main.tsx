@@ -6,14 +6,18 @@ import "./index.css";
 import { AuthProvider } from "./firebase/AuthContext";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apiServices/Apollo/ApolloClient.tsx";
+import { GizDataProvider } from "./components/GizDataContext.tsx";
+import { AnimatePresence } from "framer-motion";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <AnimatePresence mode="wait">
+            <App />
+          </AnimatePresence>
+        </BrowserRouter>
       </ApolloProvider>
     </AuthProvider>
   </React.StrictMode>

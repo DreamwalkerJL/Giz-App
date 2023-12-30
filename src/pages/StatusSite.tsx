@@ -5,50 +5,72 @@ import Options from "../components/Options";
 import styles from "./StatusSite.module.css";
 import StatusGizButtons from "../components/StatusSite/StatusGizButtons";
 import axios from "axios";
-import {
 
-  getStatusGizData,
-  getStatusGizUsers,
-  getStatusGizUsersData,
-  StatusGizDataT,
-  StatusGizUsersDataT,
-  StatusGizIdsT
-} from "../apiServices/StatusApiServices";
 import { useAuth } from "../firebase/AuthContext";
-import StatusGizInfoAndUsers from "../components/StatusSite/StatusGizInfoAndUsers";
+
+import StatusGiz from "../components/StatusSite/StatusGiz";
+
+import { useGizData } from "../components/GizDataContext";
+import { motion } from "framer-motion";
 const StatusSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onMenuContainerClick = useCallback(() => {
-    navigate("/menu-site");
-  }, [navigate]);
-
-  const onOptionsStatusFrameClick = useCallback(() => {
-    navigate("/status-site");
-  }, [navigate]);
-
-  const onOptionsInvitesFrameClick = useCallback(() => {
-    navigate("/invites-site");
-  }, [navigate]);
 
 
+  const auth = useAuth();
+  const userName = auth.currentUser?.displayName;
+
+  // gizCompleteQuery -> InvitesGiz
+  const status = "accepted";
+
+  const userUid = auth.currentUser?.uid;
+
+  const { gizCompleteData, loading, error, refetchGizData } = useGizData();
+
+  const [editToggleMap, setEditToggleMap] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // Function to toggle edit state for a specific giz, with parameter typing
+  const toggleEditForGiz = (gizId: string) => {
+    setEditToggleMap((prevMap) => ({
+      ...prevMap,
+      [gizId]: !prevMap[gizId],
+    }));
+  };
+
+  const refreshData = () => {};
+
+  useEffect(() => {
+    refetchGizData();
+  }, []);
 
 
+
+  // if (gizCompleteLoading) console.log(gizCompleteLoading);
+  // if (gizCompleteError) console.log(gizCompleteError);
+  // if (gizCompleteError) return <p>gizCompleteError</p>;
+  // if (gizCompleteLoading) return <p>...gizCompleteLoading</p>;
+console.log(gizCompleteData)
+console.log("mick")
   return (
     <div className={styles.statusSite}>
-      <Header onMenuContainerClick={onMenuContainerClick} />
+      <Header />
       <Options
-        onOptionsStatusFrameClick={onOptionsStatusFrameClick}
-        onOptionsInvitesFrameClick={onOptionsInvitesFrameClick}
+
+        activeTab={"STATUS"}
       />
-      <div className={styles.giz}>
-        <div className={styles.gizFrame}>
-          <StatusGizInfoAndUsers />
-          <StatusGizButtons />
-        </div>
-      </div>
+      {/* <button onClick={refreshData}>Refresh</button> */}
+
+        <StatusGiz
+          gizCompleteQuery={gizCompleteData}
+          editToggleMap={editToggleMap}
+          toggleEditForGiz={toggleEditForGiz}
+        />
+
       <div className={styles.space} />
     </div>
   );
 };
+
 export default StatusSite;

@@ -6,9 +6,6 @@ export const logCurrentUser = () => {
 
   if (user) {
     console.log("User is signed in. User details:", user);
-    console.log("User ID: ", user.uid);
-    console.log("User Email: ", user.email);
-
   } else {
     console.log("No user is currently signed in.");
   }

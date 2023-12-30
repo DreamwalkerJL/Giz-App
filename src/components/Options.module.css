@@ -4,7 +4,7 @@
 .optionsCreateFrame {
   align-self: stretch;
   flex: 1;
-  background-color: #302b4f;
+
   overflow: hidden;
   display: flex;
   flex-direction: row;
@@ -15,8 +15,8 @@
 .optionsStatusFrame {
   align-self: stretch;
   flex: 1;
-  background-color: #6b56a3;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25) inset;
+
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25) inset; */
   overflow: hidden;
   display: flex;
   flex-direction: row;
@@ -25,6 +25,7 @@
   cursor: pointer;
 }
 .optionsButtonFrame {
+
   flex: 1;
   border-radius: 10px;
   height: 51px;
@@ -34,6 +35,8 @@
   align-items: center;
   justify-content: center;
   max-width: 800px;
+  /*ADDED*/
+  position: relative;
 }
 .optionsFrame {
   align-self: stretch;
@@ -47,4 +50,15 @@
   font-size: 20px;
   color: #fff;
   font-family: Blinker;
+}
+
+
+
+.highlight {
+  position: absolute;
+  bottom: 0;
+  height: 4px;
+  width: 33%; /* Assuming equal widths for tabs */
+  background: #6b56a3; /* Lighter purple */
+  transition: left 0.3s ease; /* Smooth transition for left property */
 }

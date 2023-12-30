@@ -1,4 +1,10 @@
-import { FunctionComponent, useCallback, useState } from "react";
+import {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Options from "../components/Options";
@@ -8,16 +14,17 @@ import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
 import { logCurrentUser } from "../firebase/AuthFunction";
 import dayjs from "dayjs";
 import {
-
-  createGizAndGizUsers,
   createGizType,
-
   createGizUserType,
   getUserData,
-  getUserResponseDataType,
 } from "../apiServices/CreateApiServices";
 import { useAuth } from "../firebase/AuthContext";
 import { getAuth } from "firebase/auth";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { UserPublic } from "../apiServices/Apollo/Types";
+import { CREATE_GIZ_AND_GIZ_USERS_MUTATION } from "../apiServices/Apollo/Mutations";
+import { USER_PUBLIC_QUERY } from "../apiServices/Apollo/Querys";
+import { motion } from "framer-motion";
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -26,33 +33,20 @@ const CreateSite: FunctionComponent = () => {
     navigate("/menu-site");
   }, [navigate]);
 
-  const onOptionsStatusFrameClick = useCallback(() => {
-    navigate("/status-site");
-  }, [navigate]);
-
-  const onOptionsInvitesFrameClick = useCallback(() => {
-    navigate("/invites-site");
-  }, [navigate]);
-
-  const onCreateGizButton1Click = useCallback(() => {
-    navigate("/status-site");
-  }, [navigate]);
-
   logCurrentUser();
 
+  const userNameRef = useRef<HTMLInputElement | null>(null);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [time, setTime] = useState<dayjs.Dayjs>(dayjs());
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs());
-  console.log(time.format("HH:mm:ss")); // Formats the date and time
-  console.log(date.format("DD:MM:YYYY")); // Formats the date and time
-  console.log(title); // Formats the date and time
-  console.log(description); // Formats the date and time
+
 
   const [userName, setUserName] = useState<string>("");
-  const [userData, setUserData] = useState<getUserResponseDataType[]>([]);
+  const [userData, setUserData] = useState<UserPublic[]>([]);
   const { idToken } = useAuth();
   const auth = getAuth();
+
   const user = auth.currentUser;
   function checkIfUserAlreadyAdded() {
     for (let i = 0; i < userData.length; i++) {
@@ -62,7 +56,13 @@ const CreateSite: FunctionComponent = () => {
     }
   }
 
+  // Initialize the mutation with Apollo Client
+  const [createGizAndGizUsersMutation, { loading, error }] = useMutation(
+    CREATE_GIZ_AND_GIZ_USERS_MUTATION
+  );
+
   const handleCreateGiz = async () => {
+
     const formattedTime = time.format("h:mm A");
     const formattedDate = date.format("MMMM D, YYYY");
 
@@ -72,45 +72,49 @@ const CreateSite: FunctionComponent = () => {
       date: formattedDate,
       time: formattedTime,
     };
-    console.log(`OK ${title}, ${description}`);
-    
+
+
     if (!idToken || !user || !user?.displayName) {
-      console.error("No IdToken / Logged in User / Displayname to User assigned");
+      console.error(
+        "No IdToken / Logged in User / Displayname to User assigned"
+      );
       return;
     }
 
     try {
-      const addedUsersId = userData.map((user) => user.id);
-      console.log(addedUsersId);
-      const response = await createGizAndGizUsers(
-        idToken,
-        gizData,
-        user?.displayName,
-        addedUsersId
-      );
-      navigate("/status-site")
-      console.log(response)
-    } catch (e) {
-      console.error(e);
-    }
 
-    // try {
-    //   const response = await createGiz(idToken, { ...gizData });
-    //   if (response.id && user?.displayName) {
-    //     const userId = await getUserData(idToken, user.displayName);
-    //     const gizUserData: createGizUserType = {
-    //       gizId: response.id, // Assuming the returned data has an 'id' field
-    //       userId: userId.id, // You should get this from the logged-in user data
-    //       status: "accepted",
-    //       creator: true, // or false, depending on your logic
-    //     };
-    //     const newGizUser = await createGizUser(idToken, gizUserData);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+      // Execute the mutation
+      const { data } = await createGizAndGizUsersMutation({
+        variables: {
+          gizData: {
+            title,
+            description,
+            date: formattedDate,
+            time: formattedTime,
+          },
+          creatorUserName: user?.displayName,
+          invitedUsersId: userData.map((user) => user.userId),
+        },
+      });
+
+
+      navigate("/status-site");
+    } catch (error) {
+      console.error("Error executing mutation", error);
+    }
   };
   logCurrentUser();
+
+  const [
+    getUser,
+    {
+      loading: userPublicLoading,
+      error: userPublicError,
+      data: userPublicData,
+    },
+  ] = useLazyQuery(USER_PUBLIC_QUERY);
+  const [refreshUserData, setRefreshUserData] = useState(false);
+
   const addUser = async (
     event: React.MouseEvent<HTMLButtonElement>
   ): Promise<void> => {
@@ -132,28 +136,60 @@ const CreateSite: FunctionComponent = () => {
     }
 
     try {
-      const userData = await getUserData(idToken, userName);
-      console.log(userData);
-      setUserData((prevUserData) => [...prevUserData, userData]);
+      // Execute the query
+      getUser({
+        variables: { userName },
+      });
+      setRefreshUserData((prev) => !prev);
+
     } catch (error) {
       console.error("Error fetching user data", error);
     }
+  };
+
+  // Handling the received data
+  useEffect(() => {
+    if (userPublicData) {
+      setUserData((prevUserData) => [
+        ...prevUserData,
+        userPublicData.userPublicQuery,
+      ]);
+      setUserName("");
+
+      if (userNameRef.current) {
+        userNameRef.current.focus();
+      }
+    }
+
+    if (error) {
+      console.error("Error fetching user data", error);
+    }
+  }, [refreshUserData, error, userPublicData]);
+
+  const pageTransition = {
+    in: {
+      opacity: 1,
+      y: 0,
+    },
+    out: {
+      opacity: 0.7,
+      y: "-1.5%",
+    },
   };
 
   return (
     <div className={styles.createSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
       <Options
-        propBackgroundColor="#6b56a3"
-        propBoxShadow="0px 4px 4px rgba(0, 0, 0, 0.25) inset"
-        propBackgroundColor1="#302b4f"
-        propBoxShadow1="unset"
-        propBackgroundColor2="#302b4f"
-        propBoxShadow2="unset"
-        onOptionsStatusFrameClick={onOptionsStatusFrameClick}
-        onOptionsInvitesFrameClick={onOptionsInvitesFrameClick}
+
+        activeTab={"CREATE"}
       />
-      <div className={styles.giz}>
+      <motion.div className={styles.giz}
+                  initial="out"
+                  animate="in"
+                  exit="out"
+                  variants={pageTransition}
+                  transition={{ duration: .3}}>
         <div className={styles.gizFrame}>
           <CreateGizInformationFrame
             title={title}
@@ -166,6 +202,7 @@ const CreateSite: FunctionComponent = () => {
             setDate={setDate}
           />
           <CreateGizUsers
+            userNameRef={userNameRef}
             userName={userName}
             setUserName={setUserName}
             addUser={addUser}
@@ -196,7 +233,7 @@ const CreateSite: FunctionComponent = () => {
           </div>
         </div>
         <div className={styles.space} />
-      </div>
+      </motion.div>
     </div>
   );
 };

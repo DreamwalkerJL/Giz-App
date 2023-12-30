@@ -1,0 +1,68 @@
+
+.checkBarFrame {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 30px;
+  }  
+
+.checkAccepted {
+    align-self: stretch;
+    background-color: #72FF80;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+    min-width: 0; /* Allow the div to collapse fully if width is 0% */
+    max-width: 100%; /* Ensure the bar doesn't exceed the container width */
+    flex-grow: 1; /* Allow bars to grow based on the calculated width */
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .checkDeclined {
+    align-self: stretch;
+    background-color: #FF5B5B;
+  
+    min-width: 0; /* Allow the div to collapse fully if width is 0% */
+    max-width: 100%; /* Ensure the bar doesn't exceed the container width */
+    flex-grow: 1; /* Allow bars to grow based on the calculated width */
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .checkInvited {
+    align-self: stretch;
+    background-color: #696969;
+    border-left: 1px solid #000;
+    box-sizing: border-box;
+    min-width: 0; /* Allow the div to collapse fully if width is 0% */
+    max-width: 100%; /* Ensure the bar doesn't exceed the container width */
+    flex-grow: 1; /* Allow bars to grow based on the calculated width */
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .checkBar {
+    align-self: stretch;
+    border-radius: 5px;
+    background-color: #000;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    height: 25px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }

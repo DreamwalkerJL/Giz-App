@@ -53,38 +53,45 @@ export const getUserData = async (
 // create a new giz based on GizData 
 // create a new gizUser based on us userName
 // create multiple new gizUser based on the id from the Users which have been added(UserData)
-export const createGizAndGizUsers = async (
-  idToken: string,
-  gizData: createGizType,
-  creatorUserName: string ,
-  invitedUsersId: number[]
-) => {
-  try {
-    const response = await axios.post(
-      "http://localhost:8080/api/createSite/createGizAndGizUsers",
-      {
-        gizData: {
-          title: gizData.title,
-          description: gizData.description,
-          date: gizData.date,
-          time: gizData.time,
-        },
-        creatorUserName: creatorUserName,
-        invitedUsersId: invitedUsersId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      }
-    );
 
-    return response.data;
-  } catch (error) {
-    console.error("Error", error);
-    throw error;
-  }
-};
+
+
+// export const createGizAndGizUsers = async (
+//   idToken: string,
+//   gizData: createGizType,
+//   creatorUserName: string ,
+//   invitedUsersId: number[]
+// ) => {
+//   try {
+//     const response = await axios.post(
+//       "http://localhost:8080/api/createSite/createGizAndGizUsers",
+//       {
+//         gizData: {
+//           title: gizData.title,
+//           description: gizData.description,
+//           date: gizData.date,
+//           time: gizData.time,
+//         },
+//         creatorUserName: creatorUserName,
+//         invitedUsersId: invitedUsersId
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${idToken}`,
+//         },
+//       }
+//     );
+
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error", error);
+//     throw error;
+//   }
+// };
+
+
+
+
 
 // POST a new Giz
 // export const createGiz = async (idToken: string, title: string, description: string, date:string, time: string, ) => {

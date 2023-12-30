@@ -4,6 +4,7 @@ import {
   Route,
   useNavigationType,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import SignInSite from "./pages/SignInSite";
 import RegisterSite from "./pages/RegisterSite";
@@ -18,6 +19,9 @@ import ProtectedRoute from "./firebase/ProtectedRoute";
 import LoggedInRoute from "./firebase/LoggedInRoute";
 import { useAuth } from "./firebase/AuthContext";
 import { setTokenRetrievalFunction } from "./apiServices/Apollo/ApolloClient";
+import EditSite from "./pages/EditSite";
+import { getAuth } from "firebase/auth";
+import { GizDataProvider } from "./components/GizDataContext";
 function App() {
   const action = useNavigationType();
   const location = useLocation();
@@ -40,7 +44,7 @@ function App() {
         title = "";
         metaDescription = "";
         break;
-      case "/register-site":
+      case "/edit-site":
         title = "";
         metaDescription = "";
         break;
@@ -60,11 +64,19 @@ function App() {
         title = "";
         metaDescription = "";
         break;
-      case "/menu-site":
+      case "/register-site":
+        title = "";
+        metaDescription = "";
+        break;
+      case "/recover-account-site":
         title = "";
         metaDescription = "";
         break;
       case "/contact-us-site":
+        title = "";
+        metaDescription = "";
+        break;
+      case "/menu-site":
         title = "";
         metaDescription = "";
         break;
@@ -85,84 +97,24 @@ function App() {
   }, [pathname]);
 
   useEffect(() => {
+
     setTokenRetrievalFunction(() => idToken);
   }, [idToken]);
 
-  return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <LoggedInRoute>
-            <SignInSite />
-          </LoggedInRoute>
-        }
-      />
-      <Route
-        path="/register-site"
-        element={
-          <LoggedInRoute>
-            <RegisterSite />
-          </LoggedInRoute>
-        }
-      />
-      <Route
-        path="/recover-account-site"
-        element={
-          <LoggedInRoute>
-            <RecoverAccountSite />
-          </LoggedInRoute>
-        }
-      />
 
-      <Route
-        path="/status-site"
-        element={
-          <ProtectedRoute>
-            <StatusSite />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/invites-site"
-        element={
-          <ProtectedRoute>
-            <InvitesSite />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/create-site"
-        element={
-          <ProtectedRoute>
-            <CreateSite />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/edit-profile"
-        element={
-          <ProtectedRoute>
-            <EditProfile />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/menu-site"
-        element={
-          <ProtectedRoute>
-            <MenuSite />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/contact-us-site"
-        element={
-          <ProtectedRoute>
-            <ContactUsSite />
-          </ProtectedRoute>
-        }
-      />
+
+  return (
+    <Routes location={location} key={location.pathname}>
+      <Route path="/"  element={<LoggedInRoute><SignInSite /></LoggedInRoute>} />
+      <Route path="/edit-site" element={<ProtectedRoute><GizDataProvider status="accepted"><EditSite /></GizDataProvider></ProtectedRoute>} />
+      <Route path="/status-site" element={<ProtectedRoute>      <GizDataProvider status="accepted"><StatusSite />      </GizDataProvider></ProtectedRoute>} />
+      <Route path="/invites-site" element={<ProtectedRoute><GizDataProvider status="invited"><InvitesSite /></GizDataProvider></ProtectedRoute>} />
+      <Route path="/create-site" element={<ProtectedRoute><CreateSite /></ProtectedRoute>} />
+      <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+      <Route path="/register-site" element={<LoggedInRoute><RegisterSite /></LoggedInRoute>} />
+      <Route path="/recover-account-site" element={<LoggedInRoute><RecoverAccountSite /></LoggedInRoute>} />
+      <Route path="/contact-us-site" element={<ProtectedRoute><ContactUsSite /></ProtectedRoute>} />
+      <Route path="/menu-site" element={<ProtectedRoute><MenuSite /></ProtectedRoute>} />
     </Routes>
   );
 }

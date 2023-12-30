@@ -3,6 +3,7 @@
   width: 60px;
   height: 60px;
   object-fit: cover;
+  pointer-events: none;
 }
 .nameT {
   position: relative;
@@ -18,7 +19,10 @@
   justify-content: flex-start;
   padding: 0px 0px 0px 16px;
   z-index: 0;
+
 }
+
+
 .bellIcon {
   position: relative;
   width: 21px;

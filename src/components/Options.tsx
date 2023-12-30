@@ -3,85 +3,80 @@ import {
   useMemo,
   type CSSProperties,
   useCallback,
+  useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Options.module.css";
+import { motion } from "framer-motion";
 
 type OptionsType = {
-  /** Style props */
-  propBackgroundColor?: CSSProperties["backgroundColor"];
-  propBoxShadow?: CSSProperties["boxShadow"];
-  propBackgroundColor1?: CSSProperties["backgroundColor"];
-  propBoxShadow1?: CSSProperties["boxShadow"];
-  propBackgroundColor2?: CSSProperties["backgroundColor"];
-  propBoxShadow2?: CSSProperties["boxShadow"];
-
-  /** Action props */
-  onOptionsStatusFrameClick?: () => void;
-  onOptionsInvitesFrameClick?: () => void;
+  activeTab: "CREATE" | "STATUS" | "INVITES";
 };
 
-const Options: FunctionComponent<OptionsType> = ({
-  propBackgroundColor,
-  propBoxShadow,
-  propBackgroundColor1,
-  propBoxShadow1,
-  propBackgroundColor2,
-  propBoxShadow2,
-  onOptionsStatusFrameClick,
-  onOptionsInvitesFrameClick,
-}) => {
-  const optionsCreateFrameStyle: CSSProperties = useMemo(() => {
-    return {
-      backgroundColor: propBackgroundColor,
-      boxShadow: propBoxShadow,
-    };
-  }, [propBackgroundColor, propBoxShadow]);
-
-  const optionsStatusFrameStyle: CSSProperties = useMemo(() => {
-    return {
-      backgroundColor: propBackgroundColor1,
-      boxShadow: propBoxShadow1,
-    };
-  }, [propBackgroundColor1, propBoxShadow1]);
-
-  const optionsInvitesFrameStyle: CSSProperties = useMemo(() => {
-    return {
-      backgroundColor: propBackgroundColor2,
-      boxShadow: propBoxShadow2,
-    };
-  }, [propBackgroundColor2, propBoxShadow2]);
-
+const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
   const navigate = useNavigate();
 
   const onOptionsCreateFrameClick = useCallback(() => {
     navigate("/create-site");
   }, [navigate]);
 
+  const onOptionsStatusFrameClick = useCallback(() => {
+    navigate("/status-site");
+  }, [navigate]);
+
+  const onOptionsInvitesFrameClick = useCallback(() => {
+    navigate("/invites-site");
+  }, [navigate]);
+
+  console.log(activeTab);
+  const tabVariants = {
+    active: {
+      backgroundColor: "#6b56a3",
+      opacity: 1,
+      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25) inset",
+      border: "1px solid #302B4F",
+      transition: { duration: 0.5 },
+    },
+    inactive: {
+      backgroundColor: "#302B4F",
+      opacity: 1,
+      border: "none",
+      transition: { duration: 0 },
+    },
+  };
+
+  
+
   return (
     <div className={styles.optionsFrame}>
       <div className={styles.optionsButtonFrame}>
-        <div
+        <motion.div
           className={styles.optionsCreateFrame}
           onClick={onOptionsCreateFrameClick}
-          style={optionsCreateFrameStyle}
+          variants={tabVariants}
+          initial="inactive" // Set the initial state
+          animate={activeTab === "CREATE" ? "active" : "inactive"}
         >
           <b className={styles.optionsCreateT}>CREATE</b>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
           className={styles.optionsStatusFrame}
           onClick={onOptionsStatusFrameClick}
-          style={optionsStatusFrameStyle}
+          variants={tabVariants}
+          initial="inactive" // Set the initial state
+          animate={activeTab === "STATUS" ? "active" : "inactive"}
         >
           <b className={styles.optionsCreateT}>STATUS</b>
-        </div>
-        <div
-          className={styles.optionsCreateFrame}
+        </motion.div>
+        <motion.div
+          className={styles.optionsStatusFrame}
           onClick={onOptionsInvitesFrameClick}
-          style={optionsInvitesFrameStyle}
+          variants={tabVariants}
+          initial="inactive" // Set the initial state
+          animate={activeTab === "INVITES" ? "active" : "inactive"}
         >
           <b className={styles.optionsCreateT}>INVITES</b>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

@@ -40,12 +40,12 @@ export const setTokenRetrievalFunction = (tokenRetrievalFunction: () => string |
 // );
 
 const authLink = new ApolloLink((operation, forward) => {
-  const token = getToken();
-  operation.setContext({
-    headers: {
-      Authorization: token ? `Bearer ${token}` : ""
-    }
-  });
+  // const token = getToken();
+  // operation.setContext({
+  //   headers: {
+  //     Authorization: token ? `Bearer ${token}` : ""
+  //   }
+  // });
   return forward(operation);
 });
 
@@ -61,6 +61,7 @@ const wsLink = new GraphQLWsLink(createClient({
   connectionParams: () => {
     // This function will be called every time the client connects or reconnects.
     const token = getToken();
+    console.log(`Bearer ${token}`)
     return {
       headers: {
         Authorization: token ? `Bearer ${token}` : "",

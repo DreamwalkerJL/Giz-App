@@ -1,6 +1,7 @@
 import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./ContactUsSite.module.css";
+import Header from "../components/Header";
 
 const ContactUsSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -15,24 +16,7 @@ const ContactUsSite: FunctionComponent = () => {
 
   return (
     <div className={styles.contactUsSite}>
-      <div className={styles.header}>
-        <div className={styles.headerLogoAndTitle}>
-          <img
-            className={styles.headerLogoIcon}
-            alt=""
-            src="/logoTransp.png"
-          />
-          <div className={styles.nameT}>GizApp</div>
-        </div>
-        <div className={styles.headerIcons}>
-          <div className={styles.notification}>
-            <img className={styles.bellIcon} alt="" src="/bell.svg" />
-          </div>
-          <div className={styles.menu} onClick={onMenuContainerClick}>
-            <img className={styles.menuIcon} alt="" src="/menu.svg" />
-          </div>
-        </div>
-      </div>
+  <Header />
       <div className={styles.textContainer}>
         <div className={styles.aboutUsTContainer}>
           <p className={styles.gizappgizappcom}>gizapp@gizapp.com</p>

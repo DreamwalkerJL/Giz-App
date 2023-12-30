@@ -19,6 +19,7 @@
     "axios": "^1.6.2",
     "dayjs": "^1.11.10",
     "firebase": "^10.7.0",
+    "framer-motion": "^10.16.16",
     "graphql": "^16.8.1",
     "graphql-ws": "^5.14.2",
     "react": "^18.2.0",
