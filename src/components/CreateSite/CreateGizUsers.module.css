@@ -89,9 +89,44 @@
   align-self: stretch;
   position: relative;
   flex: 1;
+  word-wrap: break-word; /* Allows the text to break and wrap */
+  white-space: normal; /* Ensures normal text wrapping behavior */
+  width: 95px; /* Or use 'max-width' if you want it to grow with content */
+
 }
+
+.userNameTBox {
+
+
+  box-sizing: border-box;
+  width: 95px; /* Or use 'max-width' if you want it to grow with content */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  justify-content: flex-start;
+
+  position: relative;
+}
+
+.userNameTFrame {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  border-radius: 0px 0px 5px 5px;
+  background-color: #302b4f;
+  box-sizing: border-box;
+  width: 114px; /* Fixed width */
+  padding: 1px; /* Adjust if necessary */
+  position: relative;
+  bottom: 5px;
+
+
+}
+
+
 .userFrame {
-  height: 95px;
+  height: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,14 +135,7 @@
   /*ADDED*/
   cursor: pointer;
 }
-.userFrame1 {
-  height: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 2px;
-}
+
 .toBeAddedUsers {
   align-self: stretch;
   overflow: hidden;
@@ -160,20 +188,41 @@
   font-family: Anybody;
 }
 
-.userNameTFrame {
-  border-radius: 0px 0px 5px 5px;
-  background-color: #302b4f;
-  /* border-right: 2px solid #302b4f;
-  border-bottom: 2px solid #302b4f;
-  border-left: 2px solid #302b4f; */
-  box-sizing: border-box;
-  width: 114px;
-  flex-shrink: 0;
+
+.reInviteButton {
+  font-family: blinker;
+  position:relative;
+  bottom: 4px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border: 1px solid #302b4f;
+  background-color: #67a4bd;
+  align-self: stretch;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  height: 20px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  padding: 1px;
-  bottom: 5px;
-  position: relative;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 700px) {  /* Adjust the min-width as needed */
+  .userFrame {
+      height: 215px;
+      font-size: 16px;
+  }
+
+  .userImageBorder {
+
+  }
+
+  .userImageIcon {
+
+      height: 150px;
+    }
+  /* ... other modified styles for desktop ... */
 }

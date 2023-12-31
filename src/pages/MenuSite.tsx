@@ -2,6 +2,7 @@ import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MenuSite.module.css";
 import { signOutUser } from "../firebase/AuthSignout";
+import { motion } from "framer-motion";
 
 const MenuSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -37,9 +38,9 @@ const MenuSite: FunctionComponent = () => {
   
 
   return (
-    <div className={styles.menuSite}>
+    <motion.div className={styles.menuSite} >
       <div className={styles.header}>
-        <div className={styles.headerLogoAndTitle}>
+        <div className={styles.headerLogoAndTitle} onClick={onGoBackTClick}>
           <img
             className={styles.headerLogoIcon}
             alt=""
@@ -48,7 +49,7 @@ const MenuSite: FunctionComponent = () => {
           <div className={styles.nameT}>GizApp</div>
         </div>
       </div>
-      <div className={styles.menuOptions}>
+      <motion.div className={styles.menuOptions} initial={{opacity:0, y:"-1%"}} animate={{opacity:1, y:0}} transition={{duration: .5}}>
         <div
           className={styles.changeProfilePicture}
           onClick={onChangeProfilePictureClick}
@@ -68,13 +69,13 @@ const MenuSite: FunctionComponent = () => {
         <div className={styles.changeProfilePicture} onClick={handleSignOut}>
           SIGN OUT
         </div>
-      </div>
+      </motion.div>
       <div className={styles.goBackFrame}>
         <div className={styles.goBackT} onClick={onGoBackTClick}>
           Go back
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

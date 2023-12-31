@@ -15,11 +15,14 @@ const Header: FunctionComponent<HeaderType> = () => {
     navigate("/menu-site");
   }, [navigate]);
 
+  const onLogoClick = useCallback(() => {
+    navigate("/status-site");
+  }, [navigate] ); 
 
 
   return (
     <div className={styles.header}>
-      <div className={styles.headerLogoAndTitle}>
+      <div className={styles.headerLogoAndTitle} onClick={onLogoClick}>
         <img
           className={styles.headerLogoIcon}
           alt=""

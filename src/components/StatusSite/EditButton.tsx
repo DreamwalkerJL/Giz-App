@@ -2,6 +2,7 @@ import React, { Dispatch, FunctionComponent, SetStateAction, useCallback } from 
 import styles from "./StatusGizButtons.module.css"
 import { useNavigate } from "react-router-dom";
 import { GizComplete } from '../../apiServices/Apollo/Types';
+import { motion } from 'framer-motion';
 
 interface EditButtonProps {
   gizComplete: GizComplete | undefined;
@@ -21,13 +22,29 @@ const EditButton: FunctionComponent<EditButtonProps> =({gizComplete}) => {
      });
   }, [navigate]);
 
+  const buttonVariants = {
+    hover: {
+      scale: 1.02,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
+
+
   return (
-    <div
+    <motion.button
       className={styles.editButton}
     onClick={()=> onEditButtonContainerClick()}
+    variants={buttonVariants}
+    whileHover="hover"
+    whileTap="pressed"
     >
-      <div className={styles.cancelButtonT}>EDIT</div>
-    </div>
+      <div className={styles.editButtonT}>EDIT</div>
+    </motion.button>
   )
 }
 

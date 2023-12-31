@@ -1,37 +1,19 @@
-.cancelButtonT {
-    position: relative;
-    letter-spacing: 0.1em;
-    line-height: 100%;
-    font-weight: 800;
-  }
-  .cancelButton {
-    border-radius: 5px;
-    background-color: #f15555;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    width: 74px;
-    height: 25px;
-    overflow: hidden;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 0px 2px;
-    box-sizing: border-box;
-  }
-  .cancel {
-    width: 96px;
-    height: 43px;
-    overflow: hidden;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.editButtonT {
+  position: relative;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  line-height: 100%;
+  font-weight: 800;
+  font-family: Blinker;
+  color: #fff;
+  text-align: left;
   }
   .editButton {
-    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    padding: 0px 0px 2px;
     background-color: #646464;
+    border-radius: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     width: 74px;
     height: 25px;
@@ -41,7 +23,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 0px 0px 2px;
     box-sizing: border-box;
   }
   .edit {

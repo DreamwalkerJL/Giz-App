@@ -31,6 +31,7 @@ const AddUsers: FunctionComponent<AddUserType> = ({
 }) => {
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const { currentUser } = useAuth();
+  const [reInviteUser, setReInviteUser] = useState<number[]>([]);
   const handleUserClick = (userId: number) => {
     setSelectedUsers((prev) =>
       prev.includes(userId)
@@ -63,8 +64,27 @@ const AddUsers: FunctionComponent<AddUserType> = ({
       }
       return user;
     });
-
+    setReInviteUser((prev) => [...prev, userId]);
     setUserData(updatedUserData);
+  };
+
+  const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      // Create a new mouse event or call addUser differently if needed
+      addUser(event as unknown as React.MouseEvent<HTMLButtonElement>);
+    }
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.02,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
   };
 
   return (
@@ -76,60 +96,95 @@ const AddUsers: FunctionComponent<AddUserType> = ({
             ref={userNameRef}
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
+            onKeyDown={handleEnterPress} // Add onKeyDown event handler
             className={styles.findUserInput}
             placeholder="Username"
             type="text"
           />
         </div>
         <div className={styles.addUser1}>
-          <button className={styles.addUserButton} onClick={addUser}>
+          <motion.button
+            className={styles.addUserButton}
+            onClick={addUser}
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="pressed"
+          >
             <b className={styles.adduserbuttont}>ADD USER</b>
-          </button>
+          </motion.button>
         </div>
       </div>
       <div className={styles.toBeAddedUsers}>
         {userDataWithoutCurrentUser.map((user) => (
-          <div
-            key={user.userId}
-            className={styles.userFrame}
-            onClick={() => handleUserClick(user.userId)}
-          >
+          <div key={user.userId} className={styles.userFrame}>
             <motion.img
               className={styles.userImageIcon}
               alt={user.userName}
               src={user.profilePicture}
-              initial={{ opacity: 0.5, y: "3%", borderColor: "#aa43ff"}}
-              animate={{ opacity: 1, y: "0%",
+              onClick={() => handleUserClick(user.userId)}
+              initial={{
+                opacity: 0.5,
+                y: "3%",
+                borderColor: "#aa43ff",
+              }}
+              animate={{
+                opacity: 1,
+                y: "0%",
                 borderLeft: selectedUsers.includes(user.userId)
                   ? "2px solid rgba(241, 85, 85, 0.75)"
+                  : reInviteUser.includes(user.userId)
+                  ? "2px solid #55E063"
                   : "2px solid #302b4f",
                 borderRight: selectedUsers.includes(user.userId)
                   ? "2px solid rgba(241, 85, 85, 0.75)"
+                  : reInviteUser.includes(user.userId)
+                  ? "2px solid #55E063"
                   : "2px solid #302b4f",
                 borderTop: selectedUsers.includes(user.userId)
                   ? "2px solid rgba(241, 85, 85, 0.75)"
+                  : reInviteUser.includes(user.userId)
+                  ? "2px solid #55E063"
                   : "2px solid #302b4f",
               }}
             />
             <motion.div
               className={styles.userNameTFrame}
-              initial={{ opacity: 0.5, y: "3%", borderColor: "#aa43ff"}}
-              animate={{ opacity: 1, y: "0%",
+              onClick={() => handleUserClick(user.userId)}
+              initial={{ opacity: 0.5, y: "3%", borderColor: "#aa43ff" }}
+              animate={{
+                opacity: 1,
+                y: "0%",
                 borderLeft: selectedUsers.includes(user.userId)
                   ? "2px solid rgba(241, 85, 85, 0.75)"
+                  : reInviteUser.includes(user.userId)
+                  ? "2px solid #55E063"
                   : "2px solid #302b4f",
                 borderRight: selectedUsers.includes(user.userId)
                   ? "2px solid rgba(241, 85, 85, 0.75)"
+                  : reInviteUser.includes(user.userId)
+                  ? "2px solid #55E063"
                   : "2px solid #302b4f",
                 borderBottom: selectedUsers.includes(user.userId)
                   ? "2px solid rgba(241, 85, 85, 0.75)"
+                  : reInviteUser.includes(user.userId)
+                  ? "2px solid #55E063"
                   : "2px solid #302b4f",
               }}
             >
-              <div className={styles.userNameT}>{user.userName}</div>
+              <div className={styles.userNameTBox}>
+                <div className={styles.userNameT}>{user.userName}</div>
+              </div>
             </motion.div>
             {user.status === "declined" && (
-              <button onClick={() => reInvite(user.userId)}>ReInvite</button>
+              <motion.button
+                className={styles.reInviteButton}
+                onClick={() => reInvite(user.userId)}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
+              >
+                Invite Again
+              </motion.button>
             )}
           </div>
         ))}
@@ -141,6 +196,9 @@ const AddUsers: FunctionComponent<AddUserType> = ({
           className={styles.removeSelectedUsersButton}
           style={{ pointerEvents: selectedUsers.length > 0 ? "auto" : "none" }}
           onClick={handleRemoveSelectedUsers}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
         >
           <b className={styles.adduserbuttont}>REMOVE SELECTED USERS</b>
         </motion.button>

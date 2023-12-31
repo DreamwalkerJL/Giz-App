@@ -41,28 +41,19 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
 
 
 
-
-  if (gizCompleteQuery) console.log(gizCompleteQuery);
-  if (gizCompleteQuery)
-    return (
-      <>
-        {gizCompleteQuery
-          .sort((a, b) => {
-            // Convert the date string to a format that can be used to create a Date object
-            const aDateParts = a.date.split(" ");
-            const bDateParts = b.date.split(" ");
-
-            const aDateTime = new Date(
-              `${aDateParts[0]} ${aDateParts[1]}, ${aDateParts[2]} ${a.time}`
-            );
-            const bDateTime = new Date(
-              `${bDateParts[0]} ${bDateParts[1]}, ${bDateParts[2]} ${b.time}`
-            );
-
-            // Compare the Date objects
-            return aDateTime.getTime() - bDateTime.getTime();
-          })
-          .map((gizComplete, i) => (
+  const sortedGizCompleteQuery = gizCompleteQuery
+  ? [...gizCompleteQuery].sort((a, b) => {
+      // Parse dates and times to Date objects
+      const aDateTime = new Date(`${a.date} ${a.time}`);
+      const bDateTime = new Date(`${b.date} ${b.time}`);
+      
+      // Compare the Date objects
+      return aDateTime.getTime() - bDateTime.getTime();
+    })
+  : [];
+  return (
+    <>
+      {sortedGizCompleteQuery.map((gizComplete, i) => (
             <motion.div
               key={gizComplete.id}
               className={styles.giz}
@@ -96,9 +87,9 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
                     </div>
                   </div>
                   <div className={styles.statusGizUsers}>
-      
+            
                       <CheckBar invitedUsers={gizComplete.invitedUsers} />
-     
+        
                       <UserFrame gizComplete={gizComplete} />
                   </div>
                 </div>

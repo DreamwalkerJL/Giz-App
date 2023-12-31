@@ -16,8 +16,31 @@
   align-items: center;
   justify-content: flex-start;
   /* ADDED */
-  background: linear-gradient(180deg, #1e193b 50%, #fb7885 180%);
+  background: linear-gradient(180deg, #1e193b 50%, #fb7885 230%);
   height: 100%;
   min-height: 100vh;
 }
+
+.noGizText {
+  position: relative;
+  letter-spacing: 0.1em;
+  line-height: 100%;
+}
+.noGiz {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* Changed to column for better text wrapping */
+  align-items: center; /* Center alignment for better presentation */
+  justify-content: flex-start;
+  padding: 50px 30px 0px;
+  font-size: 20px;
+  color: #fff;
+  font-family: Blinker;
+  text-align: center; /* Center align the text */
+  word-wrap: break-word; /* Ensure words wrap */
+  white-space: normal; /* Allow normal white space wrapping */
+
+  
+}
+
 

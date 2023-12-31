@@ -5,3 +5,11 @@ body {
   margin: 0;
   line-height: normal;
 }
+
+html {
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}

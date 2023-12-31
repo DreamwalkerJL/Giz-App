@@ -37,22 +37,21 @@ interface UserFrameProps {
 }
 
 const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
+
+  const sortedInvitedUsers = [...gizComplete.invitedUsers].sort((a, b) => {
+    const statusValues: { [key: string]: number } = {
+      creator: 1,
+      accepted: 2,
+      declined: 3,
+      invited: 4,
+    };
+
+    return statusValues[a.status] - statusValues[b.status];
+  });
+
   return (
     <div className={styles.invitedUsers}>
-      {gizComplete.invitedUsers
-        .sort((a, b) => {
-          const statusValues: { [key: string]: number } = {
-            creator: 1,
-            accepted: 2,
-            declined: 3,
-            invited: 4,
-          };
-
-          statusValues[a.status] - statusValues[b.status];
-
-          return statusValues[a.status] - statusValues[b.status];
-        })
-        .map((user, k) => {
+      {sortedInvitedUsers.map((user, k) => {
         const userStatusVariant = statusVariants[user.status] || {};
 
         return (
@@ -61,7 +60,7 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
             className={styles.userFrame}
             initial={{ opacity: 0.5, y: "3%"}}
             animate={userStatusVariant}
-   
+            exit={{ opacity: 0.5, y: "3%"}}
             transition={{ duration: 0.3, delay: k * 0.15 }}
           >
             <motion.div

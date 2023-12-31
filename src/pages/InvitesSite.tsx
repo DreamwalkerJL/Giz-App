@@ -9,6 +9,7 @@ import { getAuth } from "firebase/auth";
 import InvitesGiz from "../components/InvitesSite/InvitesGiz";
 
 import { useGizData } from "../components/GizDataContext";
+import { motion } from "framer-motion";
 
 const InvitesSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -32,14 +33,30 @@ const InvitesSite: FunctionComponent = () => {
   // if (gizCompleteError) return <p>gizCompleteError</p>;
   // if (gizCompleteLoading) return <p>...gizCompleteLoading</p>;
 
+  const pageTransition = {
+    in: {
+      opacity: 1,
+      y: 0,
+    },
+    out: {
+      opacity: 0.7,
+      y: "-1.5%",
+    },
+  };
+
   return (
     <div className={styles.invitesSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
-      <Options
-
-        activeTab={"INVITES"}
-      />
-      <InvitesGiz gizCompleteQuery={gizCompleteData} />
+      <Options activeTab={"INVITES"} />
+      {gizCompleteData.length > 0 || loading ? (
+        <InvitesGiz gizCompleteQuery={gizCompleteData} />
+      ) : (
+        <div className={styles.noGiz}>
+          <motion.p initial={{opacity:0, y:"-33%"}} animate={{opacity:1, y:0}} transition={{delay:.2}} className={styles.noGizText}>
+          No Invites Just Yet!
+          </motion.p>
+        </div>
+      )}
       <div className={styles.space} />
     </div>
   );

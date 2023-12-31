@@ -52,12 +52,6 @@
   gap: 10px;
 }
 
-
-
-
-
-
-
 .userFrame1 {
   height: 90px;
   flex-shrink: 0;
@@ -143,7 +137,6 @@
   opacity: 0.075; /* Adjust the opacity as needed */
   z-index: -1; /* Ensure the image is behind the content */
 }
-
 
 .accept {
   width: 96px;

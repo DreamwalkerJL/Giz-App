@@ -26,10 +26,15 @@ import {
   GIZ_EDIT_MUTATION,
 } from "../apiServices/Apollo/Mutations";
 import { USER_PUBLIC_QUERY } from "../apiServices/Apollo/Querys";
+import { motion } from "framer-motion";
 const EditSite: FunctionComponent = () => {
   const navigate = useNavigate();
   const onMenuContainerClick = useCallback(() => {
     navigate("/menu-site");
+  }, [navigate]);
+
+  const onCancelButtonClick = useCallback(() => {
+    navigate("/status-site");
   }, [navigate]);
 
   logCurrentUser();
@@ -166,7 +171,7 @@ const EditSite: FunctionComponent = () => {
       console.error("Error fetching user data", error);
     }
   };
-  
+
   // Handling the received data
   useEffect(() => {
     if (userPublicData) {
@@ -193,7 +198,7 @@ const EditSite: FunctionComponent = () => {
       error: gizDeleteError,
     },
   ] = useMutation(GIZ_DELETE_MUTATION);
-  const handleGizDelete  = async () => {
+  const handleGizDelete = async () => {
     if (gizId) {
       try {
         const gizIdString = gizId.toString();
@@ -208,10 +213,41 @@ const EditSite: FunctionComponent = () => {
       console.log("gizId does not exist");
     }
   };
+
+  const pageTransition = {
+    in: {
+      opacity: 1,
+      y: 0,
+    },
+    out: {
+      opacity: 0.7,
+      y: "-1.5%",
+    },
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.02,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
+
   return (
     <div className={styles.editSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
-      <div className={styles.giz}>
+      <motion.div
+        className={styles.giz}
+        initial="out"
+        animate="in"
+        exit="out"
+        variants={pageTransition}
+        transition={{ duration: 0.3 }}
+      >
         <div className={styles.gizFrame}>
           <div className={styles.titleTWrapper}>
             <div className={styles.titleT}>EDIT GIZ</div>
@@ -236,27 +272,42 @@ const EditSite: FunctionComponent = () => {
           />
           <div className={styles.editOrCancel}>
             <div className={styles.confirmChangeGizButtonFram}>
-              <button
+              <motion.button
                 className={styles.confirmChangeGizButton}
                 onClick={handleCreateGiz}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
               >
                 <b className={styles.confirmGizButton}>CONFIRM CHANGE</b>
-              </button>
+              </motion.button>
             </div>
             <div className={styles.cancelGizButtonFrame}>
-              <button className={styles.cancelButton} onClick={handleGizDelete}>
+              <motion.button
+                className={styles.cancelButton}
+                onClick={handleGizDelete}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
+              >
                 <b className={styles.confirmGizButton}>DELETE GIZ</b>
-              </button>
+              </motion.button>
             </div>
             <div className={styles.cancelGizButtonFrame}>
-              <button className={styles.cancelButton}>
+              <motion.button
+                className={styles.cancelButton}
+                onClick={onCancelButtonClick}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
+              >
                 <b className={styles.confirmGizButton}>CANCEL</b>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
         <div className={styles.space} />
-      </div>
+      </motion.div>
     </div>
   );
 };

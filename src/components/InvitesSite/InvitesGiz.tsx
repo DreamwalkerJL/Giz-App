@@ -9,6 +9,7 @@ import { DeclineButton } from "./DeclineButton";
 import { GizComplete } from "../../apiServices/Apollo/Types";
 import { motion } from "framer-motion";
 import { CheckBar } from "../CheckBar";
+import UserFrame from "../UserFrame";
 
 interface InvitesGizProps {
   gizCompleteQuery: GizComplete[] | undefined;
@@ -28,11 +29,19 @@ const InvitesGiz: FunctionComponent<InvitesGizProps> = ({
     },
   };
 
-  if (gizCompleteQuery) console.log(gizCompleteQuery);
-  if (gizCompleteQuery)
+  const sortedGizCompleteQuery = gizCompleteQuery
+  ? [...gizCompleteQuery].sort((a, b) => {
+      // Parse dates and times to Date objects
+      const aDateTime = new Date(`${a.date} ${a.time}`);
+      const bDateTime = new Date(`${b.date} ${b.time}`);
+      
+      // Compare the Date objects
+      return aDateTime.getTime() - bDateTime.getTime();
+    })
+  : [];
     return (
       <>
-        {gizCompleteQuery.map((gizComplete, i) => (
+        {sortedGizCompleteQuery.map((gizComplete, i) => (
           <motion.div
             key={gizComplete.id}
             className={styles.giz}
@@ -59,35 +68,16 @@ const InvitesGiz: FunctionComponent<InvitesGizProps> = ({
                       gizComplete
                     )} - ${gizComplete.time}`}</div>
                     <div className={styles.dateHowLong}>
-                      {" "}
+
                       {getTimeUntil(gizComplete)}
                     </div>
                   </div>
                 </div>
                 <div className={styles.invitesGizUsers}>
-                  <div className={styles.checkBarFrame}>
+       
                     <CheckBar invitedUsers={gizComplete.invitedUsers} />
-                  </div>
-                  <div className={styles.invitedUsers}>
-                    {gizComplete.invitedUsers.map((user, k) => (
-                      <motion.div
-                        key={user.userId}
-                        className={styles.userFrame}
-                        initial="out"
-                        animate="in"
-                        exit="out"
-                        variants={pageTransition}
-                        transition={{ duration: 0.3, delay: k * 0.15 }}
-                      >
-                        <img
-                          className={styles.userImageIcon}
-                          alt={user.userName}
-                          src={user.profilePicture}
-                        />
-                        <div className={styles.userNameT}>{user.userName}</div>
-                      </motion.div>
-                    ))}
-                  </div>
+       
+                  <UserFrame gizComplete={gizComplete} />
                 </div>
               </div>
               <div className={styles.gizButtons}>

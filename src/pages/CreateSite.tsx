@@ -33,6 +33,10 @@ const CreateSite: FunctionComponent = () => {
     navigate("/menu-site");
   }, [navigate]);
 
+  const onCancelButtonClick = useCallback(() => {
+    navigate("/status-site");
+  }, [navigate]);
+
   logCurrentUser();
 
   const userNameRef = useRef<HTMLInputElement | null>(null);
@@ -40,7 +44,6 @@ const CreateSite: FunctionComponent = () => {
   const [description, setDescription] = useState<string>("");
   const [time, setTime] = useState<dayjs.Dayjs>(dayjs());
   const [date, setDate] = useState<dayjs.Dayjs>(dayjs());
-
 
   const [userName, setUserName] = useState<string>("");
   const [userData, setUserData] = useState<UserPublic[]>([]);
@@ -62,7 +65,6 @@ const CreateSite: FunctionComponent = () => {
   );
 
   const handleCreateGiz = async () => {
-
     const formattedTime = time.format("h:mm A");
     const formattedDate = date.format("MMMM D, YYYY");
 
@@ -73,7 +75,6 @@ const CreateSite: FunctionComponent = () => {
       time: formattedTime,
     };
 
-
     if (!idToken || !user || !user?.displayName) {
       console.error(
         "No IdToken / Logged in User / Displayname to User assigned"
@@ -82,7 +83,6 @@ const CreateSite: FunctionComponent = () => {
     }
 
     try {
-
       // Execute the mutation
       const { data } = await createGizAndGizUsersMutation({
         variables: {
@@ -96,7 +96,6 @@ const CreateSite: FunctionComponent = () => {
           invitedUsersId: userData.map((user) => user.userId),
         },
       });
-
 
       navigate("/status-site");
     } catch (error) {
@@ -141,7 +140,6 @@ const CreateSite: FunctionComponent = () => {
         variables: { userName },
       });
       setRefreshUserData((prev) => !prev);
-
     } catch (error) {
       console.error("Error fetching user data", error);
     }
@@ -177,19 +175,30 @@ const CreateSite: FunctionComponent = () => {
     },
   };
 
+  const buttonVariants = {
+    hover: {
+      scale: 1.02,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
+
   return (
     <div className={styles.createSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
-      <Options
-
-        activeTab={"CREATE"}
-      />
-      <motion.div className={styles.giz}
-                  initial="out"
-                  animate="in"
-                  exit="out"
-                  variants={pageTransition}
-                  transition={{ duration: .3}}>
+      <Options activeTab={"CREATE"} />
+      <motion.div
+        className={styles.giz}
+        initial="out"
+        animate="in"
+        exit="out"
+        variants={pageTransition}
+        transition={{ duration: 0.3 }}
+      >
         <div className={styles.gizFrame}>
           <CreateGizInformationFrame
             title={title}
@@ -211,24 +220,29 @@ const CreateSite: FunctionComponent = () => {
           />
           <div className={styles.createOrCancel}>
             <div className={styles.createGizButtonFrame}>
-              <div
+              <motion.button
                 className={styles.createGizButton}
-                // onClick={onCreateGizButton1Click}
+                onClick={handleCreateGiz}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
               >
-                <div
-                  className={styles.createGizButtonContainer}
-                  onClick={handleCreateGiz}
-                >
-                  <b>CREATE</b>
-                  <span className={styles.span}>{` `}</span>
-                  <b>GIZ</b>
+                <div className={styles.createGizButtonContainer}>
+                  <b className={styles.create}>CREATE</b>
+                  <b className={styles.create}>GIZ</b>
                 </div>
-              </div>
+              </motion.button>
             </div>
             <div className={styles.cancelGizButtonFrame}>
-              <div className={styles.cancelButton}>
-                <b className={styles.createGizButtonContainer}>CANCEL</b>
-              </div>
+              <motion.button
+                className={styles.cancelButton}
+                onClick={onCancelButtonClick}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
+              >
+                <b className={styles.cancelButtonT}>CANCEL</b>
+              </motion.button>
             </div>
           </div>
         </div>

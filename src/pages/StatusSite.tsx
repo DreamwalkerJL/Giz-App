@@ -15,8 +15,6 @@ import { motion } from "framer-motion";
 const StatusSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
-
-
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
 
@@ -45,28 +43,31 @@ const StatusSite: FunctionComponent = () => {
     refetchGizData();
   }, []);
 
-
-
   // if (gizCompleteLoading) console.log(gizCompleteLoading);
   // if (gizCompleteError) console.log(gizCompleteError);
   // if (gizCompleteError) return <p>gizCompleteError</p>;
   // if (gizCompleteLoading) return <p>...gizCompleteLoading</p>;
-console.log(gizCompleteData)
-console.log("mick")
+  console.log(gizCompleteData);
+  console.log("mick");
   return (
     <div className={styles.statusSite}>
       <Header />
-      <Options
-
-        activeTab={"STATUS"}
-      />
+      <Options activeTab={"STATUS"} />
       {/* <button onClick={refreshData}>Refresh</button> */}
 
+      {gizCompleteData.length > 0 || loading ?  (
         <StatusGiz
           gizCompleteQuery={gizCompleteData}
           editToggleMap={editToggleMap}
           toggleEditForGiz={toggleEditForGiz}
         />
+      ) : (
+        <div className={styles.noGiz}>
+          <motion.p initial={{opacity:0, y:"-3%"}} animate={{opacity:1, y:0}} transition={{delay:.2}} className={styles.noGizText}>
+            Looks Like You're Not Part of Any Giz Yet!
+          </motion.p>
+        </div>
+      )}
 
       <div className={styles.space} />
     </div>

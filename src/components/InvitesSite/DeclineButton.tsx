@@ -4,6 +4,7 @@ import styles from "./InvitesGizButtons.module.css";
 import { useAuth } from "../../firebase/AuthContext";
 import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { HandleGizInviteMutationVariable } from "../../apiServices/Apollo/Types";
+import { motion } from "framer-motion";
 
 type DeclineButtonProps = {
   gizCompleteId: number;
@@ -45,14 +46,31 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
     }
   };
 
+  const buttonVariants = {
+    hover: {
+      scale: 1.02,
+      transition: {
+        duration: 0.2,
+      },
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
+
+
   return (
-    <div
+    <motion.button
       className={styles.declineButton}
       onClick={() => handleDecline({ userName, gizCompleteIdString, decision })}
+      variants={buttonVariants}
+      whileHover="hover"
+      whileTap="pressed"
     >
       <div className={styles.acceptButtonT}>
         {decisionText == "leave" ? "LEAVE" : "DECLINE"}
       </div>
-    </div>
+      
+    </motion.button>
   );
 };

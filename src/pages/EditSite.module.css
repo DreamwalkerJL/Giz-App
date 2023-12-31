@@ -1,234 +1,3 @@
-.titleT {
-  flex: 1;
-  position: relative;
-  font-weight: 300;
-}
-.titleTWrapper {
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0px 0px 15px;
-  text-align: center;
-  font-size: 24px;
-}
-.headline {
-  position: relative;
-  font-weight: 700;
-}
-.titleInput {
-  border: 1px solid #fff;
-  outline: none;
-  background-color: #1e193b;
-  align-self: stretch;
-  border-radius: 5px;
-  color: white;
-  font-family: Blinker;
-  font-size: 20px;
-  padding: 5px 10px;
-}
-.titleInput:focus {
-  background-color: #1e193b;
-  border: 1px solid #fff;
-  box-sizing: border-box;
-  outline: none;
-}
-.title {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.descriptionTextarea {
-  border: 1px solid #fff;
-  background-color: #1e193b;
-  outline: none;
-  align-self: stretch;
-  border-radius: 5px;
-  color: white;
-  font-family: Blinker;
-  font-size: 20px;
-  padding: 5px 10px;
-}
-.descriptionTextarea:focus {
-  outline: none;
-}
-.titleAndDescription {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 20px;
-}
-.div {
-  position: relative;
-}
-.date {
-  align-self: stretch;
-  flex: 1;
-  border-radius: 5px;
-  background-color: #1e193b;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  border: 1px solid #fff;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 0px 0px 2px;
-}
-.dateAndTime {
-  align-self: stretch;
-  height: 30px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: Blinker;
-}
-.gizDetailsFrame {
-  align-self: stretch;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 20px;
-}
-.editInformationFrame {
-  align-self: stretch;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0px 30px;
-}
-.adduserbuttont {
-  position: relative;
-  font-size: 20px;
-  letter-spacing: 0.1em;
-  line-height: 100%;
-  font-family: Blinker;
-  color: #fff;
-  text-align: left;
-}
-.addUserButton {
-  cursor: pointer;
-  border: none;
-  padding: 0px 0px 2px;
-  background-color: #1e193b;
-  border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  width: 119px;
-  height: 30px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-.addUser1 {
-  align-self: stretch;
-  height: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0px 30px;
-  box-sizing: border-box;
-}
-.addUser {
-  align-self: stretch;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0px 30px;
-  gap: 10px;
-}
-.userImageIcon {
-  border-radius: 5px;
-  width: 110px;
-  height: 55px;
-  overflow: hidden;
-  flex-shrink: 0;
-  object-fit: cover;
-}
-.userNameT {
-  align-self: stretch;
-  position: relative;
-}
-.userFrame {
-  height: 95px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 2px;
-}
-.userNameT3 {
-  align-self: stretch;
-  position: relative;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.toBeAddedUsers {
-  align-self: stretch;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 25px 0px;
-  gap: 20px;
-  text-align: center;
-  font-size: 16px;
-  font-family: Blinker;
-}
-.removeSelectedUsersButton {
-  cursor: pointer;
-  border: none;
-  padding: 0px 0px 2px;
-  background-color: rgba(241, 85, 85, 0.5);
-  border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  width: 270px;
-  height: 30px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-.removeSelectedUsers {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px 0px;
-}
-.editGizUsers {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px 0px;
-}
 .confirmGizButton {
   position: relative;
   font-size: 24px;
@@ -309,14 +78,14 @@
   justify-content: flex-start;
   padding: 20px 0px 0px;
   box-sizing: border-box;
-  background-image: url("/public/giz-frame@3x.png");
+  position: relative;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
   max-width: 800px;
   /* ADDED */
   z-index: 1;
-  background: linear-gradient(180deg, #463f71 50%, #fb7885 100%);
+  background: linear-gradient(180deg, #463f71 50%, #fb7885 200%);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 .space {
@@ -337,7 +106,6 @@
 }
 .editSite {
   position: relative;
-  background: linear-gradient(186.06deg, #1e193b, #fb7878);
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -345,11 +113,11 @@
   align-items: center;
   justify-content: flex-start;
   text-align: left;
-  font-size: 20px;
+  font-size: 24px;
   color: #fff;
-  font-family: Anybody;
+  font-family: Blinker;
   /* ADDED */
-  background: linear-gradient(186.06deg, #1e193b 50%, #fb7885 90%);
+  background: linear-gradient(180deg, #1e193b 50%, #fb7885 230%);
   height: 100%;
   min-height: 100vh;
   z-index: 1;
