@@ -10,12 +10,14 @@ type DeclineButtonProps = {
   gizCompleteId: number;
   decision: string;
   decisionText: string;
+
 };
 
 export const DeclineButton: React.FC<DeclineButtonProps> = ({
   gizCompleteId,
   decision,
   decisionText,
+
 }) => {
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
@@ -36,19 +38,24 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
   if (error) return <div>error</div>;
 
   const handleDecline = async (variables: HandleGizInviteMutationVariable) => {
+
+
     try {
-      const response = await addGizEvent({ variables });
-      console.log(response.data);
-      // Handle success
-    } catch (e) {
-      console.error(e);
-      // Handle error
-    }
-  };
+
+    // Wait for the exit animation to complete before removing the item
+    setTimeout(() => {
+      const response = addGizEvent({ variables });
+    }, 1000); // Duration should match your exit animation
+  } catch (e) {
+    console.error(e);
+    // Immediately call onDeclineEnd in case of error
+
+  }
+};
 
   const buttonVariants = {
     hover: {
-      scale: 1.02,
+      scale: 1.1,
       transition: {
         duration: 0.2,
       },

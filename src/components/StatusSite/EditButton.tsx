@@ -24,10 +24,8 @@ const EditButton: FunctionComponent<EditButtonProps> =({gizComplete}) => {
 
   const buttonVariants = {
     hover: {
-      scale: 1.02,
-      transition: {
-        duration: 0.2,
-      },
+      scale: 1.1,
+
     },
     pressed: {
       scale: 0.94, // Slightly smaller scale when pressed

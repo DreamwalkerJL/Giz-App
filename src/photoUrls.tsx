@@ -1,6 +1,6 @@
 export const photoUrls = [
-    '/Fotor_AI (1).png',
-    '/Fotor_AI (2).png',
+    '/Fotor_AI (1).jpg',
+    '/Fotor_AI (2).jpg',
     '/Fotor_AI (3).png',
     '/Fotor_AI (4).png',
     '/Fotor_AI (5).png',

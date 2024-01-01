@@ -227,10 +227,8 @@ const EditSite: FunctionComponent = () => {
 
   const buttonVariants = {
     hover: {
-      scale: 1.02,
-      transition: {
-        duration: 0.2,
-      },
+      scale: 1.04,
+
     },
     pressed: {
       scale: 0.94, // Slightly smaller scale when pressed
@@ -290,10 +288,8 @@ const EditSite: FunctionComponent = () => {
                 whileHover="hover"
                 whileTap="pressed"
               >
-                <b className={styles.confirmGizButton}>DELETE GIZ</b>
+                <b className={styles.confirmGizButton}>DELETE</b>
               </motion.button>
-            </div>
-            <div className={styles.cancelGizButtonFrame}>
               <motion.button
                 className={styles.cancelButton}
                 onClick={onCancelButtonClick}

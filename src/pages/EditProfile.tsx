@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { allPps } from "../components/AllPps";
 import { useAuth } from "../firebase/AuthContext";
 import { CHANGE_PP_MUTATION } from "../apiServices/Apollo/Mutations";
+import { motion } from "framer-motion";
 
 const EditProfile: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -23,30 +24,57 @@ const EditProfile: FunctionComponent = () => {
     navigate("/menu-site");
   }, [navigate]);
 
-  const [changePp, { loading: changePpLoading, error: changePpError, data: changePpResponse }] =
-    useMutation(CHANGE_PP_MUTATION);
 
+
+  const [
+    changePp,
+    { loading: changePpLoading, error: changePpError, data: changePpResponse },
+  ] = useMutation(CHANGE_PP_MUTATION);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [selectedUsers, setSelectedUsers] = useState<number>();
   const { currentUser } = useAuth();
   const handleUserClick = (index: number) => {
-    setSelectedUsers(index);
+    if (selectedUsers === index) {
+      setSelectedUsers(undefined);
+    } else {
+      setSelectedUsers(index);
+    }
   };
 
-const handleChangePp = (index: number | undefined) => {
-  if (currentUser && index !== undefined) { // Explicitly check for undefined
-    try {
-      const chosenPp = allPps[index];
-      changePp({ variables: { userName: currentUser.displayName, newPp: chosenPp } });
-      console.log(changePpResponse);
-      navigate("/status-site");
-    } catch (e) {
-      console.log(e);
-      console.log(changePpError);
+  const handleChangePp = (index: number | undefined) => {
+    if (currentUser && index !== undefined) {
+      // Explicitly check for undefined
+      try {
+        const chosenPp = allPps[index];
+        changePp({
+          variables: { userName: currentUser.displayName, newPp: chosenPp },
+        });
+        console.log(changePpResponse);
+        navigate("/status-site");
+      } catch (e) {
+        console.log(e);
+        console.log(changePpError);
+      }
+    } else {
+      console.error("No new Profile Picture has been chosen");
     }
-  } else {
-    console.error("No new Profile Picture has been chosen");
-  }
-};
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.04,
+
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
+
+  const getImagePath = (profilePicture: string) => {
+    const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+    return `public/${folder}/${profilePicture}`;
+  };
 
   return (
     <div className={styles.editProfile}>
@@ -54,70 +82,64 @@ const handleChangePp = (index: number | undefined) => {
       <div className={styles.giz}>
         <div className={styles.gizFrame}>
           <div className={styles.users}>
-            <div className={styles.titleT}>CHOOSE A NEW PROFILE PICTURE</div>
+            <motion.div
+              className={styles.titleT}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 2 }}
+            >
+              CHOOSE A NEW PROFILE PICTURE
+            </motion.div>
             <div className={styles.profilePictures}>
               {allPps.map((pp, index) => (
-                <img
+                <motion.img
                   key={index} // It's good practice to provide a unique key for each item in a list
                   className={styles.userImageIcon}
                   alt={`Profile ${index}`} // Providing a meaningful alt text
-                  src={pp}
+                  initial={{ opacity: 0, y: "-5%" }}
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{
+                    boxShadow: "0 0 20px #ffffffcc",
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 1, delay: index * 0.05 },
+                  }}
+                  src={getImagePath(pp)}
                   style={{
-                    border: selectedUsers == index
-                      ? "2px solid rgba(241, 85, 85, 0.75)"
-                      : "2px solid rgba(48, 48, 48, 0.75)",
+                    border:
+                      selectedUsers == index
+                        ? "2px solid #72FF80"
+                        : "2px solid #303030bf",
                   }}
                   onClick={() => handleUserClick(index)}
                 />
               ))}
-              {/* <img
-                className={styles.userImageIcon}
-                alt=""
-                src="/userimage5@2x.png"
-              />
-              <img
-                className={styles.userImageIcon}
-                alt=""
-                src="/userimage4@2x.png"
-              />
-              <img
-                className={styles.userImageIcon}
-                alt=""
-                src="/userimage3@2x.png"
-              />
-              <img
-                className={styles.userImageIcon}
-                alt=""
-                src="/userimage2@2x.png"
-              />
-              <img
-                className={styles.userImageIcon}
-                alt=""
-                src="/userimage6@2x.png"
-              />
-              <img
-                className={styles.userImageIcon}
-                alt=""
-                src="/userimage@2x.png"
-              /> */}
             </div>
           </div>
           <div className={styles.createOrCancel}>
             <div className={styles.createGizButtonFrame}>
-              <div
+              <motion.div
                 className={styles.createGizButton}
-                onClick={()=> handleChangePp(selectedUsers)}
+                onClick={() => handleChangePp(selectedUsers)}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
               >
                 <b className={styles.cancelButtonT}>ACCEPT</b>
-              </div>
+              </motion.div>
             </div>
             <div className={styles.cancelGizButtonFrame}>
-              <div
+              <motion.div
                 className={styles.cancelButton}
                 onClick={onCancelButtonContainerClick}
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="pressed"
               >
                 <b className={styles.cancelButtonT}>CANCEL</b>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

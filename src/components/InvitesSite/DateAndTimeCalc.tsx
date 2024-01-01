@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
-import { gizComplete } from "../../apiServices/Apollo/GizCompleteQuery";
+import { GizComplete } from "../../apiServices/Apollo/Types";
 
-export function checkIfTodayOrTomorrow(invite: gizComplete) {
+
+export function checkIfTodayOrTomorrow(invite: GizComplete) {
     // Parse the date from invite
     const inviteDate = dayjs(invite.date);
     const now = dayjs().format("YYYY-MM-DD"); // same (current date) but with day.js
@@ -17,36 +18,29 @@ export function checkIfTodayOrTomorrow(invite: gizComplete) {
     } else return invite.date;
   }
 
-  export function getTimeUntil(invite: gizComplete) {
-    const now = dayjs();
-    const dateFormat = "MMMM D, YYYY"; // Format for invite.date
-    const timeFormat = "h:mm A"; // Format for invite.time
+  export function getTimeUntil(invite: GizComplete) {
+    // Check if the giz is within the next hour
 
-    // Combine date and time into a single string
+
+    const now = dayjs();
     const dateTimeString = `${invite.date} ${invite.time}`;
+    const dateFormat = "MMMM D, YYYY";
+    const timeFormat = "HH:mm";
     let targetDateTime = dayjs(dateTimeString, `${dateFormat} ${timeFormat}`);
 
-    // Check if the target time is valid and for today
-    if (!targetDateTime.isValid() || !now.isSame(targetDateTime, "day")) {
-      return ""; // Return an empty string if it's not valid or not today
+    // Ensure the target date and time are valid
+    if (!targetDateTime.isValid()) {
+        return ""; // Return empty string if not valid
     }
 
-    // Calculate the difference in minutes
     let diffInMinutes = targetDateTime.diff(now, "minute");
 
-    // Return an empty string if the time is in the past
-    if (diffInMinutes < 0) {
-      return "";
+    // Check if the time is in the future and within the next hour
+    if (diffInMinutes > 0 && diffInMinutes <= 60) {
+        // Format output for less than an hour
+        return `In ${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''}`;
     }
 
-    // Format output
-    if (diffInMinutes < 60) {
-      // If less than an hour, show in minutes
-      return `(In ${diffInMinutes} minutes)`;
-    } else {
-      // If an hour or more, show in hours and minutes
-      let hours = Math.floor(diffInMinutes / 60);
-      let minutes = diffInMinutes % 60;
-      return `In ${hours} hour(s) and ${minutes} minute(s)`;
-    }
+    // If the time is outside of the one-hour window or in the past, return empty
+    return "";
 }

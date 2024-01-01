@@ -1,6 +1,7 @@
 import { FunctionComponent, useCallback } from "react";
 import styles from "./Header.module.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 type HeaderType = {
   /** Action props */
@@ -8,7 +9,6 @@ type HeaderType = {
 };
 
 const Header: FunctionComponent<HeaderType> = () => {
-
   const navigate = useNavigate();
 
   const onMenuClick = useCallback(() => {
@@ -17,26 +17,41 @@ const Header: FunctionComponent<HeaderType> = () => {
 
   const onLogoClick = useCallback(() => {
     navigate("/status-site");
-  }, [navigate] ); 
+  }, [navigate]);
 
+  const buttonVariants = {
+    hover: {
+      scale: 1.2,
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
 
   return (
     <div className={styles.header}>
       <div className={styles.headerLogoAndTitle} onClick={onLogoClick}>
-        <img
-          className={styles.headerLogoIcon}
-          alt=""
-          src="/logoTransp.png"
-        />
+        <img className={styles.headerLogoIcon} alt="" src="/logoTransp.png" />
         <div className={styles.nameT}>GizApp</div>
       </div>
       <div className={styles.headerIcons}>
-        <div className={styles.notification}>
+        <motion.div
+          className={styles.notification}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
+        >
           <img className={styles.bellIcon} alt="" src="/bell.svg" />
-        </div>
-        <div className={styles.menu} onClick={onMenuClick}>
+        </motion.div>
+        <motion.div
+          className={styles.menu}
+          onClick={onMenuClick}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
+        >
           <img className={styles.menuIcon} alt="" src="/menu.svg" />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

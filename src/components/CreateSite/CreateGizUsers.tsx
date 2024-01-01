@@ -29,6 +29,7 @@ const AddUsers: FunctionComponent<AddUserType> = ({
   userData,
   setUserData,
 }) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const { currentUser } = useAuth();
   const [reInviteUser, setReInviteUser] = useState<number[]>([]);
@@ -77,15 +78,21 @@ const AddUsers: FunctionComponent<AddUserType> = ({
 
   const buttonVariants = {
     hover: {
-      scale: 1.02,
+      scale: 1.07,
       transition: {
-        duration: 0.2,
+
       },
     },
     pressed: {
       scale: 0.94, // Slightly smaller scale when pressed
     },
   };
+
+  const getImagePath = (profilePicture: string) => {
+    const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+    return `public/${folder}/${profilePicture}`;
+  };
+
 
   return (
     <div className={styles.createGizUsers}>
@@ -120,7 +127,7 @@ const AddUsers: FunctionComponent<AddUserType> = ({
             <motion.img
               className={styles.userImageIcon}
               alt={user.userName}
-              src={user.profilePicture}
+              src={getImagePath(user.profilePicture)}
               onClick={() => handleUserClick(user.userId)}
               initial={{
                 opacity: 0.5,

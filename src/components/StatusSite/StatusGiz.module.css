@@ -138,6 +138,25 @@
   z-index: -1; /* Ensure the image is behind the content */
 }
 
+.gizFrameBorderBackground {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  box-sizing: border-box;
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  max-width: 800px;
+  /* ADDED */
+  z-index: -1;
+}
+
 .accept {
   width: 96px;
   height: 43px;
@@ -173,4 +192,121 @@
   font-size: 16px;
   color: #fff;
   font-family: Blinker;
+}
+
+/* @keyframes rainbowBorder {
+    0% { border-color: red; }
+    15% { border-color: orange; }
+    30% { border-color: yellow; }
+    45% { border-color: green; }
+    60% { border-color: blue; }
+    75% { border-color: indigo; }
+    90% { border-color: violet; }
+    100% { border-color: red; }
+}
+
+.rainbowBorder {
+    animation: rainbowBorder 10s linear infinite;
+    border:#000 solid 5px;
+} */
+
+@keyframes rainbowAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rainbowBorder {
+  animation: rainbowAnimation 10s ease infinite;
+  background: linear-gradient(
+    270deg,
+    rgb(253, 120, 120),
+    rgb(255, 209, 124),
+    rgb(255, 255, 128),
+    rgb(122, 253, 122),
+    rgb(118, 118, 255),
+    rgb(200, 123, 255),
+    rgb(255, 130, 255),
+    rgb(253, 120, 120)
+  );
+  background-size: 200% 200%;
+  border-radius: 10px; /* Adjust as needed */
+  padding: 5px; /* Adjust padding to create the border effect */
+}
+
+@keyframes pulsateBorder {
+  0% {
+    box-shadow: 0 0 0 0 #6b56a3;
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 0, 0);
+  }
+}
+
+.pulsatingBorder {
+  animation: pulsateBorder 6s infinite;
+  border: 2px solid #302b4f;
+}
+
+.expiredBorder {
+  border: 2px solid red;
+  opacity: 0.5;
+}
+
+.defaultBorder {
+  border: 2px solid #302b4f;
+}
+
+@keyframes rainbowText {
+  0% {
+    color: #ff7878;
+  }
+  12.5% {
+    color: #ffce79;
+  }
+  25% {
+    color: #ffff80;
+  }
+  37.5% {
+    color: #7afd7a;
+  }
+  50% {
+    color: #7a7aff;
+  }
+  62.5% {
+    color: #c87bff;
+  }
+  75% {
+    color: #ff82ff;
+  }
+  87.5% {
+    color: #ff7676;
+  }
+  100% {
+    color: #ff7878;
+  }
+}
+
+.rainbowText {
+  animation: rainbowText 30s linear infinite;
+}
+
+.timeStatus {
+  font-family: Anybody;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.expired {
+  color: red; /* Or any style you want for expired items */
 }

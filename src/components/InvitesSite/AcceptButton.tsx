@@ -34,8 +34,10 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
 
   const handleAccept = async (variables: HandleGizInviteMutationVariable) => {
     try {
-      const response = await addGizEvent({ variables });
-      console.log(response.data);
+      setTimeout(() => {
+        const response = addGizEvent({ variables });
+      }, 1000); // Duration should match your exit animation
+
       // Handle success
     } catch (e) {
       console.error(e);
@@ -45,10 +47,8 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
 
   const buttonVariants = {
     hover: {
-      scale: 1.02,
-      transition: {
-        duration: 0.2,
-      },
+      scale: 1.1,
+
     },
     pressed: {
       scale: 0.94, // Slightly smaller scale when pressed

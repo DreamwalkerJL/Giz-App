@@ -10,6 +10,7 @@ import InvitesGiz from "../components/InvitesSite/InvitesGiz";
 
 import { useGizData } from "../components/GizDataContext";
 import { motion } from "framer-motion";
+import dayjs from "dayjs";
 
 const InvitesSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -44,12 +45,24 @@ const InvitesSite: FunctionComponent = () => {
     },
   };
 
+  const recentGizCompleteData = gizCompleteData.filter(giz => {
+    const gizDateTime = dayjs(`${giz.date} ${giz.time}`, "MMMM DD, YYYY HH:mm A");
+    const oneDayAgo = dayjs().subtract(24, 'hour');
+    const now = dayjs();
+  
+    // Include giz if it's in the future or within the last 24 hours
+    return gizDateTime.isAfter(oneDayAgo) || !gizDateTime.isBefore(now);
+  });
+  
+
+    if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className={styles.invitesSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
       <Options activeTab={"INVITES"} />
-      {gizCompleteData.length > 0 || loading ? (
-        <InvitesGiz gizCompleteQuery={gizCompleteData} />
+      {recentGizCompleteData.length > 0 || loading ? (
+        <InvitesGiz gizCompleteQuery={recentGizCompleteData} />
       ) : (
         <div className={styles.noGiz}>
           <motion.p initial={{opacity:0, y:"-33%"}} animate={{opacity:1, y:0}} transition={{delay:.2}} className={styles.noGizText}>

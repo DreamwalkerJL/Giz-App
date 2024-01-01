@@ -65,7 +65,7 @@ const CreateSite: FunctionComponent = () => {
   );
 
   const handleCreateGiz = async () => {
-    const formattedTime = time.format("h:mm A");
+    const formattedTime = time.format("HH:mm");
     const formattedDate = date.format("MMMM D, YYYY");
 
     const gizData: createGizType = {
@@ -177,7 +177,7 @@ const CreateSite: FunctionComponent = () => {
 
   const buttonVariants = {
     hover: {
-      scale: 1.02,
+      scale: 1.04,
       transition: {
         duration: 0.2,
       },

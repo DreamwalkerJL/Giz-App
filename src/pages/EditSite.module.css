@@ -39,27 +39,28 @@
   border: none;
   padding: 0px 0px 3px;
   background-color: #f15555;
-  align-self: stretch;
+  flex: 1;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   height: 40px;
   overflow: hidden;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
 }
+
 .cancelGizButtonFrame {
   align-self: stretch;
   height: 61px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0px 56px;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  padding: 0px 30px;
   box-sizing: border-box;
+  gap: 20px
 }
 .editOrCancel {
   align-self: stretch;
@@ -117,7 +118,7 @@
   color: #fff;
   font-family: Blinker;
   /* ADDED */
-  background: linear-gradient(180deg, #1e193b 50%, #fb7885 230%);
+  background: linear-gradient(180deg, #1e193b 300px, #fb7885 8000px);
   height: 100%;
   min-height: 100vh;
   z-index: 1;
@@ -138,3 +139,4 @@
   opacity: 0.075; /* Adjust the opacity as needed */
   z-index: -1; /* Ensure the image is behind the content */
 }
+

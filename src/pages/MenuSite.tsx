@@ -23,57 +23,79 @@ const MenuSite: FunctionComponent = () => {
     navigate("/status-site");
   }, [navigate]);
 
+  const handleSignOut = async () => {
+    await signOutUser();
 
-  
+    // Additional logic after sign out, like redirecting the user
+  };
 
-    const handleSignOut = async () => {
-      await signOutUser();
+  const buttonVariants = {
+    hover: {
+      scale: 1.07,
 
-      // Additional logic after sign out, like redirecting the user
-    };
-  
-
-  
-
-  
+    },
+    pressed: {
+      scale: 0.94, // Slightly smaller scale when pressed
+    },
+  };
 
   return (
-    <motion.div className={styles.menuSite} >
+    <motion.div className={styles.menuSite}>
       <div className={styles.header}>
         <div className={styles.headerLogoAndTitle} onClick={onGoBackTClick}>
-          <img
-            className={styles.headerLogoIcon}
-            alt=""
-            src="/logoTransp.png"
-          />
+          <img className={styles.headerLogoIcon} alt="" src="/logoTransp.png" />
           <div className={styles.nameT}>GizApp</div>
         </div>
       </div>
-      <motion.div className={styles.menuOptions} initial={{opacity:0, y:"-1%"}} animate={{opacity:1, y:0}} transition={{duration: .5}}>
-        <div
+      <motion.div
+        className={styles.menuOptions}
+        initial={{ opacity: 0, y: "-1%" }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.div
           className={styles.changeProfilePicture}
           onClick={onChangeProfilePictureClick}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
         >
           CHANGE PROFILE PICTURE
-        </div>
-        <div className={styles.notifications}>
+        </motion.div>
+        <motion.div
+          className={styles.notifications}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
+        >
           <img className={styles.boxIcon} alt="" src="/box.svg" />
           <div className={styles.notificationsT}>NOTIFICATIONS</div>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
           className={styles.changeProfilePicture}
           onClick={onContactUsTClick}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
         >
           CONTACT US
-        </div>
-        <div className={styles.changeProfilePicture} onClick={handleSignOut}>
+        </motion.div>
+        <motion.div
+          className={styles.changeProfilePicture}
+          onClick={handleSignOut}
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed"
+        >
           SIGN OUT
-        </div>
+        </motion.div>
       </motion.div>
       <div className={styles.goBackFrame}>
-        <div className={styles.goBackT} onClick={onGoBackTClick}>
+        <motion.div className={styles.goBackT} onClick={onGoBackTClick}           variants={buttonVariants}
+          whileHover="hover"
+          whileTap="pressed">
           Go back
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
