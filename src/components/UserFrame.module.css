@@ -33,7 +33,7 @@
 
 .userNameOverlayT {
   transform: rotate(-10deg);
-  word-break: break-all; /* Keeps words together unless there is not enough space */
+  word-break: break-word; /* Keeps words together unless there is not enough space */
   min-width: 150px;
   overflow: visible; /* Allows text to overflow */
   text-align: center;
@@ -41,6 +41,7 @@
   text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
     2px 2px 0 #000; /* Simulating stroke with text-shadow */
   font-size: 16px;
+  z-index: 10; /* Make sure it's above the image */
 }
 
 .userNameOverlay {
@@ -96,7 +97,7 @@
   padding: 1px;
   bottom: 5px;
   position: relative;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .userNameT {

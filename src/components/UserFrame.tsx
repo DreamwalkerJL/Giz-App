@@ -38,6 +38,7 @@ interface UserFrameProps {
 
 const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  
   const sortedInvitedUsers = [...gizComplete.invitedUsers].sort((a, b) => {
     const statusValues: { [key: string]: number } = {
       creator: 1,
@@ -46,7 +47,14 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
       invited: 4,
     };
 
-    return statusValues[a.status] - statusValues[b.status];
+    // First, compare by status
+    const statusDifference = statusValues[a.status] - statusValues[b.status];
+    if (statusDifference !== 0) {
+      return statusDifference;
+    }
+
+    // If statuses are the same, then sort by userId
+    return a.userId - b.userId;
   });
 
   const [hoveredUserId, setHoveredUserId] = React.useState<number | null>(null);

@@ -9,7 +9,6 @@ interface EditButtonProps {
 }
 const EditButton: FunctionComponent<EditButtonProps> =({gizComplete}) => {
   const navigate = useNavigate();
-  console.log("HAHHAHAHA")
   console.log(gizComplete)
   const onEditButtonContainerClick = useCallback(() => {
     const data = {

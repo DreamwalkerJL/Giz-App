@@ -25,6 +25,8 @@ import { UserPublic } from "../apiServices/Apollo/Types";
 import { CREATE_GIZ_AND_GIZ_USERS_MUTATION } from "../apiServices/Apollo/Mutations";
 import { USER_PUBLIC_QUERY } from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -50,13 +52,19 @@ const CreateSite: FunctionComponent = () => {
   const { idToken } = useAuth();
   const auth = getAuth();
 
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
   const user = auth.currentUser;
   function checkIfUserAlreadyAdded() {
     for (let i = 0; i < userData.length; i++) {
       if (userData[i].userName === userName) {
+        console.log("User already added:", userName);
         return true;
       }
     }
+    console.log("User not in list, adding:", userName);
+    return false;
   }
 
   // Initialize the mutation with Apollo Client
@@ -65,8 +73,17 @@ const CreateSite: FunctionComponent = () => {
   );
 
   const handleCreateGiz = async () => {
-    const formattedTime = time.format("HH:mm");
-    const formattedDate = date.format("MMMM D, YYYY");
+    const userDateTime = dayjs(
+      `${date.format("YYYY-MM-DD")}T${time.format("HH:mm")}`
+    );
+
+    // Convert to UTC
+    const userDateTimeUTC = userDateTime.utc();
+
+    // Format date and time
+    const formattedDate = userDateTimeUTC.format("MMMM D, YYYY"); // Date in "MMMM D, YYYY" format
+    const formattedTime = userDateTimeUTC.format("HH:mm"); // Time in "HH:mm" format
+
 
     const gizData: createGizType = {
       title,
@@ -138,7 +155,9 @@ const CreateSite: FunctionComponent = () => {
       // Execute the query
       getUser({
         variables: { userName },
+        fetchPolicy: "network-only", // Always fetch fresh data
       });
+      
       setRefreshUserData((prev) => !prev);
     } catch (error) {
       console.error("Error fetching user data", error);
@@ -148,21 +167,26 @@ const CreateSite: FunctionComponent = () => {
   // Handling the received data
   useEffect(() => {
     if (userPublicData) {
-      setUserData((prevUserData) => [
-        ...prevUserData,
-        userPublicData.userPublicQuery,
-      ]);
+      setUserData(prevUserData => {
+        // Add the new user if not already in the list
+        if (!prevUserData.some(user => user.userId === userPublicData.userPublicQuery.userId)) {
+          return [...prevUserData, userPublicData.userPublicQuery];
+        }
+        return prevUserData;
+      });
       setUserName("");
-
+  
       if (userNameRef.current) {
         userNameRef.current.focus();
       }
     }
-
+  
     if (error) {
       console.error("Error fetching user data", error);
     }
   }, [refreshUserData, error, userPublicData]);
+
+  
 
   const pageTransition = {
     in: {
@@ -170,7 +194,7 @@ const CreateSite: FunctionComponent = () => {
       y: 0,
     },
     out: {
-      opacity: 0.7,
+      opacity: 0,
       y: "-1.5%",
     },
   };
@@ -197,7 +221,7 @@ const CreateSite: FunctionComponent = () => {
         animate="in"
         exit="out"
         variants={pageTransition}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
       >
         <div className={styles.gizFrame}>
           <CreateGizInformationFrame

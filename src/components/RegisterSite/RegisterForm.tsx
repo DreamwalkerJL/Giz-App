@@ -8,12 +8,13 @@ import { logCurrentUser } from "../../firebase/AuthFunction";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { UserDto } from "../../apiServices/Apollo/Types";
-import { photoUrls } from "../../photoUrls";
+
 import {
   UserCredential,
   createUserWithEmailAndPassword,
   getAuth,
 } from "firebase/auth";
+import { allPps } from "../AllPps";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ const RegisterForm: FunctionComponent = () => {
   const [password, setPassword] = useState<string>("");
 
   const getRandomImagePath = () => {
-    const randomIndex = Math.floor(Math.random() * photoUrls.length);
-    return photoUrls[randomIndex];
+    const randomIndex = Math.floor(Math.random() * allPps.length);
+    return allPps[randomIndex];
   };
 
   const auth = getAuth();

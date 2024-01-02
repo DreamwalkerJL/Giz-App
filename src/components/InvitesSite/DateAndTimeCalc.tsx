@@ -3,44 +3,42 @@ import { GizComplete } from "../../apiServices/Apollo/Types";
 
 
 export function checkIfTodayOrTomorrow(invite: GizComplete) {
-    // Parse the date from invite
-    const inviteDate = dayjs(invite.date);
-    const now = dayjs().format("YYYY-MM-DD"); // same (current date) but with day.js
+  // Parse the UTC date and convert it to local time
+  const inviteDateUTC = dayjs.utc(`${invite.date} ${invite.time}`, "MMMM D, YYYY HH:mm");
+  const inviteDateLocal = inviteDateUTC.local();
 
-    const isToday = dayjs(inviteDate.format("YYYY-MM-DD")).isSame(now); // dayjs() return current date
-    const isTomorrow = dayjs(inviteDate.format("YYYY-MM-DD")).isSame(
-      dayjs().add(1, "day").format("YYYY-MM-DD")
-    );
-    if (isToday) {
+  const now = dayjs(); // Current date in local time
+  const isToday = inviteDateLocal.isSame(now, 'day');
+  const isTomorrow = inviteDateLocal.isSame(now.add(1, 'day'), 'day');
+
+  if (isToday) {
       return "Today";
-    } else if (isTomorrow) {
+  } else if (isTomorrow) {
       return "Tomorrow";
-    } else return invite.date;
+  } else {
+      return inviteDateLocal.format("MMMM D, YYYY");
   }
+}
 
   export function getTimeUntil(invite: GizComplete) {
-    // Check if the giz is within the next hour
-
-
     const now = dayjs();
     const dateTimeString = `${invite.date} ${invite.time}`;
     const dateFormat = "MMMM D, YYYY";
     const timeFormat = "HH:mm";
-    let targetDateTime = dayjs(dateTimeString, `${dateFormat} ${timeFormat}`);
 
-    // Ensure the target date and time are valid
-    if (!targetDateTime.isValid()) {
+    // Parse the UTC date and time and convert to local time
+    const targetDateTimeUTC = dayjs.utc(dateTimeString, `${dateFormat} ${timeFormat}`);
+    const targetDateTimeLocal = targetDateTimeUTC.local();
+
+    if (!targetDateTimeLocal.isValid()) {
         return ""; // Return empty string if not valid
     }
 
-    let diffInMinutes = targetDateTime.diff(now, "minute");
+    let diffInMinutes = targetDateTimeLocal.diff(now, "minute");
 
-    // Check if the time is in the future and within the next hour
     if (diffInMinutes > 0 && diffInMinutes <= 60) {
-        // Format output for less than an hour
         return `In ${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''}`;
     }
 
-    // If the time is outside of the one-hour window or in the past, return empty
     return "";
 }

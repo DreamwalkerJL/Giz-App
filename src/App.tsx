@@ -106,11 +106,11 @@ function App() {
   return (
     <Routes location={location} key={location.pathname}>
       <Route path="/"  element={<LoggedInRoute><SignInSite /></LoggedInRoute>} />
-      <Route path="/edit-site" element={<ProtectedRoute><GizDataProvider status="accepted"><EditSite /></GizDataProvider></ProtectedRoute>} />
+      <Route path="/edit-site" element={<ProtectedRoute><EditSite /></ProtectedRoute>} />
       <Route path="/status-site" element={<ProtectedRoute>      <GizDataProvider status="accepted"><StatusSite />      </GizDataProvider></ProtectedRoute>} />
       <Route path="/invites-site" element={<ProtectedRoute><GizDataProvider status="invited"><InvitesSite /></GizDataProvider></ProtectedRoute>} />
       <Route path="/create-site" element={<ProtectedRoute><CreateSite /></ProtectedRoute>} />
-      <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+      <Route path="/edit-profile" element={<ProtectedRoute><GizDataProvider status="accepted"><EditProfile /></GizDataProvider></ProtectedRoute>} />
       <Route path="/register-site" element={<LoggedInRoute><RegisterSite /></LoggedInRoute>} />
       <Route path="/recover-account-site" element={<LoggedInRoute><RecoverAccountSite /></LoggedInRoute>} />
       <Route path="/contact-us-site" element={<ProtectedRoute><ContactUsSite /></ProtectedRoute>} />

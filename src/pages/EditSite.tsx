@@ -19,13 +19,19 @@ import CreateGizInformationFrame from "../components/CreateSite/CreateInformatio
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 import { useGizData } from "../components/GizDataContext";
-import { UserPublicWithTypename } from "../apiServices/Apollo/Types";
+import {
+  GizComplete,
+  UserPublicWithTypename,
+} from "../apiServices/Apollo/Types";
 import {
   CREATE_GIZ_AND_GIZ_USERS_MUTATION,
   GIZ_DELETE_MUTATION,
   GIZ_EDIT_MUTATION,
 } from "../apiServices/Apollo/Mutations";
-import { USER_PUBLIC_QUERY } from "../apiServices/Apollo/Querys";
+import {
+  GIZ_COMPLETE_QUERY,
+  USER_PUBLIC_QUERY,
+} from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";
 const EditSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -43,6 +49,7 @@ const EditSite: FunctionComponent = () => {
 
   // Now you can use the data object
   const userNameRef = useRef<HTMLInputElement | null>(null);
+  const [isLoading, setIsLoading] = useState(true); // New loading state
   const [gizId, setGizId] = useState<number>();
   const [creatorUserName, setCreatorUserName] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -62,30 +69,69 @@ const EditSite: FunctionComponent = () => {
     }
   }
   console.log(userData);
+  const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
+  const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
+    variables: { userName: user?.displayName, status: "accepted" },
+    fetchPolicy: "network-only",
+  });
 
-  const { gizCompleteData, loading, error, refetchGizData } = useGizData();
   const gizData = gizCompleteData.find((giz) => giz.id === gizId); // Find the giz
   useEffect(() => {
     if (gizData) {
-      console.log(gizData);
-      setCreatorUserName(gizData.creatorUserName);
+      if (
+        location.state.isRegroup &&
+        location.state.isRegroup === true &&
+        user?.displayName
+      ) {
+        setCreatorUserName(user.displayName);
+      } else {
+        setCreatorUserName(gizData.creatorUserName);
+      }
       setGizId(gizData.id);
       setTitle(gizData.title || "");
       setDescription(gizData.description || "");
       // Create dayjs objects from string
-      const timeFromState = dayjs(gizData.time, "h:mm A");
-      const dateFromState = dayjs(gizData.date, "MMMM D, YYYY");
-      setTime(timeFromState);
-      setDate(dateFromState);
-      setUserData(gizData.invitedUsers);
+      const timeFromStateUTC = dayjs.utc(
+        `${gizData.date} ${gizData.time}`,
+        "MMMM D, YYYY HH:mm"
+      );
+      const timeFromStateLocal = timeFromStateUTC.local();
+
+      if (!location.state.isRegroup && !location.state.isRegroup === true) {
+ 
+        setTime(timeFromStateLocal);
+        setDate(timeFromStateLocal);
+      } // This is now in local time
+
+
+      const updatedUsers = gizData.invitedUsers.map((userData) => ({
+        ...userData,
+        status: userData.userName === user?.displayName ? "creator" : "invited",
+      }));
+      if (location.state.isRegroup && location.state.isRegroup === true) {
+        setUserData(updatedUsers);
+      } else {
+        setUserData(gizData.invitedUsers);
+      } // This is now in local time
+
       console.log(userData);
+      setIsLoading(false); // Set loading to false
     }
   }, [gizData]);
-
+  useEffect(() => {
+    if (data?.gizCompleteQuery) {
+      setGizCompleteData(data.gizCompleteQuery);
+    }
+  }, [data]);
   useEffect(() => {
     // setGizData(location.state.gizComplete);
-    setGizId(location.state.gizComplete.id);
-  }, [location.state.gizComplete, location, gizData]);
+    if (data?.gizCompleteQuery) {
+      setGizCompleteData(data.gizCompleteQuery);
+      setGizId(location.state.gizComplete.id);
+      console.log(location.state);
+      console.log("MONSTER");
+    }
+  }, [location.state.gizComplete, location, gizData, data]);
 
   // Initialize the mutation with Apollo Client
   const [createGizAndGizUsersMutation, {}] = useMutation(
@@ -97,8 +143,12 @@ const EditSite: FunctionComponent = () => {
     { data: gizEditData, loading: gizEditLoading, error: gizEditError },
   ] = useMutation(GIZ_EDIT_MUTATION);
   const handleCreateGiz = async () => {
-    const formattedTime = time.format("h:mm A");
-    const formattedDate = date.format("MMMM D, YYYY");
+    const userDateTimeUTC = dayjs(
+      `${date.format("YYYY-MM-DD")}T${time.format("HH:mm")}`
+    ).utc();
+
+    const formattedTime = userDateTimeUTC.format("HH:mm");
+    const formattedDate = userDateTimeUTC.format("MMMM D, YYYY");
     const gizData: createGizType = {
       title,
       description,
@@ -120,7 +170,7 @@ const EditSite: FunctionComponent = () => {
             description,
             date: formattedDate,
             time: formattedTime,
-            creatorUserName,
+            creatorUserName: user.displayName,
             invitedUsers: userData.map(({ __typename, ...rest }) => rest), // Remove __typename from each object
           },
         },
@@ -164,6 +214,7 @@ const EditSite: FunctionComponent = () => {
       // Execute the query
       getUser({
         variables: { userName },
+        fetchPolicy: "network-only",
       });
       setRefreshUserData((prev) => !prev);
       console.log(userPublicData);
@@ -175,16 +226,24 @@ const EditSite: FunctionComponent = () => {
   // Handling the received data
   useEffect(() => {
     if (userPublicData) {
-      setUserData((prevUserData) => [
-        ...prevUserData,
-        userPublicData.userPublicQuery,
-      ]);
+      setUserData((prevUserData) => {
+        // Add the new user if not already in the list
+        if (
+          !prevUserData.some(
+            (user) => user.userId === userPublicData.userPublicQuery.userId
+          )
+        ) {
+          return [...prevUserData, userPublicData.userPublicQuery];
+        }
+        return prevUserData;
+      });
       setUserName("");
-      console.log(userName);
+
       if (userNameRef.current) {
         userNameRef.current.focus();
       }
     }
+
     if (error) {
       console.error("Error fetching user data", error);
     }
@@ -220,7 +279,7 @@ const EditSite: FunctionComponent = () => {
       y: 0,
     },
     out: {
-      opacity: 0.7,
+      opacity: 0,
       y: "-1.5%",
     },
   };
@@ -228,12 +287,19 @@ const EditSite: FunctionComponent = () => {
   const buttonVariants = {
     hover: {
       scale: 1.04,
-
     },
     pressed: {
       scale: 0.94, // Slightly smaller scale when pressed
     },
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.editSite}>
+        <Header />
+      </div>
+    ); // Or any other loading indicator
+  }
 
   return (
     <div className={styles.editSite}>
@@ -244,7 +310,7 @@ const EditSite: FunctionComponent = () => {
         animate="in"
         exit="out"
         variants={pageTransition}
-        transition={{ duration: 0.3 }}
+        transition={{ delay: 0.1, duration: 0.3 }}
       >
         <div className={styles.gizFrame}>
           <div className={styles.titleTWrapper}>

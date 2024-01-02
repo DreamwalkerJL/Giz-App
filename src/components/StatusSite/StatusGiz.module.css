@@ -178,6 +178,18 @@
   align-items: center;
   justify-content: center;
 }
+
+.regroup {
+  width: 118px;
+  height: 43px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
 .gizButtons {
   margin: 0 !important;
   position: absolute;
@@ -194,21 +206,53 @@
   font-family: Blinker;
 }
 
-/* @keyframes rainbowBorder {
-    0% { border-color: red; }
-    15% { border-color: orange; }
-    30% { border-color: yellow; }
-    45% { border-color: green; }
-    60% { border-color: blue; }
-    75% { border-color: indigo; }
-    90% { border-color: violet; }
-    100% { border-color: red; }
+.declinedText {
+  position: absolute;
+  top: 35%;
+  left: 25%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  color: #FF5B5B;
+  font-size: 44px;
+  font-weight: bold;
+  z-index: 10; /* Ensure it's above other elements */
+  border: 2px solid #FF5B5B;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px
 }
 
-.rainbowBorder {
-    animation: rainbowBorder 10s linear infinite;
-    border:#000 solid 5px;
-} */
+@media screen and (min-width: 500px) {
+
+  .declinedText {
+
+    left: 30%;
+    font-size: 52px;
+
+  }
+  
+  .acceptedText {
+
+    left: 30%;
+    font-size: 62px;
+  }
+}
+
+@media screen and (min-width: 700px) {
+
+  .declinedText {
+
+    left: 35%;
+    font-size: 62px;
+
+  }
+  
+  .acceptedText {
+
+    left: 30%;
+    font-size: 62px;
+  }
+
+}
 
 @keyframes rainbowAnimation {
   0% {
@@ -258,7 +302,11 @@
 }
 
 .expiredBorder {
-  border: 2px solid red;
+  border: 2px solid rgba(255, 0, 0, 0.445);
+
+}
+
+.expiredOpacity {
   opacity: 0.5;
 }
 

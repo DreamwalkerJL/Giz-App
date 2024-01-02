@@ -8,6 +8,7 @@ import { allPps } from "../components/AllPps";
 import { useAuth } from "../firebase/AuthContext";
 import { CHANGE_PP_MUTATION } from "../apiServices/Apollo/Mutations";
 import { motion } from "framer-motion";
+import { useGizData } from "../components/GizDataContext";
 
 const EditProfile: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const EditProfile: FunctionComponent = () => {
     navigate("/menu-site");
   }, [navigate]);
 
-
+  const { gizCompleteData, loading, error, refetchGizData } = useGizData();
 
   const [
     changePp,
@@ -50,6 +51,7 @@ const EditProfile: FunctionComponent = () => {
         changePp({
           variables: { userName: currentUser.displayName, newPp: chosenPp },
         });
+        refetchGizData()
         console.log(changePpResponse);
         navigate("/status-site");
       } catch (e) {
@@ -126,6 +128,9 @@ const EditProfile: FunctionComponent = () => {
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="pressed"
+                initial={{ opacity: 0, y: "-15%" }}
+                animate={{ opacity: 1, y: 0,  }}
+                transition={{ duration: 1, delay: 1.2 }}
               >
                 <b className={styles.cancelButtonT}>ACCEPT</b>
               </motion.div>
@@ -137,6 +142,9 @@ const EditProfile: FunctionComponent = () => {
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="pressed"
+                initial={{ opacity: 0, y: "-15%" }}
+                animate={{ opacity: 1, y: 0,  }}
+                transition={{ duration: 1, delay: 1.4 }}
               >
                 <b className={styles.cancelButtonT}>CANCEL</b>
               </motion.div>

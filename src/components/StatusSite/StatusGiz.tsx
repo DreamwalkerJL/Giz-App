@@ -15,14 +15,16 @@ import React from "react";
 import { CheckBar } from "../CheckBar";
 import UserFrame from "../UserFrame";
 import dayjs from "dayjs";
-
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import RegroupButton from "../RegroupButton";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 interface StatusGizProps {
   gizCompleteQuery: GizComplete[] | undefined;
   editToggleMap: { [key: string]: boolean };
   toggleEditForGiz: (gizId: string) => void;
-  soonGizIds: number[];
-  ongoingGizIds: number[];
-  expiredGizIds: number[];
+
   loading: boolean;
 }
 
@@ -30,11 +32,11 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
   gizCompleteQuery,
   editToggleMap,
   toggleEditForGiz,
-  soonGizIds,
-  ongoingGizIds,
-  expiredGizIds,
+
   loading,
 }) => {
+  const switzerlandTimezone = "Europe/Zurich";
+
   const { currentUser } = useAuth();
 
   const pageTransition = {
@@ -43,25 +45,73 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
       y: 0,
     },
     out: {
-      opacity: 0.7,
+      opacity: 0.5,
+
       y: "1.5%",
+    },
+    out2: {
+      opacity: 0,
+      x: "400px",
+    },
+    out3: {
+      opacity: 0,
+      x: "-400px",
     },
   };
 
-  const sortByNewest = (a: GizComplete, b: GizComplete): number => {
-    return (
-      dayjs(`${b.date} ${b.time}`).unix() - dayjs(`${a.date} ${a.time}`).unix()
-    );
+  const declinedTextVariants = {
+    hidden: {
+      opacity: 1,
+      scale: 1,
+
+      rotate: -25,
+    },
+    visible: {
+      opacity: 0,
+      scale: 1,
+      rotate: -25,
+      transition: { duration: 0.5, delay: 0.5 },
+    },
+    visible2: {
+      opacity: 0,
+      scale: 1,
+      rotate: -25,
+      transition: { duration: 0.5, delay: 0.5 },
+    },
+  };
+
+  const [itemsPendingAccepted, setItemsPendingAccepted] = useState<number>();
+  const [itemsPendingDecline, setItemsPendingDecline] = useState<number>();
+  const handleDeclineStart = async (gizId: number) => {
+    // Start the animation
+    await setItemsPendingDecline(gizId);
+    await setTimeout(() => {
+      setItemsPendingDecline(undefined);
+    }, 2000);
+  };
+
+  const handleAcceptStart = async (gizId: number) => {
+    // Start the animation
+    await setItemsPendingAccepted(gizId);
+    await setTimeout(() => {
+      setItemsPendingAccepted(undefined);
+    }, 2000);
   };
 
   const now = dayjs();
   const oneHour = 60 * 60 * 1000; // One hour in milliseconds
 
   const sortedGizCompleteQuery = [...(gizCompleteQuery ?? [])].sort((a, b) => {
-    const dateTimeA = dayjs(`${a.date} ${a.time}`);
-    const dateTimeB = dayjs(`${b.date} ${b.time}`);
-    const timeDiffA = dateTimeA.diff(now);
-    const timeDiffB = dateTimeB.diff(now);
+    // Convert UTC times to local times before comparison
+    const dateTimeALocal = dayjs
+      .utc(`${a.date} ${a.time}`, "MMMM D, YYYY HH:mm")
+      .local();
+    const dateTimeBLocal = dayjs
+      .utc(`${b.date} ${b.time}`, "MMMM D, YYYY HH:mm")
+      .local();
+
+    const timeDiffA = dateTimeALocal.diff(now);
+    const timeDiffB = dateTimeBLocal.diff(now);
 
     // Determine categories for 'a' and 'b'
     const categoryA =
@@ -91,24 +141,44 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
     return Math.abs(timeDiffA) - Math.abs(timeDiffB);
   });
 
+  // console.log(localTime.format("YYYY-MM-DD HH:mm"));
+  // console.log(swissTime.format("YYYY-MM-DD HH:mm"));
+  // console.log("Current Time in Local Timezone:", currentTime.format("YYYY-MM-DD HH:mm:ss"));
+  // console.log("Current Time with Timezone Offset:", currentTime.format("YYYY-MM-DD HH:mm:ss Z"));
+  // if (gizCompleteQuery)
+  // console.log(gizCompleteQuery[0]?.date, gizCompleteQuery[0]?.time)
+
   return (
     <>
       {sortedGizCompleteQuery.map((gizComplete: GizComplete, i: number) => {
-        const gizDateTime = dayjs(`${gizComplete.date} ${gizComplete.time}`);
-        const timeDiff = now.diff(gizDateTime);
-        const isOngoing = timeDiff >= 0 && timeDiff <= oneHour;
+        // Parse the stored date and time as UTC
+        const gizDateTimeUTC = dayjs.utc(
+          `${gizComplete.date} ${gizComplete.time}`,
+          "MMMM D, YYYY HH:mm"
+        );
+        const gizDateTimeLocal = gizDateTimeUTC.local();
 
+        // Calculate time difference for determining status
+        const timeDiff = dayjs().diff(gizDateTimeLocal);
+        const isOngoing = timeDiff >= 0 && timeDiff <= oneHour;
         const isSoon = timeDiff < 0 && timeDiff > -oneHour;
-        const isExpired = timeDiff > +oneHour;
+        const isExpired = timeDiff > oneHour;
         return (
           <motion.div
             key={gizComplete.id}
             className={styles.giz}
             initial="out"
-            whileInView="in"
             exit="out"
             variants={pageTransition}
-            transition={{ duration: 0.3, delay: i * 0.15 }}
+            transition={{ duration: 0.3, delay: (i + 0.25) * 0.15 }}
+            whileInView={
+              itemsPendingDecline === gizComplete.id
+                ? {
+                    ...pageTransition.out2,
+                    transition: { duration: 0.5, delay: 0.5 },
+                  }
+                : "in"
+            }
           >
             <div
               className={`${styles.gizFrameBorderBackground} ${
@@ -122,8 +192,23 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
               }`}
             >
               <div className={styles.gizFrame}>
-                <div className={styles.gizInfoAndUsers}>
+                <div
+                  className={`${styles.gizInfoAndUsers} ${
+                    isExpired ? styles.expiredOpacity : ""
+                  }`}
+                >
                   <div className={styles.statusInformationFrame}>
+                    {itemsPendingDecline === gizComplete.id && (
+                      <motion.div
+                        className={styles.declinedText}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={declinedTextVariants}
+                      >
+                        IM OUT
+                      </motion.div>
+                    )}
                     <div className={styles.titleAndDescription}>
                       <i className={styles.titleT}>{gizComplete.title}</i>
 
@@ -133,11 +218,12 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
                     </div>
 
                     <div className={styles.dateFrame}>
-                      <div
-                        className={styles.dateIsT}
-                      >{`${checkIfTodayOrTomorrow(gizComplete)} - ${
-                        gizComplete.time
-                      }`}</div>
+                      <div className={styles.dateIsT}>
+                        {" "}
+                        {`${checkIfTodayOrTomorrow(
+                          gizComplete
+                        )} - ${gizDateTimeLocal.format("HH:mm")}`}
+                      </div>
                     </div>
                     {isOngoing && (
                       <div
@@ -153,7 +239,7 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
                     )}
                     {isExpired && (
                       <div className={`${styles.timeStatus} ${styles.expired}`}>
-                        EXPIRED
+                        DONE
                       </div>
                     )}
 
@@ -168,20 +254,31 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
                   </div>
                 </div>
                 <div className={styles.gizButtons}>
-                  {gizComplete.creatorUserName === currentUser?.displayName ? (
-                    <div className={styles.accept}>
-                      <EditButton
-                        gizComplete={gizComplete}
-                        // gizCompleteId={gizComplete?.id}
-                        // decision={"accept"}
-                      />
-                    </div>
+                  {!isExpired ? (
+                    gizComplete.creatorUserName === currentUser?.displayName ? (
+                      <div className={styles.accept}>
+                        <EditButton
+                          gizComplete={gizComplete}
+                          // Additional props if needed
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={styles.decline}
+                        onClick={() => handleDeclineStart(gizComplete.id)}
+                      >
+                        <DeclineButton
+                          gizCompleteId={gizComplete?.id}
+                          decision={"decline"}
+                          decisionText={"leave"}
+                        />
+                      </div>
+                    )
                   ) : (
-                    <div className={styles.decline}>
-                      <DeclineButton
-                        gizCompleteId={gizComplete?.id}
-                        decision={"decline"}
-                        decisionText={"leave"}
+                    <div className={styles.regroup}>
+                      <RegroupButton
+                        gizComplete={gizComplete}
+                        // Additional props if needed
                       />
                     </div>
                   )}
