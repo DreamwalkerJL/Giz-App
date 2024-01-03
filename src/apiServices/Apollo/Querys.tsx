@@ -41,13 +41,13 @@ export const GIZ_COMPLETE_QUERY = gql`
 `;
 
 export const USER_PUBLIC_QUERY = gql`
-  query UserPublicQuery($userName: String) {
-    userPublicQuery(userName: $userName) {
-    gizId
-    userId
-    userName
-    profilePicture
-    status
+  query UserPublicQuery($userName: String, $email: String) {
+    userPublicQuery(userName: $userName, email: $email) {
+      gizId
+      userId
+      userName
+      profilePicture
+      status
     }
   }
 `;

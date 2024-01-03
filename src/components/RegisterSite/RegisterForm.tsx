@@ -5,7 +5,7 @@ import axios from "axios";
 import registerUserInDb from "../../apiServices/RegisterApiServices";
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
 import { logCurrentUser } from "../../firebase/AuthFunction";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { UserDto } from "../../apiServices/Apollo/Types";
 
@@ -15,6 +15,7 @@ import {
   getAuth,
 } from "firebase/auth";
 import { allPps } from "../AllPps";
+import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -31,36 +32,55 @@ const RegisterForm: FunctionComponent = () => {
   const auth = getAuth();
   const profilePicture = getRandomImagePath();
 
-  const [registerUser, { data, loading, error }] = useMutation<UserDto>(
+  const [registerUser] = useMutation<UserDto>(
     REGISTER_USER_MUTATION
   );
-  console.log(userName);
-  const handleRegister = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    event.preventDefault();
+  const [getUserPublic] = useLazyQuery(USER_PUBLIC_QUERY, {
+    onCompleted: (data) => {
+      if (data.userPublicQuery) {
+        console.error("Username or email already taken");
+        // Display an error message to the user
+      } else {
+        registerNewUser();
+      }
+    },
+    onError: (error) => {
+      console.error("Error checking user", error);
+      // Handle error
+    }
+  });
+
+  const registerNewUser = async () => {
     try {
-      const userCredential: UserCredential =
-        await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
       const response = await registerUser({
-        variables: {
-          userDto: { userName, email, profilePicture, uid: user.uid },
-        },
+        variables: { userDto: { userName, email, profilePicture, uid: user.uid } },
       });
+
       updateCurrentUserProfile(userName);
       console.log("Registration successful", response);
-
-      // Handle success
-      if (response) {
-        logCurrentUser();
-        navigate("/status-site");
-      }
+      logCurrentUser();
+      navigate("/status-site");
     } catch (e) {
-      console.error(data);
-      console.error("Registration failed", error);
+      console.error("Error registering user", e);
+      // Display an error message to the user
     }
   };
+
+  const handleRegister = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+    getUserPublic({ variables: { userName, email } });
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUsername = e.target.value;
+    // Allow only alphanumeric characters and limit to 16 characters
+    const sanitizedUsername = newUsername.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+    setUserName(sanitizedUsername);
+  };
+  
 
   return (
     <form className={styles.registerForm} onSubmit={handleRegister}>
@@ -71,7 +91,7 @@ const RegisterForm: FunctionComponent = () => {
             className={styles.usernameInput}
             type="text"
             value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={handleUsernameChange} 
             placeholder="Username"
             required
           />

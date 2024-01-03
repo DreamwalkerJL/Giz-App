@@ -11,7 +11,7 @@ const LoggedInRoute: React.FC<LoggedInRouteType> = ({ children }) => {
   if (currentUser && currentUser.displayName && currentUser.displayName.length === 100) {
     return <Navigate to="/need-username-site" />;
   }
-  else if (currentUser&& currentUser.displayName && currentUser.displayName.length < 99) {
+  else if (currentUser&& currentUser.displayName && currentUser.displayName.length < 100) {
     return <Navigate to="/status-site" />;
   }
   return <>{children}</>;
