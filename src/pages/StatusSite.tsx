@@ -18,7 +18,7 @@ const StatusSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
   const { gizCompleteData, loading, error, refetchGizData } = useGizData();
-
+const { currentUser: user } = useAuth();
   const [editToggleMap, setEditToggleMap] = useState<{
     [key: string]: boolean;
   }>({});

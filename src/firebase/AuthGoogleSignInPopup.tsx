@@ -1,17 +1,49 @@
+import { useNavigate } from "react-router-dom";
 import app from "./firebaseConfig";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, updateProfile, getAdditionalUserInfo } from "firebase/auth";
+
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+
+function generateRandomUsername(length: number) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
+
+
+
+
 export const signInWithGoogle = (onSuccess: () => void): void => {
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
       console.log("User signed in");
       console.log(result.user);
+
+      // Use getAdditionalUserInfo to check if it's the first time the user is signing in
+      const additionalUserInfo = getAdditionalUserInfo(result);
+      if (additionalUserInfo?.isNewUser) {
+        console.log("First time user");
+
+        // Generate a random username
+        const randomUsername = generateRandomUsername(100);
+
+        // Set the random username as the display name
+        await updateProfile(result.user, { displayName: randomUsername });
+
+        // Additional first-time user logic goes here
+      }
+
       auth.currentUser?.getIdToken(true).then((idToken) => {
         console.log(idToken);
       });
+
       onSuccess();
     })
     .catch((error) => {

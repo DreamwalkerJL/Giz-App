@@ -8,8 +8,10 @@ interface LoggedInRouteType {
 
 const LoggedInRoute: React.FC<LoggedInRouteType> = ({ children }) => {
   const { currentUser } = useAuth();
-
-  if (currentUser) {
+  if (currentUser && currentUser.displayName && currentUser.displayName.length === 100) {
+    return <Navigate to="/need-username-site" />;
+  }
+  else if (currentUser&& currentUser.displayName && currentUser.displayName.length < 99) {
     return <Navigate to="/status-site" />;
   }
   return <>{children}</>;
