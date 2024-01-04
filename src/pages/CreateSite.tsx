@@ -27,6 +27,8 @@ import { USER_PUBLIC_QUERY } from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -59,11 +61,10 @@ const CreateSite: FunctionComponent = () => {
   function checkIfUserAlreadyAdded() {
     for (let i = 0; i < userData.length; i++) {
       if (userData[i].userName === userName) {
-        console.log("User already added:", userName);
+        toast.error("User already added");
         return true;
       }
     }
-    console.log("User not in list, adding:", userName);
     return false;
   }
 
@@ -96,6 +97,7 @@ const CreateSite: FunctionComponent = () => {
       console.error(
         "No IdToken / Logged in User / Displayname to User assigned"
       );
+      toast.error("ERROR - please contact support")
       return;
     }
 
@@ -117,6 +119,7 @@ const CreateSite: FunctionComponent = () => {
       navigate("/status-site");
     } catch (error) {
       console.error("Error executing mutation", error);
+      toast.error("ERROR - please contact support")
     }
   };
   logCurrentUser();
@@ -135,56 +138,72 @@ const CreateSite: FunctionComponent = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ): Promise<void> => {
     event.preventDefault();
-
     if (!idToken) {
-      console.error("Token doesnt exist");
+      console.error("Token doesn't exist");
+      toast.error("ERROR - please contact support")
       return;
     }
-
     if (checkIfUserAlreadyAdded()) {
-      console.error("User has already been added");
+      toast.error("User has already been added");
+      setUserName("")
+      userNameRef.current?.focus();
       return;
     }
-
     if (userName === user?.displayName) {
-      console.error("You cannot add yourself");
+      toast.error("You cannot add yourself");
+      setUserName("")
+      userNameRef.current?.focus();
       return;
     }
-
     try {
-      // Execute the query
-      getUser({
+      // Execute the query and wait for the result
+      const response = await getUser({
         variables: { userName },
-        fetchPolicy: "network-only", // Always fetch fresh data
+        fetchPolicy: "network-only",
       });
-      
-      setRefreshUserData((prev) => !prev);
+  
+      // Check if the userPublicQuery data is not null
+      if (response.data && response.data.userPublicQuery !== null) {
+        console.log("Data returned:", response.data.userPublicQuery);
+        // Update the state or perform other actions as needed
+        setRefreshUserData(prev => !prev);
+      } else {
+        console.error("User does not Exist");
+        toast.error("ERROR - User does not exist")
+      }
     } catch (error) {
       console.error("Error fetching user data", error);
+      toast.error("ERROR - User does not exist")
     }
   };
-
+  
   // Handling the received data
-  useEffect(() => {
-    if (userPublicData) {
-      setUserData(prevUserData => {
-        // Add the new user if not already in the list
-        if (!prevUserData.some(user => user.userId === userPublicData.userPublicQuery.userId)) {
-          return [...prevUserData, userPublicData.userPublicQuery];
-        }
-        return prevUserData;
-      });
-      setUserName("");
-  
-      if (userNameRef.current) {
-        userNameRef.current.focus();
+useEffect(() => {
+  // Check if userPublicData is not null and has the required structure
+  if (userPublicData && userPublicData.userPublicQuery) {
+    setUserData((prevUserData) => {
+      // Add the new user if not already in the list
+      const isUserAlreadyAdded = prevUserData.some(
+        (user) => user.userId === userPublicData.userPublicQuery.userId
+      );
+
+      if (!isUserAlreadyAdded) {
+        return [...prevUserData, userPublicData.userPublicQuery];
       }
-    }
-  
-    if (error) {
-      console.error("Error fetching user data", error);
-    }
-  }, [refreshUserData, error, userPublicData]);
+      return prevUserData;
+    });
+
+    // Reset the userName and refocus the input field, if applicable
+    setUserName("");
+    userNameRef.current?.focus();
+  }
+
+  // Handle errors
+  if (error) {
+    console.error("Error fetching user data", error);
+    toast.error("ERROR - User does not exist")
+  }
+}, [refreshUserData, error, userPublicData]);
 
   
 
@@ -211,8 +230,10 @@ const CreateSite: FunctionComponent = () => {
     },
   };
 
+
   return (
     <div className={styles.createSite}>
+ 
       <Header onMenuContainerClick={onMenuContainerClick} />
       <Options activeTab={"CREATE"} />
       <motion.div

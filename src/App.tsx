@@ -23,6 +23,11 @@ import EditSite from "./pages/EditSite";
 import { getAuth } from "firebase/auth";
 import { GizDataProvider } from "./components/GizDataContext";
 import NeedUserNameSite from "./pages/NeedUserNameSite";
+import { ToastContainer } from "react-toastify";
+import { getToken } from "firebase/messaging";
+import { messaging } from './firebase/firebaseConfig'; // Ensure this is the correct path to your Firebase Messaging instance
+import { useMutation } from "@apollo/client";
+import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
 
 function App() {
   const action = useNavigationType();
@@ -102,9 +107,34 @@ function App() {
     }
   }, [pathname]);
 
+  const [refreshFCMToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
+  
+  const { currentUser } = useAuth();
+  const uid = currentUser?.uid;
+
   useEffect(() => {
-    setTokenRetrievalFunction(() => idToken);
-  }, [idToken]);
+    const refreshNewFCMToken = async () => {
+      try {
+        const fcmToken = await getToken(messaging, { vapidKey: "BM11azHLmpR49yX-nBq8B2DrrqWxaiCMZ60vD_2GVCffRzB13B3kqGKmxhra7Jw" });
+        if (fcmToken) {
+          console.log("FCM TOKEN")
+          console.log(fcmToken)
+          try {
+            refreshFCMToken({ variables: { fcmToken, uid } });
+          } catch (e) {
+            console.error("Error refreshing FCM token", e);
+          }
+          console.log("FCM Token:", fcmToken);
+        } else {
+          console.log("No permission to send push notifications");
+        }
+      } catch (error) {
+        console.error("Error fetching FCM token", error);
+      }
+    };
+
+    refreshNewFCMToken();
+  }, []);
 
   return (
     <Routes location={location} key={location.pathname}>
@@ -112,6 +142,7 @@ function App() {
         path="/"
         element={
           <LoggedInRoute>
+            <ToastContainer />
             <SignInSite />
           </LoggedInRoute>
         }
@@ -120,6 +151,7 @@ function App() {
         path="/edit-site"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <EditSite />
           </ProtectedRoute>
         }
@@ -128,9 +160,9 @@ function App() {
         path="/status-site"
         element={
           <ProtectedRoute>
-            {" "}
+            <ToastContainer />
             <GizDataProvider status="accepted">
-              <StatusSite />{" "}
+              <StatusSite />
             </GizDataProvider>
           </ProtectedRoute>
         }
@@ -139,6 +171,7 @@ function App() {
         path="/invites-site"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <GizDataProvider status="invited">
               <InvitesSite />
             </GizDataProvider>
@@ -149,6 +182,7 @@ function App() {
         path="/create-site"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <CreateSite />
           </ProtectedRoute>
         }
@@ -157,6 +191,7 @@ function App() {
         path="/edit-profile"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <GizDataProvider status="accepted">
               <EditProfile />
             </GizDataProvider>
@@ -167,6 +202,8 @@ function App() {
         path="/register-site"
         element={
           <LoggedInRoute>
+            <ToastContainer />
+            <ToastContainer />
             <RegisterSite />
           </LoggedInRoute>
         }
@@ -175,6 +212,7 @@ function App() {
         path="/recover-account-site"
         element={
           <LoggedInRoute>
+            <ToastContainer />
             <RecoverAccountSite />
           </LoggedInRoute>
         }
@@ -183,14 +221,16 @@ function App() {
         path="/need-username-site"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <NeedUserNameSite />
-            </ProtectedRoute>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/contact-us-site"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <ContactUsSite />
           </ProtectedRoute>
         }
@@ -199,6 +239,7 @@ function App() {
         path="/menu-site"
         element={
           <ProtectedRoute>
+            <ToastContainer />
             <MenuSite />
           </ProtectedRoute>
         }

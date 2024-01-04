@@ -33,6 +33,7 @@ import {
   USER_PUBLIC_QUERY,
 } from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 const EditSite: FunctionComponent = () => {
   const navigate = useNavigate();
   const onMenuContainerClick = useCallback(() => {
@@ -43,7 +44,7 @@ const EditSite: FunctionComponent = () => {
     navigate("/status-site");
   }, [navigate]);
 
-  logCurrentUser();
+
   const location = useLocation();
   // const [gizData, setGizData] = useState<GizComplete>();
 
@@ -68,7 +69,7 @@ const EditSite: FunctionComponent = () => {
       }
     }
   }
-  console.log(userData);
+
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName: user?.displayName, status: "accepted" },
@@ -98,11 +99,9 @@ const EditSite: FunctionComponent = () => {
       const timeFromStateLocal = timeFromStateUTC.local();
 
       if (!location.state.isRegroup && !location.state.isRegroup === true) {
- 
         setTime(timeFromStateLocal);
         setDate(timeFromStateLocal);
       } // This is now in local time
-
 
       const updatedUsers = gizData.invitedUsers.map((userData) => ({
         ...userData,
@@ -114,7 +113,6 @@ const EditSite: FunctionComponent = () => {
         setUserData(gizData.invitedUsers);
       } // This is now in local time
 
-      console.log(userData);
       setIsLoading(false); // Set loading to false
     }
   }, [gizData]);
@@ -128,8 +126,6 @@ const EditSite: FunctionComponent = () => {
     if (data?.gizCompleteQuery) {
       setGizCompleteData(data.gizCompleteQuery);
       setGizId(location.state.gizComplete.id);
-      console.log(location.state);
-      console.log("MONSTER");
     }
   }, [location.state.gizComplete, location, gizData, data]);
 
@@ -138,10 +134,7 @@ const EditSite: FunctionComponent = () => {
     CREATE_GIZ_AND_GIZ_USERS_MUTATION
   );
   // Inside your component or function
-  const [
-    gizEdit,
-    { data: gizEditData, loading: gizEditLoading, error: gizEditError },
-  ] = useMutation(GIZ_EDIT_MUTATION);
+  const [gizEdit] = useMutation(GIZ_EDIT_MUTATION);
   const handleCreateGiz = async () => {
     const userDateTimeUTC = dayjs(
       `${date.format("YYYY-MM-DD")}T${time.format("HH:mm")}`
@@ -159,6 +152,7 @@ const EditSite: FunctionComponent = () => {
       console.error(
         "No IdToken / Logged in User / Displayname to User assigned"
       );
+      toast.error("ERROR - please contact support");
       return;
     }
     try {
@@ -175,14 +169,13 @@ const EditSite: FunctionComponent = () => {
           },
         },
       }).then(() => {
-        console.log(gizEditData);
         navigate("/status-site");
       });
     } catch (error) {
       console.error("Error executing mutation", error);
     }
   };
-  logCurrentUser();
+
   const [
     getUser,
     {
@@ -199,51 +192,63 @@ const EditSite: FunctionComponent = () => {
   ): Promise<void> => {
     event.preventDefault();
     if (!idToken) {
-      console.error("Token doesnt exist");
+      console.error("Token doesn't exist");
       return;
     }
     if (checkIfUserAlreadyAdded()) {
-      console.error("User has already been added");
+      toast.error("User has already been added");
+      setUserName("");
+      userNameRef.current?.focus();
       return;
     }
     if (userName === user?.displayName) {
-      console.error("You cannot add yourself");
+      toast.error("You cannot add yourself");
+      setUserName("");
+      userNameRef.current?.focus();
       return;
     }
     try {
-      // Execute the query
-      getUser({
+      // Execute the query and wait for the result
+      const response = await getUser({
         variables: { userName },
         fetchPolicy: "network-only",
       });
-      setRefreshUserData((prev) => !prev);
-      console.log(userPublicData);
+
+      // Check if the userPublicQuery data is not null
+      if (response.data && response.data.userPublicQuery !== null) {
+        console.log("Data returned:", response.data.userPublicQuery);
+        // Update the state or perform other actions as needed
+        setRefreshUserData((prev) => !prev);
+      } else {
+        toast.error("User does not Exist");
+      }
     } catch (error) {
-      console.error("Error fetching user data", error);
+      toast.error("Error fetching user data");
     }
   };
 
   // Handling the received data
   useEffect(() => {
-    if (userPublicData) {
+    // Check if userPublicData is not null and has the required structure
+    if (userPublicData && userPublicData.userPublicQuery) {
       setUserData((prevUserData) => {
         // Add the new user if not already in the list
-        if (
-          !prevUserData.some(
-            (user) => user.userId === userPublicData.userPublicQuery.userId
-          )
-        ) {
+        const isUserAlreadyAdded = prevUserData.some(
+          (user) => user.userId === userPublicData.userPublicQuery.userId
+        );
+
+        if (!isUserAlreadyAdded) {
           return [...prevUserData, userPublicData.userPublicQuery];
         }
         return prevUserData;
       });
-      setUserName("");
 
-      if (userNameRef.current) {
-        userNameRef.current.focus();
-      }
+      // Reset the userName and refocus the input field, if applicable
+      setUserName("");
+      userNameRef.current?.focus();
     }
 
+    // Handle errors
     if (error) {
       console.error("Error fetching user data", error);
     }
@@ -262,14 +267,16 @@ const EditSite: FunctionComponent = () => {
       try {
         const gizIdString = gizId.toString();
         await gizDelete({ variables: { gizIdString } });
-        console.log(gizDeleteResponse);
+
         navigate("/status-site");
       } catch (error) {
-        console.log(error);
-        console.log(gizDeleteError);
+        toast.error("ERROR - contact support");
+        console.error(error);
+        console.error(gizDeleteError);
       }
     } else {
-      console.log("gizId does not exist");
+      toast.error("ERROR - contact support");
+      console.error("gizId does not exist");
     }
   };
 

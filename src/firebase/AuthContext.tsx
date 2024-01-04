@@ -15,7 +15,7 @@ interface AuthContextType {
   idToken: string | null;
   api: AxiosInstance | null;
   isLoading: boolean; // Add loading state to the context type
-    authInitialized: boolean; // Add this to your context type
+  authInitialized: boolean; // Add this to your context type
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   idToken: null,
   api: null,
   isLoading: false, // Initialize loading state
-  authInitialized: false
+  authInitialized: false,
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -39,10 +39,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false); // Define loading state with TypeScript type
 
   const [authInitialized, setAuthInitialized] = useState(false);
-  
 
   useEffect(() => {
-    setIsLoading(true); 
+    setIsLoading(true);
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
@@ -63,15 +62,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           });
 
           setApi(axiosInstance);
-          console.log(`axios ${api}`)
-          console.log(`axios2 ${axiosInstance}`)
+          console.log(`axios ${api}`);
+          console.log(`axios2 ${axiosInstance}`);
         } catch (e) {
           console.log("Error fetching authentication token", e);
         }
       }
       setAuthInitialized(true); // Set to true after initial check
       setIsLoading(false);
-      console.log(`axios ${api}`)
+      console.log(`axios ${api}`);
     });
 
     return () => {
@@ -80,9 +79,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, idToken, api, isLoading, authInitialized  }}>
-     {!isLoading && children}
-
+    <AuthContext.Provider
+      value={{ currentUser, idToken, api, isLoading, authInitialized }}
+    >
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 };

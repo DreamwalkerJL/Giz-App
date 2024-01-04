@@ -75,4 +75,5 @@ export interface UserDto {
   email: string;
   userName: string;
   profilePicture: string;
+  fcmToken: string;
 }

@@ -9,6 +9,7 @@ import { useAuth } from "../firebase/AuthContext";
 import { CHANGE_PP_MUTATION } from "../apiServices/Apollo/Mutations";
 import { motion } from "framer-motion";
 import { useGizData } from "../components/GizDataContext";
+import { toast } from "react-toastify";
 
 const EditProfile: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -57,9 +58,11 @@ const EditProfile: FunctionComponent = () => {
       } catch (e) {
         console.log(e);
         console.log(changePpError);
+        toast.error("ERROR - please contact support");
       }
     } else {
       console.error("No new Profile Picture has been chosen");
+      toast.error("No new Profile Picture has been chosen");
     }
   };
 

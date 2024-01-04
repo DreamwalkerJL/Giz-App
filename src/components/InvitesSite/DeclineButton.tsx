@@ -5,6 +5,7 @@ import { useAuth } from "../../firebase/AuthContext";
 import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { HandleGizInviteMutationVariable } from "../../apiServices/Apollo/Types";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 type DeclineButtonProps = {
   gizCompleteId: number;
@@ -24,6 +25,7 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
 
   if (!userName) {
     console.error("NO USERNAME FOUND");
+    toast.error("ERROR - please contact support");
     return;
   }
 
@@ -34,8 +36,8 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
       variables: { userName, gizCompleteIdString, decision },
     });
   if (data) console.log(data);
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error</div>;
+if(error) toast.error("ERROR - please contact support");
+
 
   const handleDecline = async (variables: HandleGizInviteMutationVariable) => {
 
@@ -49,7 +51,7 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
   } catch (e) {
     console.error(e);
     // Immediately call onDeclineEnd in case of error
-
+    toast.error("ERROR - please contact support");
   }
 };
 

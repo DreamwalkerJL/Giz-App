@@ -1,5 +1,5 @@
 import { initializeApp, FirebaseApp } from "firebase/app";
-
+import { getMessaging } from "firebase/messaging";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -13,5 +13,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app: FirebaseApp = initializeApp(firebaseConfig);
+
+const messaging = getMessaging(app);
+
+export { messaging };
 
 export default app;

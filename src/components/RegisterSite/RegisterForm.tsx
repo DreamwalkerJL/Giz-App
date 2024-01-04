@@ -16,6 +16,9 @@ import {
 } from "firebase/auth";
 import { allPps } from "../AllPps";
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
+import { toast } from "react-toastify";
+import { getToken } from "firebase/messaging";
+import { messaging } from "../../firebase/firebaseConfig";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -32,13 +35,11 @@ const RegisterForm: FunctionComponent = () => {
   const auth = getAuth();
   const profilePicture = getRandomImagePath();
 
-  const [registerUser] = useMutation<UserDto>(
-    REGISTER_USER_MUTATION
-  );
+  const [registerUser] = useMutation<UserDto>(REGISTER_USER_MUTATION);
   const [getUserPublic] = useLazyQuery(USER_PUBLIC_QUERY, {
     onCompleted: (data) => {
       if (data.userPublicQuery) {
-        console.error("Username or email already taken");
+        toast.error("Username or email already taken");
         // Display an error message to the user
       } else {
         registerNewUser();
@@ -46,30 +47,57 @@ const RegisterForm: FunctionComponent = () => {
     },
     onError: (error) => {
       console.error("Error checking user", error);
+      toast.error("Error checking user");
       // Handle error
-    }
+    },
   });
 
+  function requestPermission() {
+    console.log('Requesting permission...');
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+      }
+    })
+  }
+  requestPermission();
   const registerNewUser = async () => {
+
     try {
+      // Attempt to retrieve the FCM token
+      let fcmToken = null;
+      try {
+        fcmToken = await getToken(messaging, {
+          vapidKey: "BM11azHLmpR49yX-nBq8B2DrrqWxaiCMZ60vD_2GVCffRzB13B3kqGKmxhra7Jw", // Replace with your VAPID key
+        });
+      } catch (error) {
+        console.log('User declined notification permission or error fetching FCM token', error);
+      }
+  
       const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       const response = await registerUser({
-        variables: { userDto: { userName, email, profilePicture, uid: user.uid } },
+        variables: {
+          userDto: { userName, email, profilePicture, uid: user.uid, fcmToken },
+        },
       });
-
+  
       updateCurrentUserProfile(userName);
       console.log("Registration successful", response);
+      toast.success("Registration successful");
       logCurrentUser();
       navigate("/status-site");
     } catch (e) {
       console.error("Error registering user", e);
-      // Display an error message to the user
+      toast.error("Error registering user");
     }
   };
+  
 
-  const handleRegister = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleRegister = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
     getUserPublic({ variables: { userName, email } });
   };
@@ -77,10 +105,11 @@ const RegisterForm: FunctionComponent = () => {
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUsername = e.target.value;
     // Allow only alphanumeric characters and limit to 16 characters
-    const sanitizedUsername = newUsername.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+    const sanitizedUsername = newUsername
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .slice(0, 16);
     setUserName(sanitizedUsername);
   };
-  
 
   return (
     <form className={styles.registerForm} onSubmit={handleRegister}>
@@ -91,7 +120,7 @@ const RegisterForm: FunctionComponent = () => {
             className={styles.usernameInput}
             type="text"
             value={userName}
-            onChange={handleUsernameChange} 
+            onChange={handleUsernameChange}
             placeholder="Username"
             required
           />

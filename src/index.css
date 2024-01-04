@@ -14,3 +14,18 @@ html {
 ::-webkit-scrollbar {
   width: 0px;
 }
+
+.Toastify__toast {
+  font-family: 'Blinker', sans-serif; /* Set your desired font family */
+  font-size: 20px; /* Set your desired font size */
+  font-weight: bold; /* Set your desired font weight */
+
+
+
+}
+
+.Toastify__progress-bar {
+
+}
+
+
