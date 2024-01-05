@@ -2,7 +2,6 @@ import { FunctionComponent, useState } from "react";
 import styles from "./InvitesGiz.module.css";
 
 import dayjs from "dayjs";
-import { ApolloError } from "@apollo/client/core";
 import { checkIfTodayOrTomorrow, getTimeUntil } from "./DateAndTimeCalc";
 import { AcceptButton } from "./AcceptButton";
 import { DeclineButton } from "./DeclineButton";

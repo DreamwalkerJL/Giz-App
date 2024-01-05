@@ -13,7 +13,9 @@ export const signInWithEmailPassword = async (
   try {
     await signInWithEmailAndPassword(auth, email, password);
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error) {
+    // Type assertion here
+    const err = error as Error;
+    return { success: false, error: err.message };
   }
 };

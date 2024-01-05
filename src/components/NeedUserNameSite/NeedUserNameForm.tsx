@@ -14,7 +14,7 @@ const NeedUserNameForm: FunctionComponent = () => {
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+
 
   const getRandomImagePath = () => {
     const randomIndex = Math.floor(Math.random() * allPps.length);

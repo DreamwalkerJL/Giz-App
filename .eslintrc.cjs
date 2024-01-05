@@ -10,10 +10,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
-    "max-len": ["error", { "code": 220 }],
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
-  },
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-unused-vars": "off", // Turn off the base rule as it can report incorrect errors for TypeScript code
+  }
 }

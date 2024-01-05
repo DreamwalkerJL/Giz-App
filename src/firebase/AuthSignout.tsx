@@ -5,7 +5,8 @@ export const signOutUser = async (): Promise<void> => {
   try {
     await signOut(auth);
     console.log("User signed out successfully");
-  } catch (error: any) {
-    console.error("Error signing out: ", error.message);
+  } catch (error) {
+    const err = error as Error;
+    console.error("Error signing out: ", err.message);
   }
 };

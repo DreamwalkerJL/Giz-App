@@ -1,7 +1,7 @@
-import React, {
-  Dispatch,
+import {
+
   FunctionComponent,
-  SetStateAction,
+
   useCallback,
 } from "react";
 import styles from "./StatusSite/StatusGizButtons.module.css";

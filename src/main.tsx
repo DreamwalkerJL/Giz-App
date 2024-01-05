@@ -6,7 +6,6 @@ import "./index.css";
 import { AuthProvider } from "./firebase/AuthContext";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apiServices/Apollo/ApolloClient.tsx";
-import { GizDataProvider } from "./components/GizDataContext.tsx";
 import { AnimatePresence } from "framer-motion";
 
 // if ('serviceWorker' in navigator) {

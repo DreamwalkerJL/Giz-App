@@ -1,7 +1,6 @@
 import { FunctionComponent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignInForm.module.css";
-import axios from "axios";
 import { signInWithEmailPassword } from "../../firebase/AuthSignInWithEmailPassword";
 import { logCurrentUser } from "../../firebase/AuthFunction";
 

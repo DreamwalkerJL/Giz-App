@@ -37,7 +37,7 @@ interface UserFrameProps {
 }
 
 const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth] = useState(window.innerWidth);
   
   const sortedInvitedUsers = [...gizComplete.invitedUsers].sort((a, b) => {
     const statusValues: { [key: string]: number } = {

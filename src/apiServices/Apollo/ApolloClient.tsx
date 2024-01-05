@@ -4,7 +4,7 @@ import {
   HttpLink,
   split,
   ApolloLink,
-  Observable,
+
 } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";

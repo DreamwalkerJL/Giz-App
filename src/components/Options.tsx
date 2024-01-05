@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  useMemo,
-  type CSSProperties,
-  useCallback,
-  useState,
-} from "react";
+import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Options.module.css";
 import { motion } from "framer-motion";
@@ -28,7 +22,6 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
     navigate("/invites-site");
   }, [navigate]);
 
-
   const tabVariants = {
     active: {
       backgroundColor: "#6b56a3",
@@ -44,8 +37,6 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
       transition: { duration: 0 },
     },
   };
-
-  
 
   return (
     <div className={styles.optionsFrame}>

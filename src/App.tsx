@@ -4,7 +4,7 @@ import {
   Route,
   useNavigationType,
   useLocation,
-  useNavigate,
+
 } from "react-router-dom";
 import SignInSite from "./pages/SignInSite";
 import RegisterSite from "./pages/RegisterSite";
@@ -17,25 +17,25 @@ import ContactUsSite from "./pages/ContactUsSite";
 import RecoverAccountSite from "./pages/RecoverAccountSite";
 import ProtectedRoute from "./firebase/ProtectedRoute";
 import LoggedInRoute from "./firebase/LoggedInRoute";
-import { useAuth } from "./firebase/AuthContext";
-import { setTokenRetrievalFunction } from "./apiServices/Apollo/ApolloClient";
+
+
 import EditSite from "./pages/EditSite";
 import { getAuth } from "firebase/auth";
 import { GizDataProvider } from "./components/GizDataContext";
 import NeedUserNameSite from "./pages/NeedUserNameSite";
 import { ToastContainer } from "react-toastify";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import {getToken, onMessage } from "firebase/messaging";
 import { messaging } from "./firebase/firebaseConfig"; // Ensure this is the correct path to your Firebase Messaging instance
 import { useMutation } from "@apollo/client";
 import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+
 
 function App() {
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
 
-  const { idToken } = useAuth();
+
 
   useEffect(() => {
     if (action !== "POP") {

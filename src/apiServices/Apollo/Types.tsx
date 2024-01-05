@@ -60,7 +60,7 @@ export interface UserChangedPpSubscription {
 
 
 export interface GizCompleteSub {
-  id: Number;
+  id: number;
   title: string;
   description: string;
   date: string;

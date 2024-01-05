@@ -22,10 +22,6 @@ const MenuSite: FunctionComponent = () => {
     navigate("/contact-us-site");
   }, [navigate]);
 
-  const onSingOutTClick = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
-
   const onGoBackTClick = useCallback(() => {
     navigate("/status-site");
   }, [navigate]);
@@ -38,7 +34,6 @@ const MenuSite: FunctionComponent = () => {
 
   const { currentUser } = getAuth();
   const uid = currentUser?.uid;
-  if (!uid) return;
   const [notificationPermission, setNotificationPermission] = useState(false);
   const [refreshFcmToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
   const { data, loading, error } = useQuery(IS_NOTIFICATION_ENABLED, {
@@ -51,18 +46,21 @@ const MenuSite: FunctionComponent = () => {
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         console.log("Notification permission not granted");
-        toast.info("🔼   🔼   🔼 To enable notifications, click the icon somwehere above here in the address bar and choose 'Allow' for notifications.", {
-          position: toast.POSITION.TOP_LEFT,
-          autoClose: 15000
-        });
+        toast.info(
+          "🔼   🔼   🔼 To enable notifications, click the icon somwehere above here in the address bar and choose 'Allow' for notifications.",
+          {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 15000,
+          }
+        );
         return;
       }
     }
-  
+
     setNotificationPermission(isEnabled);
-  
+
     let fcmToken = null;
-  
+
     if (isEnabled) {
       if (
         Notification.permission === "granted" ||
@@ -80,7 +78,7 @@ const MenuSite: FunctionComponent = () => {
     } else {
       fcmToken = null;
     }
-  
+
     try {
       await refreshFcmToken({
         variables: {
@@ -92,7 +90,7 @@ const MenuSite: FunctionComponent = () => {
       console.error("Error updating FCM token status", error);
     }
   };
-  
+
   useEffect(() => {
     if (!loading && !error && data) {
       // Assuming 'isNotificationEnabled' is true if token is present and false if not
@@ -133,21 +131,25 @@ const MenuSite: FunctionComponent = () => {
           CHANGE PROFILE PICTURE
         </motion.div>
         <div
-        className={styles.notificationsContainer}
-        onClick={() => handleNotificationChange(!notificationPermission)}
-      >
-        <div className={styles.notificationsT}>NOTIFICATIONS</div>
-        <motion.div
-          className={`${styles.notificationsLine} ${notificationPermission ? styles.notificationsLineActive : ''}`}
-          layout
-          transition={{ duration: 0.3 }}
-        />
-        <div
-          className={`${styles.notificationsToggleText} ${notificationPermission ? styles.notificationsToggleTextActive : ''}`}
+          className={styles.notificationsContainer}
+          onClick={() => handleNotificationChange(!notificationPermission)}
         >
-          {notificationPermission ? "ON" : "OFF"}
+          <div className={styles.notificationsT}>NOTIFICATIONS</div>
+          <motion.div
+            className={`${styles.notificationsLine} ${
+              notificationPermission ? styles.notificationsLineActive : ""
+            }`}
+            layout
+            transition={{ duration: 0.3 }}
+          />
+          <div
+            className={`${styles.notificationsToggleText} ${
+              notificationPermission ? styles.notificationsToggleTextActive : ""
+            }`}
+          >
+            {notificationPermission ? "ON" : "OFF"}
+          </div>
         </div>
-      </div>
         <motion.div
           className={styles.changeProfilePicture}
           onClick={onContactUsTClick}

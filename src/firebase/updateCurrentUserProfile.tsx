@@ -1,5 +1,4 @@
 import { getAuth, updateProfile, User } from "firebase/auth";
-import { photoUrls } from "../photoUrls";
 
 export const updateCurrentUserProfile = async (userName: string) => {
   const auth = getAuth();

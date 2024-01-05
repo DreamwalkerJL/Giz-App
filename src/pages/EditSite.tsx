@@ -8,9 +8,8 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import styles from "./EditSite.module.css";
-import { logCurrentUser } from "../firebase/AuthFunction";
+
 import dayjs from "dayjs";
-import { createGizType, getUserData } from "../apiServices/CreateApiServices";
 import { useAuth } from "../firebase/AuthContext";
 import { getAuth } from "firebase/auth";
 import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
@@ -18,13 +17,11 @@ import CreateGizInformationFrame from "../components/CreateSite/CreateInformatio
 
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
-import { useGizData } from "../components/GizDataContext";
 import {
   GizComplete,
   UserPublicWithTypename,
 } from "../apiServices/Apollo/Types";
 import {
-  CREATE_GIZ_AND_GIZ_USERS_MUTATION,
   GIZ_DELETE_MUTATION,
   GIZ_EDIT_MUTATION,
 } from "../apiServices/Apollo/Mutations";
@@ -44,7 +41,6 @@ const EditSite: FunctionComponent = () => {
     navigate("/status-site");
   }, [navigate]);
 
-
   const location = useLocation();
   // const [gizData, setGizData] = useState<GizComplete>();
 
@@ -52,7 +48,7 @@ const EditSite: FunctionComponent = () => {
   const userNameRef = useRef<HTMLInputElement | null>(null);
   const [isLoading, setIsLoading] = useState(true); // New loading state
   const [gizId, setGizId] = useState<number>();
-  const [creatorUserName, setCreatorUserName] = useState<string>("");
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [time, setTime] = useState<dayjs.Dayjs>(dayjs());
@@ -71,7 +67,7 @@ const EditSite: FunctionComponent = () => {
   }
 
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
-  const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
+  const { data, error } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName: user?.displayName, status: "accepted" },
     fetchPolicy: "network-only",
   });
@@ -83,12 +79,8 @@ const EditSite: FunctionComponent = () => {
         location.state.isRegroup &&
         location.state.isRegroup === true &&
         user?.displayName
-      ) {
-        setCreatorUserName(user.displayName);
-      } else {
-        setCreatorUserName(gizData.creatorUserName);
-      }
-      setGizId(gizData.id);
+      )
+        setGizId(gizData.id);
       setTitle(gizData.title || "");
       setDescription(gizData.description || "");
       // Create dayjs objects from string
@@ -129,10 +121,6 @@ const EditSite: FunctionComponent = () => {
     }
   }, [location.state.gizComplete, location, gizData, data]);
 
-  // Initialize the mutation with Apollo Client
-  const [createGizAndGizUsersMutation, {}] = useMutation(
-    CREATE_GIZ_AND_GIZ_USERS_MUTATION
-  );
   // Inside your component or function
   const [gizEdit] = useMutation(GIZ_EDIT_MUTATION);
   const handleCreateGiz = async () => {
@@ -142,12 +130,7 @@ const EditSite: FunctionComponent = () => {
 
     const formattedTime = userDateTimeUTC.format("HH:mm");
     const formattedDate = userDateTimeUTC.format("MMMM D, YYYY");
-    const gizData: createGizType = {
-      title,
-      description,
-      date: formattedDate,
-      time: formattedTime,
-    };
+
     if (!idToken || !user || !user?.displayName) {
       console.error(
         "No IdToken / Logged in User / Displayname to User assigned"
@@ -176,14 +159,7 @@ const EditSite: FunctionComponent = () => {
     }
   };
 
-  const [
-    getUser,
-    {
-      loading: userPublicLoading,
-      error: userPublicError,
-      data: userPublicData,
-    },
-  ] = useLazyQuery(USER_PUBLIC_QUERY);
+  const [getUser, { data: userPublicData }] = useLazyQuery(USER_PUBLIC_QUERY);
 
   const [refreshUserData, setRefreshUserData] = useState(false);
 
@@ -254,14 +230,8 @@ const EditSite: FunctionComponent = () => {
     }
   }, [refreshUserData, error, userPublicData]);
 
-  const [
-    gizDelete,
-    {
-      data: gizDeleteResponse,
-      loading: gizDeleteLoading,
-      error: gizDeleteError,
-    },
-  ] = useMutation(GIZ_DELETE_MUTATION);
+  const [gizDelete, { error: gizDeleteError }] =
+    useMutation(GIZ_DELETE_MUTATION);
   const handleGizDelete = async () => {
     if (gizId) {
       try {

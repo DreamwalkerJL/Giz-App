@@ -18,42 +18,39 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
   gizCompleteId,
   decision,
   decisionText,
-
 }) => {
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
-
+  const [addGizEvent, { error }] = useMutation<HandleGizInviteMutationVariable>(GIZ_HANDLE_INVITE_MUTATION);
+  // Ensure userName is available, otherwise show an error and return null or a fallback UI
   if (!userName) {
     console.error("NO USERNAME FOUND");
     toast.error("ERROR - please contact support");
-    return;
+    return null;
   }
 
   const gizCompleteIdString = gizCompleteId.toString();
 
-  const [addGizEvent, { data, loading, error }] =
-    useMutation<HandleGizInviteMutationVariable>(GIZ_HANDLE_INVITE_MUTATION, {
-      variables: { userName, gizCompleteIdString, decision },
-    });
-  if (data) console.log(data);
-if(error) toast.error("ERROR - please contact support");
+  // Call the useMutation hook at the top level
 
 
-  const handleDecline = async (variables: HandleGizInviteMutationVariable) => {
-
-
-    try {
-
-    // Wait for the exit animation to complete before removing the item
-    setTimeout(() => {
-      const response = addGizEvent({ variables });
-    }, 1000); // Duration should match your exit animation
-  } catch (e) {
-    console.error(e);
-    // Immediately call onDeclineEnd in case of error
+  if (error) {
     toast.error("ERROR - please contact support");
   }
-};
+
+  const handleDecline = () => {
+    try {
+      // Use setTimeout within the handler function
+      setTimeout(() => {
+        addGizEvent({
+          variables: { userName, gizCompleteIdString, decision },
+        });
+      }, 1000); // Duration should match your exit animation
+    } catch (e) {
+      console.error(e);
+      toast.error("ERROR - please contact support");
+    }
+  };
 
   const buttonVariants = {
     hover: {
@@ -63,23 +60,21 @@ if(error) toast.error("ERROR - please contact support");
       },
     },
     pressed: {
-      scale: 0.94, // Slightly smaller scale when pressed
+      scale: 0.94,
     },
   };
-
 
   return (
     <motion.button
       className={styles.declineButton}
-      onClick={() => handleDecline({ userName, gizCompleteIdString, decision })}
+      onClick={handleDecline}
       variants={buttonVariants}
       whileHover="hover"
       whileTap="pressed"
     >
       <div className={styles.acceptButtonT}>
-        {decisionText == "leave" ? "LEAVE" : "DECLINE"}
+        {decisionText === "leave" ? "LEAVE" : "DECLINE"}
       </div>
-      
     </motion.button>
   );
 };

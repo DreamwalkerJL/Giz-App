@@ -13,7 +13,7 @@ type CheckBarProps = {
           // Check if the status is 'creator' and map it to 'accepted'
           const status = user.status === "creator" ? "accepted" : user.status;
           // Only increment if the status is one of the valid keys
-          if (acc.hasOwnProperty(status)) {
+          if (Object.prototype.hasOwnProperty.call(acc, status)) {
             acc[status as keyof typeof acc]++;
           }
           return acc;
@@ -24,6 +24,7 @@ type CheckBarProps = {
           invited: 0, // Renamed 'undecided' to 'invited'
         }
       );
+      
 
       const total = invitedUsers.length; // Do not add 1 for the creator if they are already in invitedUsers
       const acceptedWidth =

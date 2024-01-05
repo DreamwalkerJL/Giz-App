@@ -13,11 +13,6 @@ import CreateGizInformationFrame from "../components/CreateSite/CreateInformatio
 import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
 import { logCurrentUser } from "../firebase/AuthFunction";
 import dayjs from "dayjs";
-import {
-  createGizType,
-  createGizUserType,
-  getUserData,
-} from "../apiServices/CreateApiServices";
 import { useAuth } from "../firebase/AuthContext";
 import { getAuth } from "firebase/auth";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -27,8 +22,8 @@ import { USER_PUBLIC_QUERY } from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -69,7 +64,7 @@ const CreateSite: FunctionComponent = () => {
   }
 
   // Initialize the mutation with Apollo Client
-  const [createGizAndGizUsersMutation, { loading, error }] = useMutation(
+  const [createGizAndGizUsersMutation, { error }] = useMutation(
     CREATE_GIZ_AND_GIZ_USERS_MUTATION
   );
 
@@ -85,25 +80,17 @@ const CreateSite: FunctionComponent = () => {
     const formattedDate = userDateTimeUTC.format("MMMM D, YYYY"); // Date in "MMMM D, YYYY" format
     const formattedTime = userDateTimeUTC.format("HH:mm"); // Time in "HH:mm" format
 
-
-    const gizData: createGizType = {
-      title,
-      description,
-      date: formattedDate,
-      time: formattedTime,
-    };
-
     if (!idToken || !user || !user?.displayName) {
       console.error(
         "No IdToken / Logged in User / Displayname to User assigned"
       );
-      toast.error("ERROR - please contact support")
+      toast.error("ERROR - please contact support");
       return;
     }
 
     try {
       // Execute the mutation
-      const { data } = await createGizAndGizUsersMutation({
+      await createGizAndGizUsersMutation({
         variables: {
           gizData: {
             title,
@@ -119,19 +106,12 @@ const CreateSite: FunctionComponent = () => {
       navigate("/status-site");
     } catch (error) {
       console.error("Error executing mutation", error);
-      toast.error("ERROR - please contact support")
+      toast.error("ERROR - please contact support");
     }
   };
   logCurrentUser();
 
-  const [
-    getUser,
-    {
-      loading: userPublicLoading,
-      error: userPublicError,
-      data: userPublicData,
-    },
-  ] = useLazyQuery(USER_PUBLIC_QUERY);
+  const [getUser, { data: userPublicData }] = useLazyQuery(USER_PUBLIC_QUERY);
   const [refreshUserData, setRefreshUserData] = useState(false);
 
   const addUser = async (
@@ -140,18 +120,18 @@ const CreateSite: FunctionComponent = () => {
     event.preventDefault();
     if (!idToken) {
       console.error("Token doesn't exist");
-      toast.error("ERROR - please contact support")
+      toast.error("ERROR - please contact support");
       return;
     }
     if (checkIfUserAlreadyAdded()) {
       toast.error("User has already been added");
-      setUserName("")
+      setUserName("");
       userNameRef.current?.focus();
       return;
     }
     if (userName === user?.displayName) {
       toast.error("You cannot add yourself");
-      setUserName("")
+      setUserName("");
       userNameRef.current?.focus();
       return;
     }
@@ -161,51 +141,49 @@ const CreateSite: FunctionComponent = () => {
         variables: { userName },
         fetchPolicy: "network-only",
       });
-  
+
       // Check if the userPublicQuery data is not null
       if (response.data && response.data.userPublicQuery !== null) {
         console.log("Data returned:", response.data.userPublicQuery);
         // Update the state or perform other actions as needed
-        setRefreshUserData(prev => !prev);
+        setRefreshUserData((prev) => !prev);
       } else {
         console.error("User does not Exist");
-        toast.error("ERROR - User does not exist")
+        toast.error("ERROR - User does not exist");
       }
     } catch (error) {
       console.error("Error fetching user data", error);
-      toast.error("ERROR - User does not exist")
+      toast.error("ERROR - User does not exist");
     }
   };
-  
+
   // Handling the received data
-useEffect(() => {
-  // Check if userPublicData is not null and has the required structure
-  if (userPublicData && userPublicData.userPublicQuery) {
-    setUserData((prevUserData) => {
-      // Add the new user if not already in the list
-      const isUserAlreadyAdded = prevUserData.some(
-        (user) => user.userId === userPublicData.userPublicQuery.userId
-      );
+  useEffect(() => {
+    // Check if userPublicData is not null and has the required structure
+    if (userPublicData && userPublicData.userPublicQuery) {
+      setUserData((prevUserData) => {
+        // Add the new user if not already in the list
+        const isUserAlreadyAdded = prevUserData.some(
+          (user) => user.userId === userPublicData.userPublicQuery.userId
+        );
 
-      if (!isUserAlreadyAdded) {
-        return [...prevUserData, userPublicData.userPublicQuery];
-      }
-      return prevUserData;
-    });
+        if (!isUserAlreadyAdded) {
+          return [...prevUserData, userPublicData.userPublicQuery];
+        }
+        return prevUserData;
+      });
 
-    // Reset the userName and refocus the input field, if applicable
-    setUserName("");
-    userNameRef.current?.focus();
-  }
+      // Reset the userName and refocus the input field, if applicable
+      setUserName("");
+      userNameRef.current?.focus();
+    }
 
-  // Handle errors
-  if (error) {
-    console.error("Error fetching user data", error);
-    toast.error("ERROR - User does not exist")
-  }
-}, [refreshUserData, error, userPublicData]);
-
-  
+    // Handle errors
+    if (error) {
+      console.error("Error fetching user data", error);
+      toast.error("ERROR - User does not exist");
+    }
+  }, [refreshUserData, error, userPublicData]);
 
   const pageTransition = {
     in: {
@@ -230,10 +208,8 @@ useEffect(() => {
     },
   };
 
-
   return (
     <div className={styles.createSite}>
- 
       <Header onMenuContainerClick={onMenuContainerClick} />
       <Options activeTab={"CREATE"} />
       <motion.div

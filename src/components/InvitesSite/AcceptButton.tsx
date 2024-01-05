@@ -17,49 +17,53 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
 }) => {
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
+
+  // `useMutation` hook called at the top level
+  const [addGizEvent, { loading, error }] =
+    useMutation<HandleGizInviteMutationVariable>(GIZ_HANDLE_INVITE_MUTATION);
+
   if (!userName) {
     console.error("NO USERNAME FOUND");
-    return;
+    return null; // Return null or some fallback UI
   }
 
-  const gizCompleteIdString = gizCompleteId.toString();
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
 
-  const [addGizEvent, { data, loading, error }] =
-    useMutation<HandleGizInviteMutationVariable>(GIZ_HANDLE_INVITE_MUTATION, {
-      variables: { userName, gizCompleteIdString, decision },
-    });
-  if (data) console.log(data);
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error</div>;
+  const handleAccept = () => {
+    // Using setTimeout
+    setTimeout(async () => {
+      try {
+        // Call the mutation inside setTimeout
+        await addGizEvent({
+          variables: {
+            userName,
+            gizCompleteIdString: gizCompleteId.toString(),
+            decision,
+          },
+        });
 
-  const handleAccept = async (variables: HandleGizInviteMutationVariable) => {
-    try {
-      setTimeout(() => {
-        const response = addGizEvent({ variables });
-      }, 1000); // Duration should match your exit animation
-
-      // Handle success
-    } catch (e) {
-      console.error(e);
-      // Handle error
-    }
+        // Handle success here
+      } catch (e) {
+        console.error(e);
+        // Handle error here
+      }
+    }, 1000); // Adjust the timeout duration as needed
   };
 
   const buttonVariants = {
     hover: {
       scale: 1.1,
-
     },
     pressed: {
-      scale: 0.94, // Slightly smaller scale when pressed
+      scale: 0.94,
     },
   };
-
 
   return (
     <motion.button
       className={styles.acceptButton}
-      onClick={() => handleAccept({ userName, gizCompleteIdString, decision })}
+      onClick={handleAccept}
       variants={buttonVariants}
       whileHover="hover"
       whileTap="pressed"

@@ -1,8 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./RegisterForm.module.css";
-import axios from "axios";
-import registerUserInDb from "../../apiServices/RegisterApiServices";
+
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
 import { logCurrentUser } from "../../firebase/AuthFunction";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -17,8 +16,7 @@ import {
 import { allPps } from "../AllPps";
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
-import { getToken } from "firebase/messaging";
-import { messaging } from "../../firebase/firebaseConfig";
+
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();

@@ -26,7 +26,7 @@ import {
   GizEditUserInvitesSubscriptionData,
   UserChangedPpSubscriptionData,
   UserHandledGizInviteSubscriptionData,
-  UserPublic,
+
 } from "../apiServices/Apollo/Types";
 import { GIZ_COMPLETE_QUERY } from "../apiServices/Apollo/Querys";
 
@@ -34,9 +34,9 @@ import { GIZ_COMPLETE_QUERY } from "../apiServices/Apollo/Querys";
 type GizDataContextType = {
   gizCompleteData: GizComplete[]; // Replace `any` with a more specific type as needed
   loading: boolean;
-  error: any; // Replace `any` with a more specific type as needed
+  error: unknown; // or a more specific error type
   refetchGizData: () => void;
-  setGizCompleteData: any;
+  setGizCompleteData: React.Dispatch<React.SetStateAction<GizComplete[]>>;
   // ... other state or functions
 };
 
@@ -58,6 +58,31 @@ interface GizDataProviderProps {
   children: React.ReactNode; // Correct type for children
   status: string; // Add this line
 }
+
+const updateGizComplete = (original: GizComplete, updates: GizCompleteSub) => {
+  if (updates.id !== undefined) {
+    original.id = updates.id;
+  }
+  if (updates.title !== undefined) {
+    original.title = updates.title;
+  }
+  if (updates.description !== undefined) {
+    original.description = updates.description;
+  }
+  // ... handle other properties similarly
+
+  if (updates.usersToBeAdded !== undefined) {
+    // Assuming you want to merge the arrays
+    original.invitedUsers = [...original.invitedUsers, ...updates.usersToBeAdded];
+  }
+  if (updates.usersToBeRemoved !== undefined) {
+    // Assuming you want to remove these users
+    const idsToRemove = new Set(updates.usersToBeRemoved.map(user => user.userId));
+    original.invitedUsers = original.invitedUsers.filter(user => !idsToRemove.has(user.userId));
+  }
+};
+
+
 
 export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   children,
@@ -174,67 +199,21 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
 
   useEffect(() => {
     if (gizEditSubscriptionData?.gizEditedSubscription) {
-      const editedGiz = gizEditSubscriptionData.gizEditedSubscription;
-
-      setGizCompleteData((currentGizCompleteData) => {
-        // Check if the current user is being added or removed
-        const isCurrentUserAdded = editedGiz.usersToBeAdded.some(
-          (user) => user.userName === userName
-        );
-        const isCurrentUserRemoved = editedGiz.usersToBeRemoved.some(
-          (user) => user.userName === userName
-        );
-
-        // if (isCurrentUserAdded) {
-        //   // Add the giz to gizCompleteData
-        //   const newGiz: GizComplete = { ...editedGiz, invitedUsers: editedGiz.usersToBeAdded };
-        //   return [...currentGizCompleteData, newGiz];
-        // }
-
-        if (isCurrentUserRemoved) {
-          // Remove the giz from gizCompleteData
-          return currentGizCompleteData.filter(
-            (giz) => giz.id !== editedGiz.id
-          );
-        }
-        // Update the existing gizComplete data
-        return currentGizCompleteData.map((gizComplete) => {
-          if (gizComplete.id === editedGiz.id) {
-            let updatedGiz: GizComplete = { ...gizComplete };
-
-            // Update the properties
-            const keysToUpdate = Object.keys(editedGiz) as Array<
-              keyof GizCompleteSub
-            >;
-            keysToUpdate.forEach((key) => {
-              if (editedGiz[key] !== null && editedGiz[key] !== undefined) {
-                (updatedGiz as any)[key] = editedGiz[key];
-              }
-            });
-
-            // Update the invited users
-            updatedGiz.invitedUsers = [
-              ...updatedGiz.invitedUsers.filter(
-                (user) =>
-                  !editedGiz.usersToBeRemoved.some(
-                    (u) => u.userId === user.userId
-                  )
-              ),
-              ...editedGiz.usersToBeAdded.filter(
-                (newUser) =>
-                  !updatedGiz.invitedUsers.some(
-                    (u) => u.userId === newUser.userId
-                  )
-              ),
-            ];
-
+      // Use updateGizComplete function to update the data
+      setGizCompleteData((currentData) => {
+        return currentData.map((giz) => {
+          if (giz.id === gizEditSubscriptionData.gizEditedSubscription.id) {
+            // Create a copy to avoid direct state mutation
+            const updatedGiz = { ...giz };
+            updateGizComplete(updatedGiz, gizEditSubscriptionData.gizEditedSubscription);
             return updatedGiz;
           }
-          return gizComplete;
+          return giz;
         });
       });
     }
-  }, [gizEditSubscriptionData, userName]);
+  }, [gizEditSubscriptionData]);
+
 
   useEffect(() => {
     if (gizCreatedSubscriptionData) {

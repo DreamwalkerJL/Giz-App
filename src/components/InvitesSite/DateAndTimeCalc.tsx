@@ -34,7 +34,7 @@ export function checkIfTodayOrTomorrow(invite: GizComplete) {
         return ""; // Return empty string if not valid
     }
 
-    let diffInMinutes = targetDateTimeLocal.diff(now, "minute");
+    const diffInMinutes = targetDateTimeLocal.diff(now, "minute");
 
     if (diffInMinutes > 0 && diffInMinutes <= 60) {
         return `In ${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''}`;

@@ -6,17 +6,13 @@ import Header from "../components/Header";
 const ContactUsSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onMenuContainerClick = useCallback(() => {
-    navigate("/menu-site");
-  }, [navigate]);
-
   const onGoBackTClick = useCallback(() => {
     navigate("/menu-site");
   }, [navigate]);
 
   return (
     <div className={styles.contactUsSite}>
-  <Header />
+      <Header />
       <div className={styles.textContainer}>
         <div className={styles.aboutUsTContainer}>
           <p className={styles.gizappgizappcom}>gizapp@gizapp.com</p>

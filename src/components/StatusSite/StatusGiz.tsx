@@ -1,4 +1,4 @@
-import { CSSProperties, FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 
 import styles from "./StatusGiz.module.css";
 
@@ -9,9 +9,9 @@ import {
 import { DeclineButton } from "../InvitesSite/DeclineButton";
 import EditButton from "./EditButton";
 import { useAuth } from "../../firebase/AuthContext";
-import { GizComplete, UserPublic } from "../../apiServices/Apollo/Types";
-import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import { GizComplete } from "../../apiServices/Apollo/Types";
+import { motion } from "framer-motion";
+
 import { CheckBar } from "../CheckBar";
 import UserFrame from "../UserFrame";
 import dayjs from "dayjs";
@@ -28,14 +28,8 @@ interface StatusGizProps {
   loading: boolean;
 }
 
-const StatusGiz: FunctionComponent<StatusGizProps> = ({
-  gizCompleteQuery,
-  editToggleMap,
-  toggleEditForGiz,
+const StatusGiz: FunctionComponent<StatusGizProps> = ({ gizCompleteQuery }) => {
 
-  loading,
-}) => {
-  const switzerlandTimezone = "Europe/Zurich";
 
   const { currentUser } = useAuth();
 
@@ -80,7 +74,7 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
     },
   };
 
-  const [itemsPendingAccepted, setItemsPendingAccepted] = useState<number>();
+
   const [itemsPendingDecline, setItemsPendingDecline] = useState<number>();
   const handleDeclineStart = async (gizId: number) => {
     // Start the animation
@@ -90,13 +84,7 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({
     }, 2000);
   };
 
-  const handleAcceptStart = async (gizId: number) => {
-    // Start the animation
-    await setItemsPendingAccepted(gizId);
-    await setTimeout(() => {
-      setItemsPendingAccepted(undefined);
-    }, 2000);
-  };
+
 
   const now = dayjs();
   const oneHour = 60 * 60 * 1000; // One hour in milliseconds

@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useRef, useState } from "react";
+import { FunctionComponent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import styles from "./EditProfile.module.css";
@@ -14,26 +14,18 @@ import { toast } from "react-toastify";
 const EditProfile: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const onMenuContainerClick = useCallback(() => {
-    navigate("/menu-site");
-  }, [navigate]);
-
-  const onCreateGizButton1Click = useCallback(() => {
-    navigate("/status-site");
-  }, [navigate]);
-
   const onCancelButtonContainerClick = useCallback(() => {
     navigate("/menu-site");
   }, [navigate]);
 
-  const { gizCompleteData, loading, error, refetchGizData } = useGizData();
+  const { refetchGizData } = useGizData();
 
   const [
     changePp,
-    { loading: changePpLoading, error: changePpError, data: changePpResponse },
+    {  error: changePpError, data: changePpResponse },
   ] = useMutation(CHANGE_PP_MUTATION);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth] = useState(window.innerWidth);
   const [selectedUsers, setSelectedUsers] = useState<number>();
   const { currentUser } = useAuth();
   const handleUserClick = (index: number) => {
@@ -52,7 +44,7 @@ const EditProfile: FunctionComponent = () => {
         changePp({
           variables: { userName: currentUser.displayName, newPp: chosenPp },
         });
-        refetchGizData()
+        refetchGizData();
         console.log(changePpResponse);
         navigate("/status-site");
       } catch (e) {
@@ -69,7 +61,6 @@ const EditProfile: FunctionComponent = () => {
   const buttonVariants = {
     hover: {
       scale: 1.04,
-
     },
     pressed: {
       scale: 0.94, // Slightly smaller scale when pressed
@@ -77,7 +68,7 @@ const EditProfile: FunctionComponent = () => {
   };
 
   const getImagePath = (profilePicture: string) => {
-    const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+    const folder = windowWidth > 800 ? "ImageUrlsDesktop" : "ImageUrlsMobile";
     return `public/${folder}/${profilePicture}`;
   };
 
@@ -132,7 +123,7 @@ const EditProfile: FunctionComponent = () => {
                 whileHover="hover"
                 whileTap="pressed"
                 initial={{ opacity: 0, y: "-15%" }}
-                animate={{ opacity: 1, y: 0,  }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 1.2 }}
               >
                 <b className={styles.cancelButtonT}>ACCEPT</b>
@@ -146,7 +137,7 @@ const EditProfile: FunctionComponent = () => {
                 whileHover="hover"
                 whileTap="pressed"
                 initial={{ opacity: 0, y: "-15%" }}
-                animate={{ opacity: 1, y: 0,  }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 1.4 }}
               >
                 <b className={styles.cancelButtonT}>CANCEL</b>

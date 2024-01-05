@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import styles from "./CreateGizUsers.module.css";
 
 import { useAuth } from "../../firebase/AuthContext";
@@ -14,12 +14,6 @@ interface AddUserType {
   setUserData: React.Dispatch<React.SetStateAction<UserPublic[]>>;
 }
 
-const storedUserDataString = localStorage.getItem("userData");
-
-if (storedUserDataString) {
-  const storedUserData = JSON.parse(storedUserDataString);
-
-}
 
 const AddUsers: FunctionComponent<AddUserType> = ({
   userNameRef,
@@ -29,7 +23,7 @@ const AddUsers: FunctionComponent<AddUserType> = ({
   userData,
   setUserData,
 }) => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth] = useState(window.innerWidth);
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const { currentUser } = useAuth();
   const [reInviteUser, setReInviteUser] = useState<number[]>([]);
