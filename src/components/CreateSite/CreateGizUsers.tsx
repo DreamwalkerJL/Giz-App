@@ -15,10 +15,10 @@ interface AddUserType {
 }
 
 const storedUserDataString = localStorage.getItem("userData");
-console.log(storedUserDataString);
+
 if (storedUserDataString) {
   const storedUserData = JSON.parse(storedUserDataString);
-  console.log(storedUserData[0].userName);
+
 }
 
 const AddUsers: FunctionComponent<AddUserType> = ({

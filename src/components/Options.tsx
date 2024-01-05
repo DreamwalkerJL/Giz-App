@@ -28,7 +28,7 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
     navigate("/invites-site");
   }, [navigate]);
 
-  console.log(activeTab);
+
   const tabVariants = {
     active: {
       backgroundColor: "#6b56a3",

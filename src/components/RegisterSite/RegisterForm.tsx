@@ -52,37 +52,18 @@ const RegisterForm: FunctionComponent = () => {
     },
   });
 
-  function requestPermission() {
-    console.log('Requesting permission...');
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-      }
-    })
-  }
-  requestPermission();
   const registerNewUser = async () => {
-
     try {
-      // Attempt to retrieve the FCM token
-      let fcmToken = null;
-      try {
-        fcmToken = await getToken(messaging, {
-          vapidKey: "BM11azHLmpR49yX-nBq8B2DrrqWxaiCMZ60vD_2GVCffRzB13B3kqGKmxhra7Jw", // Replace with your VAPID key
-        });
-      } catch (error) {
-        console.log('User declined notification permission or error fetching FCM token', error);
-      }
-  
-      const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential: UserCredential =
+        await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
+
       const response = await registerUser({
         variables: {
-          userDto: { userName, email, profilePicture, uid: user.uid, fcmToken },
+          userDto: { userName, email, profilePicture, uid: user.uid },
         },
       });
-  
+
       updateCurrentUserProfile(userName);
       console.log("Registration successful", response);
       toast.success("Registration successful");
@@ -93,7 +74,6 @@ const RegisterForm: FunctionComponent = () => {
       toast.error("Error registering user");
     }
   };
-  
 
   const handleRegister = async (
     event: React.FormEvent<HTMLFormElement>

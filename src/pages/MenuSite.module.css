@@ -45,10 +45,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: flex-start; /* Align to the left */
+  gap: 0px; /* Space between slider and text */
   cursor: pointer;
 }
+
 .menuOptions {
   align-self: stretch;
   flex: 1;
@@ -92,4 +93,87 @@
   background: linear-gradient(158.98deg, #1e193b, #fb7878);
   height: 100%;
   min-height: 100vh;
+}
+
+
+
+.toggleSwitch {
+  display: inline-block;
+  position: relative;
+  width: 50px; /* Width of the toggle */
+  height: 25px; /* Height of the toggle */
+  margin: 10px;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #5d3a9b; /* Dark purple background */
+  transition: .4s;
+  border-radius: 25px; /* Rounded edges */
+}
+
+/* Slider knob */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 21px;
+  width: 21px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%; /* Circular knob */
+}
+
+
+
+/* Notification text style */
+.notificationsT {
+  font-weight: 300;
+  color: #fff;
+  font-family: Blinker;
+  display: inline-block;
+  margin-left: 10px;
+  cursor: pointer;
+  text-align: center; /* Center the text */
+}
+
+
+.notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.notificationsLine {
+  height: 2px;
+  width: 100%; /* Full width */
+  background-color: #fff;
+  margin: 5px 0; /* Space between text and line */
+  transition: all 0.3s ease;
+}
+
+.notificationsLineActive {
+
+  width: 250px; /* Thicker line for active state */
+  background-color: #72FF80
+}
+
+.notificationsToggleText {
+  font-size: 14px; /* Smaller font size */
+  color: #fff;
+  font-weight: 300;
+  font-family: Blinker;
+}
+
+.notificationsToggleTextActive {
+  font-weight: bold;
+  color: #72FF80
 }

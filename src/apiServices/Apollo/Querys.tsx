@@ -52,4 +52,9 @@ export const USER_PUBLIC_QUERY = gql`
   }
 `;
 
+export const IS_NOTIFICATION_ENABLED = gql`
+  query IsNotificationEnabled($uid: String!) {
+    isNotificationEnabled(uid: $uid)
+  }
+`;
 

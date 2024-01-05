@@ -73,7 +73,7 @@ export const REGISTER_USER_MUTATION = gql`
 `;
 
 export const REFRESH_FCM_TOKEN_MUTATION = gql`
-  mutation RefreshFcmTokenMutation($fcmToken: String!, $uid: String!) {
+  mutation RefreshFcmTokenMutation($fcmToken: String, $uid: String!) {
     refreshFcmTokenMutation(fcmToken: $fcmToken, uid: $uid) {
       success
       message

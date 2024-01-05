@@ -72,8 +72,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     variables: { userName, status },
     fetchPolicy: "network-only",
   });
-  console.log(gizCompleteData);
-  console.log(`TADEOS`)
+
   const { data: userChangedPpSubscriptionData } =
     useSubscription<UserChangedPpSubscriptionData>(
       USER_CHANGED_PP_SUBSCRIPTION,

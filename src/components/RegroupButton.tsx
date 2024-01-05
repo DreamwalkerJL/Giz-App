@@ -15,7 +15,7 @@ interface EditButtonProps {
 }
 const RegroupButton: FunctionComponent<EditButtonProps> = ({ gizComplete }) => {
   const navigate = useNavigate();
-  console.log(gizComplete);
+
   const onEditButtonContainerClick = useCallback(() => {
     const data = {
       // Add your data here

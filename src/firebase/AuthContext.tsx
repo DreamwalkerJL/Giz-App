@@ -62,15 +62,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           });
 
           setApi(axiosInstance);
-          console.log(`axios ${api}`);
-          console.log(`axios2 ${axiosInstance}`);
+
         } catch (e) {
           console.log("Error fetching authentication token", e);
         }
       }
       setAuthInitialized(true); // Set to true after initial check
       setIsLoading(false);
-      console.log(`axios ${api}`);
+
     });
 
     return () => {

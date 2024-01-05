@@ -45,6 +45,8 @@ export default defineConfig({
           },
         ],
       },
+      // srcDir: 'src',
+      // filename: 'firebase-messaging-sw.js', // Use your custom service worker file
     }),
   ],
 });

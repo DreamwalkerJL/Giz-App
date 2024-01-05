@@ -9,15 +9,15 @@ import { client } from "./apiServices/Apollo/ApolloClient.tsx";
 import { GizDataProvider } from "./components/GizDataContext.tsx";
 import { AnimatePresence } from "framer-motion";
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register(new URL('/firebase-messaging-sw.js', import.meta.url), { type: 'module' })
-    .then((registration) => {
-      console.log('Service Worker registered: ', registration);
-    })
-    .catch((registrationError) => {
-      console.log('Service Worker registration failed: ', registrationError);
-    });
-}
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('/src/firebase-messaging-sw.js')
+//     .then(function(registration) {
+//       console.log('Service Worker registered with scope:', registration.scope);
+//     })
+//     .catch(function(err) {
+//       console.log('Service Worker registration failed:', err);
+//     });
+// }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

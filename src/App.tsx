@@ -24,10 +24,11 @@ import { getAuth } from "firebase/auth";
 import { GizDataProvider } from "./components/GizDataContext";
 import NeedUserNameSite from "./pages/NeedUserNameSite";
 import { ToastContainer } from "react-toastify";
-import { getToken } from "firebase/messaging";
-import { messaging } from './firebase/firebaseConfig'; // Ensure this is the correct path to your Firebase Messaging instance
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { messaging } from "./firebase/firebaseConfig"; // Ensure this is the correct path to your Firebase Messaging instance
 import { useMutation } from "@apollo/client";
 import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
+import { onBackgroundMessage } from "firebase/messaging/sw";
 
 function App() {
   const action = useNavigationType();
@@ -107,34 +108,83 @@ function App() {
     }
   }, [pathname]);
 
-  const [refreshFCMToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
-  
-  const { currentUser } = useAuth();
-  const uid = currentUser?.uid;
+  const [refreshFcmToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
 
   useEffect(() => {
-    const refreshNewFCMToken = async () => {
-      try {
-        const fcmToken = await getToken(messaging, { vapidKey: "BM11azHLmpR49yX-nBq8B2DrrqWxaiCMZ60vD_2GVCffRzB13B3kqGKmxhra7Jw" });
-        if (fcmToken) {
-          console.log("FCM TOKEN")
-          console.log(fcmToken)
-          try {
-            refreshFCMToken({ variables: { fcmToken, uid } });
-          } catch (e) {
-            console.error("Error refreshing FCM token", e);
-          }
+    // Function to check permission and refresh token
+    const checkPermissionAndRefreshToken = async () => {
+      let fcmToken = null;
+      console.log(Notification.permission)
+      if (Notification.permission === "granted") {
+        try {
+          fcmToken = await getToken(messaging, {
+            vapidKey:
+              "BPEZCuuO4soum6IPVkxeeg_8g2iIABONW87tZmDPNIdlFKUfaCC9vM1yPa4aZA7CrjjZIRj7Mf7OJ5vGpumTZAk",
+          });
           console.log("FCM Token:", fcmToken);
-        } else {
-          console.log("No permission to send push notifications");
+        } catch (error) {
+          console.error("Error fetching FCM token", error);
         }
-      } catch (error) {
-        console.error("Error fetching FCM token", error);
+      } else {
+        console.log("Notification permission not granted or declined");
       }
+
+      const {currentUser} = getAuth()
+      const uid = currentUser?.uid
+      if(!uid) return
+      try {
+        await refreshFcmToken({
+          variables: {
+            fcmToken,
+            uid: uid,
+          },
+        });
+      } catch (error) {
+        console.error("Error refreshing FCM token", error);
+      }
+
+      // Send the token or null to your backend to update it
+      // Replace with your method to send the token to the backend
+      // e.g., updateFCMTokenOnServer(fcmToken);
     };
 
-    refreshNewFCMToken();
+    checkPermissionAndRefreshToken();
   }, []);
+
+
+
+
+  // onBackgroundMessage(messaging, (payload) => {
+  //   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  //   // Customize notification here
+  //   const notificationTitle = 'Background Message Title';
+  //   const notificationOptions = {
+  //     body: 'Background Message body.',
+  //     icon: '/firebase-logo.png'
+  //   };
+  
+  //   navigator.serviceWorker.getRegistration().then(function(registration) {
+  //     if (registration) {
+  //       registration.showNotification(notificationTitle, notificationOptions);
+  //     }
+  //   });
+  //     notificationOptions;
+  // });
+
+
+  onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload);
+    // ...
+  });
+  useEffect(() => {
+
+    onMessage(messaging, (payload) => {
+      console.log('Message received in the foreground: ', payload);
+      // Display an in-app message or update the UI
+    });
+  }, []);
+
+  console.log()
 
   return (
     <Routes location={location} key={location.pathname}>
