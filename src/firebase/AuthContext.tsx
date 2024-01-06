@@ -8,7 +8,8 @@ import React, {
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import axios, { AxiosInstance } from "axios";
 
-const BASE_URL = "http://localhost:8080";
+// const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://gizapp.net";
 
 interface AuthContextType {
   currentUser: User | null;
