@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 
 
 const RegisterForm: FunctionComponent = () => {
-
+  const navigate = useNavigate();
 
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -51,7 +51,7 @@ const RegisterForm: FunctionComponent = () => {
   });
 
   const registerNewUser = async () => {
-    const navigate = useNavigate();
+
     try {
       const userCredential: UserCredential =
         await createUserWithEmailAndPassword(auth, email, password);

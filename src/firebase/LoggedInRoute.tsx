@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext"; // Import the useAuth hook
 
 interface LoggedInRouteType {
