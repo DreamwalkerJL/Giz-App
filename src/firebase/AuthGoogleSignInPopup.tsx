@@ -1,24 +1,24 @@
-
 import app from "./firebaseConfig";
-import { getAuth, signInWithPopup, GoogleAuthProvider, updateProfile, getAdditionalUserInfo } from "firebase/auth";
-
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  updateProfile,
+  getAdditionalUserInfo,
+} from "firebase/auth";
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-
 function generateRandomUsername(length: number) {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
 }
-
-
-
-
 
 export const signInWithGoogle = (onSuccess: () => void): void => {
   signInWithPopup(auth, provider)
@@ -39,10 +39,6 @@ export const signInWithGoogle = (onSuccess: () => void): void => {
 
         // Additional first-time user logic goes here
       }
-
-      auth.currentUser?.getIdToken(true).then((idToken) => {
-        console.log(idToken);
-      });
 
       onSuccess();
     })

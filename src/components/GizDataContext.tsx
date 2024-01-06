@@ -1,3 +1,4 @@
+
 // GizDataContext.js
 import React, {
   createContext,
@@ -7,7 +8,6 @@ import React, {
   FunctionComponent,
 } from "react";
 import { useQuery, useSubscription } from "@apollo/client";
-
 import { useAuth } from "../firebase/AuthContext";
 import {
   GIZ_CREATED_SUBSCRIPTION,
@@ -26,10 +26,8 @@ import {
   GizEditUserInvitesSubscriptionData,
   UserChangedPpSubscriptionData,
   UserHandledGizInviteSubscriptionData,
-
 } from "../apiServices/Apollo/Types";
 import { GIZ_COMPLETE_QUERY } from "../apiServices/Apollo/Querys";
-
 // Define a type for your context state
 type GizDataContextType = {
   gizCompleteData: GizComplete[]; // Replace `any` with a more specific type as needed
@@ -39,7 +37,6 @@ type GizDataContextType = {
   setGizCompleteData: React.Dispatch<React.SetStateAction<GizComplete[]>>;
   // ... other state or functions
 };
-
 // Provide a default value that matches the type
 const defaultValue: GizDataContextType = {
   gizCompleteData: [],
@@ -49,16 +46,12 @@ const defaultValue: GizDataContextType = {
   setGizCompleteData: () => {},
   // ... other default values
 };
-
 const GizDataContext = createContext<GizDataContextType>(defaultValue);
-
 export const useGizData = () => useContext(GizDataContext);
-
 interface GizDataProviderProps {
   children: React.ReactNode; // Correct type for children
   status: string; // Add this line
 }
-
 const updateGizComplete = (original: GizComplete, updates: GizCompleteSub) => {
   if (updates.id !== undefined) {
     original.id = updates.id;
@@ -70,7 +63,6 @@ const updateGizComplete = (original: GizComplete, updates: GizCompleteSub) => {
     original.description = updates.description;
   }
   // ... handle other properties similarly
-
   if (updates.usersToBeAdded !== undefined) {
     // Assuming you want to merge the arrays
     original.invitedUsers = [...original.invitedUsers, ...updates.usersToBeAdded];
@@ -83,7 +75,6 @@ const updateGizComplete = (original: GizComplete, updates: GizCompleteSub) => {
 };
 
 
-
 export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   children,
   status,
@@ -91,13 +82,11 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   const { currentUser } = useAuth();
   const userName = currentUser?.displayName;
   const userUid = currentUser?.uid;
-
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName, status },
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
   });
-
   const { data: userChangedPpSubscriptionData } =
     useSubscription<UserChangedPpSubscriptionData>(
       USER_CHANGED_PP_SUBSCRIPTION,
@@ -105,12 +94,10 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
         variables: { userUid },
       }
     );
-
   const { data: gizDeletedSubscriptionData } =
     useSubscription<GizDeletedSubscriptionData>(GIZ_DELETED_SUBSCRIPTION, {
       variables: { userUid },
     });
-
   const { data: gizEditUserInvitesSubscriptionData } =
     useSubscription<GizEditUserInvitesSubscriptionData>(
       GIZ_EDIT_USER_INVITES_SUBSCRIPTION,
@@ -118,47 +105,39 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
         variables: { userUid },
       }
     );
-
   const { data: gizCreatedSubscriptionData } =
     useSubscription<GizCreatedSubscriptionData>(GIZ_CREATED_SUBSCRIPTION, {
       variables: { userUid },
     });
-
   const { data: gizEditSubscriptionData } =
     useSubscription<GizEditSubscriptionData>(GIZ_EDIT_SUBSCRIPTION, {
       variables: { userUid },
     });
-
   const { data: subscriptionData } =
     useSubscription<UserHandledGizInviteSubscriptionData>(
       USER_HANDLED_GIZ_INVITE_SUBSCRIPTION,
       { variables: { userUid } }
     );
-
   // Refetch data every 1 minute
   useEffect(() => {
     const interval = setInterval(() => {
       refetch();
       console.log("Refetching data...")
     }, 60000); // 60000 milliseconds = 1 minute
-
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [refetch]);
-
   // Handle query and subscription data updates...
   useEffect(() => {
     if (data?.gizCompleteQuery) {
       setGizCompleteData(data.gizCompleteQuery);
     }
   }, [data]);
-
   // Update state when query data is received
   useEffect(() => {
     if (data?.gizCompleteQuery) {
       setGizCompleteData(data.gizCompleteQuery);
     }
   }, [data]);
-
   // Update state when subscription data is received
   useEffect(() => {
     if (subscriptionData?.userHandledGizInvite) {
@@ -196,7 +175,6 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       }
     }
   }, [subscriptionData]);
-
   useEffect(() => {
     if (gizEditSubscriptionData?.gizEditedSubscription) {
       // Use updateGizComplete function to update the data
@@ -214,7 +192,6 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     }
   }, [gizEditSubscriptionData]);
 
-
   useEffect(() => {
     if (gizCreatedSubscriptionData) {
       const newGiz = gizCreatedSubscriptionData.gizCreatedSubscription;
@@ -227,11 +204,9 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       }
     }
   }, [gizCreatedSubscriptionData]); // Add currentStatus to dependency array
-
   useEffect(() => {
     if (gizDeletedSubscriptionData) {
       const deletedGizId = gizDeletedSubscriptionData.gizDeletedSubscription;
-
       setGizCompleteData((prevGizCompleteData) =>
         prevGizCompleteData.filter(
           (gizComplete) => gizComplete.id.toString() !== deletedGizId
@@ -239,19 +214,16 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       );
     }
   }, [gizDeletedSubscriptionData]);
-
   useEffect(() => {
     if (userChangedPpSubscriptionData) {
       const updatedUserData =
         userChangedPpSubscriptionData.userChangedPpSubscription;
-
       setGizCompleteData((prevGizCompleteData) =>
         prevGizCompleteData.map((gizComplete) => {
           // Check if the updated user is part of the invited users of this gizComplete
           const isUserPartOfGiz = gizComplete.invitedUsers.filter(
             (user) => user.userId === updatedUserData.userId
           );
-
           if (isUserPartOfGiz) {
             // Update the profile picture of the user in this gizComplete
             return {
@@ -268,12 +240,10 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       );
     }
   }, [userChangedPpSubscriptionData]);
-
   useEffect(() => {
     if (gizEditUserInvitesSubscriptionData?.gizEditUserInvitesSubscription) {
       const editedGiz =
         gizEditUserInvitesSubscriptionData.gizEditUserInvitesSubscription;
-
       // Add the giz to gizCompleteData if it's not already present and if currentStatus matches
       if (status === "invited") {
         // Add this condition
@@ -289,7 +259,6 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       }
     }
   }, [gizEditUserInvitesSubscriptionData]); // Include currentStatus in the dependency array
-
   const contextValue = {
     gizCompleteData,
     setGizCompleteData,
@@ -298,7 +267,6 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     refetchGizData: refetch,
     // any other state or functions you want to expose
   };
-
   return (
     <GizDataContext.Provider value={contextValue}>
       {children}

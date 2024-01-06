@@ -9,6 +9,7 @@ import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
 import { logCurrentUser } from "../../firebase/AuthFunction";
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
+import { toast } from "react-toastify";
 
 const NeedUserNameForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const NeedUserNameForm: FunctionComponent = () => {
           if (data && data.userPublicQuery) {
             // Username exists, handle this scenario
             console.error("Username already taken");
+            toast.error("Username already taken");
             // Display an appropriate error message to the user
           } else {
             // Username does not exist, proceed with registration
@@ -53,7 +55,7 @@ const NeedUserNameForm: FunctionComponent = () => {
                 },
               });
   
-              updateCurrentUserProfile(userName);
+              await updateCurrentUserProfile(userName);
               console.log("Registration successful", response);
               logCurrentUser();
               navigate("/status-site");

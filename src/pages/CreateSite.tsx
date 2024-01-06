@@ -139,7 +139,8 @@ const CreateSite: FunctionComponent = () => {
       // Execute the query and wait for the result
       const response = await getUser({
         variables: { userName },
-        fetchPolicy: "network-only",
+        fetchPolicy: "cache-and-network",
+        // fetchPolicy: "network-only",
       });
 
       // Check if the userPublicQuery data is not null
@@ -150,6 +151,7 @@ const CreateSite: FunctionComponent = () => {
       } else {
         console.error("User does not Exist");
         toast.error("ERROR - User does not exist");
+        userNameRef.current?.focus();
       }
     } catch (error) {
       console.error("Error fetching user data", error);

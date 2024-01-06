@@ -270,10 +270,10 @@ function App() {
       <Route
         path="/need-username-site"
         element={
-          <ProtectedRoute>
+          <LoggedInRoute>
             <ToastContainer />
             <NeedUserNameSite />
-          </ProtectedRoute>
+          </LoggedInRoute>
         }
       />
       <Route

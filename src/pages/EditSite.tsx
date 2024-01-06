@@ -69,7 +69,8 @@ const EditSite: FunctionComponent = () => {
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
   const { data, error } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName: user?.displayName, status: "accepted" },
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
+    // fetchPolicy: "network-only",
   });
 
   const gizData = gizCompleteData.find((giz) => giz.id === gizId); // Find the giz
@@ -187,7 +188,7 @@ const EditSite: FunctionComponent = () => {
       // Execute the query and wait for the result
       const response = await getUser({
         variables: { userName },
-        fetchPolicy: "network-only",
+        // fetchPolicy: "network-only",
       });
 
       // Check if the userPublicQuery data is not null

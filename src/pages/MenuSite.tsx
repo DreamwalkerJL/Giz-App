@@ -38,7 +38,8 @@ const MenuSite: FunctionComponent = () => {
   const [refreshFcmToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
   const { data, loading, error } = useQuery(IS_NOTIFICATION_ENABLED, {
     variables: { uid },
-    fetchPolicy: "network-only", // Ensures fresh data on each component mount
+    fetchPolicy: "cache-and-network",
+    // fetchPolicy: "network-only", // Ensures fresh data on each component mount
   });
 
   const handleNotificationChange = async (isEnabled: boolean) => {

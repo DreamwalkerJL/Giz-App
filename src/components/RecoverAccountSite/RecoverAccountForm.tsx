@@ -13,10 +13,6 @@ const RecoverForm: FunctionComponent = () => {
     event.preventDefault();
 
     try {
-      // Never done this, have to look it up.
-      // const response = await axios.post('http://localhost:8080/auth/recoverAccount', { email });
-      // console.log(response.data);
-      console.log(email);
       navigate("/");
     } catch (error) {
       console.error("There was an error!", error);
