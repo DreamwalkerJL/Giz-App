@@ -82,9 +82,14 @@ const AddUsers: FunctionComponent<AddUserType> = ({
     },
   };
 
+  // const getImagePath = (profilePicture: string) => {
+  //   const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+  //   return `public/${folder}/${profilePicture}`;
+  // };
+
   const getImagePath = (profilePicture: string) => {
     const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
-    return `public/${folder}/${profilePicture}`;
+    return `/${folder}/${profilePicture}`;
   };
 
 

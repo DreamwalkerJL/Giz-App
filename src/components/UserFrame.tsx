@@ -68,6 +68,11 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
     setHoveredUserId(null);
   };
 
+  // const getImagePath = (profilePicture: string) => {
+  //   const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+  //   return `public/${folder}/${profilePicture}`;
+  // };
+
   const getImagePath = (profilePicture: string) => {
     const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
     return `/${folder}/${profilePicture}`;
