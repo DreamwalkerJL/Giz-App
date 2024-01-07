@@ -70,8 +70,9 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
 
   const getImagePath = (profilePicture: string) => {
     const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
-    return `public/${folder}/${profilePicture}`;
-  };
+    return `/public/${folder}/${profilePicture}`;
+};
+
 
   return (
     <div className={styles.invitedUsers}>
