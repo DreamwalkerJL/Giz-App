@@ -1,4 +1,4 @@
-import React, { CSSProperties} from "react";
+import React, { CSSProperties, useState } from "react";
 import styles from "./UserFrame.module.css";
 import { motion } from "framer-motion";
 import { GizComplete } from "../apiServices/Apollo/Types";
@@ -37,7 +37,7 @@ interface UserFrameProps {
 }
 
 const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
-  // const [windowWidth] = useState(window.innerWidth);
+  const [windowWidth] = useState(window.innerWidth);
   
   const sortedInvitedUsers = [...gizComplete.invitedUsers].sort((a, b) => {
     const statusValues: { [key: string]: number } = {
@@ -68,11 +68,10 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
     setHoveredUserId(null);
   };
 
-//   const getImagePath = (profilePicture: string) => {
-//     const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
-//     return `/public/${folder}/${profilePicture}`;
-// };
-
+  const getImagePath = (profilePicture: string) => {
+    const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+    return `/${folder}/${profilePicture}`;
+  };
 
   return (
     <div className={styles.invitedUsers}>
@@ -112,7 +111,7 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
               <motion.img
                 className={styles.userImageIcon}
                 alt={user.userName}
-                src={"/ImageUrlsDesktop/2.jpg"}
+                src={getImagePath(user.profilePicture)}
               />
               <motion.span
                 className={styles.userNameOverlay}
