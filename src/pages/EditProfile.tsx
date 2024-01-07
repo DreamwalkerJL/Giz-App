@@ -22,7 +22,7 @@ const EditProfile: FunctionComponent = () => {
 
   const [
     changePp,
-    {  error: changePpError, data: changePpResponse },
+    {  error: changePpError},
   ] = useMutation(CHANGE_PP_MUTATION);
 
   const [windowWidth] = useState(window.innerWidth);
