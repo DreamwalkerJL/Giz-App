@@ -9,7 +9,7 @@ import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import axios, { AxiosInstance } from "axios";
 
 // const BASE_URL = "http://localhost:8080";
-const BASE_URL = "https://gizapp.net";
+const BASE_URL = "https://api.gizapp.net/graphql";
 
 interface AuthContextType {
   currentUser: User | null;
