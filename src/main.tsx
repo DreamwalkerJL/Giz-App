@@ -9,6 +9,16 @@ import { client } from "./apiServices/Apollo/ApolloClient.tsx";
 import { AnimatePresence } from "framer-motion";
 
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register(new URL('/firebase-messaging-sw.js', import.meta.url), { type: 'module' })
+    .then((registration) => {
+      console.log('Service Worker registered: ', registration);
+    })
+    .catch((registrationError) => {
+      console.log('Service Worker registration failed: ', registrationError);
+    });
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>

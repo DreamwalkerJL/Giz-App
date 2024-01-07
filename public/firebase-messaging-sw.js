@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 
 // Initialize the Firebase app in the service worker by passing the generated config.
@@ -12,7 +12,7 @@ firebase.initializeApp({
 });
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+
 
 const messaging = getMessaging();
 
