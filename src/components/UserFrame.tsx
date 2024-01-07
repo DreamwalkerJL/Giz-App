@@ -112,7 +112,7 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
               <motion.img
                 className={styles.userImageIcon}
                 alt={user.userName}
-                src={"/public/ImageUrlsDesktop/" + user.profilePicture}
+                src={"/public/ImageUrlsDesktop/2.jpg"}
               />
               <motion.span
                 className={styles.userNameOverlay}
