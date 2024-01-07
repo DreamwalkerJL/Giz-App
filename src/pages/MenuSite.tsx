@@ -46,7 +46,6 @@ const MenuSite: FunctionComponent = () => {
     if (isEnabled && Notification.permission !== "granted") {
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
-        console.log("Notification permission not granted");
         toast.info(
           "🔼   🔼   🔼 To enable notifications, click the icon somwehere above here in the address bar and choose 'Allow' for notifications.",
           {

@@ -49,14 +49,14 @@ const NeedUserNameForm: FunctionComponent = () => {
           } else {
             // Username does not exist, proceed with registration
             try {
-              const response = await registerUser({
+            await registerUser({
                 variables: {
                   userDto: { userName, email, profilePicture, uid: user.uid },
                 },
               });
   
               await updateCurrentUserProfile(userName);
-              console.log("Registration successful", response);
+              console.log("Registration successful");
               logCurrentUser();
               navigate("/status-site");
             } catch (regError) {

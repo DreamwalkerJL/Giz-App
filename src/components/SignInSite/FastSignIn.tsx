@@ -8,7 +8,6 @@ const FastSignIn: FunctionComponent = () => {
   const googleSignIn = async () => {
     try {
       signInWithGoogle(() => navigate("/status-site"));
-      console.log("GOOGLE SIGN LOL");
       navigate("/status-site");
     } catch (error) {
       console.error("There was an error!", error);

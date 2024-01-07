@@ -23,14 +23,9 @@ function generateRandomUsername(length: number) {
 export const signInWithGoogle = (onSuccess: () => void): void => {
   signInWithPopup(auth, provider)
     .then(async (result) => {
-      console.log("User signed in");
-      console.log(result.user);
-
       // Use getAdditionalUserInfo to check if it's the first time the user is signing in
       const additionalUserInfo = getAdditionalUserInfo(result);
       if (additionalUserInfo?.isNewUser) {
-        console.log("First time user");
-
         // Generate a random username
         const randomUsername = generateRandomUsername(100);
 

@@ -114,14 +114,12 @@ function App() {
     // Function to check permission and refresh token
     const checkPermissionAndRefreshToken = async () => {
       let fcmToken = null;
-      console.log(Notification.permission)
       if (Notification.permission === "granted") {
         try {
           fcmToken = await getToken(messaging, {
             vapidKey:
               "BPEZCuuO4soum6IPVkxeeg_8g2iIABONW87tZmDPNIdlFKUfaCC9vM1yPa4aZA7CrjjZIRj7Mf7OJ5vGpumTZAk",
           });
-          console.log("FCM Token:", fcmToken);
         } catch (error) {
           console.error("Error fetching FCM token", error);
         }
@@ -154,22 +152,6 @@ function App() {
 
 
 
-  // onBackgroundMessage(messaging, (payload) => {
-  //   console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  //   // Customize notification here
-  //   const notificationTitle = 'Background Message Title';
-  //   const notificationOptions = {
-  //     body: 'Background Message body.',
-  //     icon: '/firebase-logo.png'
-  //   };
-  
-  //   navigator.serviceWorker.getRegistration().then(function(registration) {
-  //     if (registration) {
-  //       registration.showNotification(notificationTitle, notificationOptions);
-  //     }
-  //   });
-  //     notificationOptions;
-  // });
 
 
   onMessage(messaging, (payload) => {
@@ -184,7 +166,7 @@ function App() {
     });
   }, []);
 
-  console.log()
+
 
   return (
     <Routes location={location} key={location.pathname}>

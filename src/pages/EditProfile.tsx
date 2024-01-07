@@ -45,11 +45,10 @@ const EditProfile: FunctionComponent = () => {
           variables: { userName: currentUser.displayName, newPp: chosenPp },
         });
         refetchGizData();
-        console.log(changePpResponse);
         navigate("/status-site");
       } catch (e) {
-        console.log(e);
         console.log(changePpError);
+        toast.error("ERROR - Please contact support")
         toast.error("ERROR - please contact support");
       }
     } else {

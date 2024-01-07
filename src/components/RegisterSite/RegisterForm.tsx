@@ -57,14 +57,14 @@ const RegisterForm: FunctionComponent = () => {
         await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      const response = await registerUser({
+     await registerUser({
         variables: {
           userDto: { userName, email, profilePicture, uid: user.uid },
         },
       });
 
       updateCurrentUserProfile(userName);
-      console.log("Registration successful", response);
+      console.log("Registration successful");
       toast.success("Registration successful");
       logCurrentUser();
       navigate("/status-site");

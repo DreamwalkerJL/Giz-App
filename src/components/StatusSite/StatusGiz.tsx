@@ -129,12 +129,6 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({ gizCompleteQuery }) => {
     return Math.abs(timeDiffA) - Math.abs(timeDiffB);
   });
 
-  // console.log(localTime.format("YYYY-MM-DD HH:mm"));
-  // console.log(swissTime.format("YYYY-MM-DD HH:mm"));
-  // console.log("Current Time in Local Timezone:", currentTime.format("YYYY-MM-DD HH:mm:ss"));
-  // console.log("Current Time with Timezone Offset:", currentTime.format("YYYY-MM-DD HH:mm:ss Z"));
-  // if (gizCompleteQuery)
-  // console.log(gizCompleteQuery[0]?.date, gizCompleteQuery[0]?.time)
 
   return (
     <>

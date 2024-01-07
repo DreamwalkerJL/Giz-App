@@ -1,4 +1,5 @@
 import { getAuth, updateProfile, User } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export const updateCurrentUserProfile = async (userName: string) => {
   const auth = getAuth();
@@ -9,15 +10,17 @@ export const updateCurrentUserProfile = async (userName: string) => {
       await updateProfile(user, {
         displayName: userName,
       });
-      console.log("Profile updated!");
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error updating profile:", error.message);
+        toast.error("ERROR - Please contact support")
       } else {
         console.error("An unexpected error occurred");
+        toast.error("ERROR - Please contact support")
       }
     }
   } else {
-    console.log("User does not exist");
+    console.error("User does not exist");
+    toast.error("ERROR - Please contact support")
   }
 };

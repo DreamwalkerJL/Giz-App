@@ -193,7 +193,6 @@ const EditSite: FunctionComponent = () => {
 
       // Check if the userPublicQuery data is not null
       if (response.data && response.data.userPublicQuery !== null) {
-        console.log("Data returned:", response.data.userPublicQuery);
         // Update the state or perform other actions as needed
         setRefreshUserData((prev) => !prev);
       } else {

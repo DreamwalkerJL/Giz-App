@@ -122,7 +122,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   useEffect(() => {
     const interval = setInterval(() => {
       refetch();
-      console.log("Refetching data...")
+
     }, 60000); // 60000 milliseconds = 1 minute
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [refetch]);

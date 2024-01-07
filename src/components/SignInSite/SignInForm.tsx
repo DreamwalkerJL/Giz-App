@@ -21,11 +21,8 @@ const SignUpForm: FunctionComponent = () => {
 
     try {
       const result = await signInWithEmailPassword(email, password);
-      console.log(email, password);
-
       if (result) {
         console.log("signed in successfully");
-        console.log(email, password);
         navigate("/status-site");
       }
     } catch (error) {
