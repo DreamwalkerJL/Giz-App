@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties} from "react";
 import styles from "./UserFrame.module.css";
 import { motion } from "framer-motion";
 import { GizComplete } from "../apiServices/Apollo/Types";
@@ -37,7 +37,7 @@ interface UserFrameProps {
 }
 
 const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
-  const [windowWidth] = useState(window.innerWidth);
+  // const [windowWidth] = useState(window.innerWidth);
   
   const sortedInvitedUsers = [...gizComplete.invitedUsers].sort((a, b) => {
     const statusValues: { [key: string]: number } = {
