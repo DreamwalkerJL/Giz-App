@@ -61,7 +61,7 @@ const authLink = new ApolloLink((operation, forward) => {
 // });
 
 const httpLink = new HttpLink({
-  uri: "https://gizapp.net/graphql",
+  uri: "https://api.gizapp.net/graphql",
 });
 
 // Use the authLink to concatenate with the httpLink
@@ -85,7 +85,7 @@ const httpAuthLink = authLink.concat(httpLink);
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "wss://gizapp.net/graphql-ws",
+    url: "wss://api.gizapp.net/graphql-ws",
     connectionParams: () => {
       // This function will be called every time the client connects or reconnects.
       const token = getToken();
