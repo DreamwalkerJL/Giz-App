@@ -8,7 +8,7 @@ interface LoggedInRouteType {
 
 const LoggedInRoute: React.FC<LoggedInRouteType> = ({ children }) => {
   const { currentUser } = useAuth();
-  console.log(currentUser)
+
   const navigate = useNavigate();
   useEffect(() => {
   

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./RegisterForm.module.css";
 
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
-import { logCurrentUser } from "../../firebase/AuthFunction";
+
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { UserDto } from "../../apiServices/Apollo/Types";
@@ -16,7 +16,6 @@ import {
 import { allPps } from "../AllPps";
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
-
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -51,22 +50,20 @@ const RegisterForm: FunctionComponent = () => {
   });
 
   const registerNewUser = async () => {
-
     try {
       const userCredential: UserCredential =
         await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-     await registerUser({
+      await registerUser({
         variables: {
           userDto: { userName, email, profilePicture, uid: user.uid },
         },
       });
 
       updateCurrentUserProfile(userName);
-      console.log("Registration successful");
+
       toast.success("Registration successful");
-      logCurrentUser();
       navigate("/status-site");
     } catch (e) {
       console.error("Error registering user", e);

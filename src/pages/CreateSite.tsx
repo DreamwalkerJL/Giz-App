@@ -11,7 +11,6 @@ import Options from "../components/Options";
 import styles from "./CreateSite.module.css";
 import CreateGizInformationFrame from "../components/CreateSite/CreateInformationFrame";
 import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
-import { logCurrentUser } from "../firebase/AuthFunction";
 import dayjs from "dayjs";
 import { useAuth } from "../firebase/AuthContext";
 import { getAuth } from "firebase/auth";
@@ -36,7 +35,6 @@ const CreateSite: FunctionComponent = () => {
     navigate("/status-site");
   }, [navigate]);
 
-  logCurrentUser();
 
   const userNameRef = useRef<HTMLInputElement | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -109,7 +107,7 @@ const CreateSite: FunctionComponent = () => {
       toast.error("ERROR - please contact support");
     }
   };
-  logCurrentUser();
+
 
   const [getUser, { data: userPublicData }] = useLazyQuery(USER_PUBLIC_QUERY);
   const [refreshUserData, setRefreshUserData] = useState(false);
@@ -145,7 +143,7 @@ const CreateSite: FunctionComponent = () => {
 
       // Check if the userPublicQuery data is not null
       if (response.data && response.data.userPublicQuery !== null) {
-        console.log("Data returned:", response.data.userPublicQuery);
+
         // Update the state or perform other actions as needed
         setRefreshUserData((prev) => !prev);
       } else {

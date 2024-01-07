@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import SignUpForm from "../components/SignInSite/SignInForm";
 import styles from "./SignInSite.module.css";
 import FastSignIn from "../components/SignInSite/FastSignIn";
-import { logCurrentUser } from "../firebase/AuthFunction";
 
 const SingUpSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -12,8 +11,6 @@ const SingUpSite: FunctionComponent = () => {
   const onRegisterNavigationContainerClick = useCallback(() => {
     navigate("/register-site");
   }, [navigate]);
-
-  logCurrentUser();
 
   return (
     <div className={styles.signUpSite}>

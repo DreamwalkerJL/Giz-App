@@ -2,7 +2,6 @@ import { FunctionComponent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignInForm.module.css";
 import { signInWithEmailPassword } from "../../firebase/AuthSignInWithEmailPassword";
-import { logCurrentUser } from "../../firebase/AuthFunction";
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -22,14 +21,14 @@ const SignUpForm: FunctionComponent = () => {
     try {
       const result = await signInWithEmailPassword(email, password);
       if (result) {
-        console.log("signed in successfully");
+
         navigate("/status-site");
       }
     } catch (error) {
       console.error("There was an error!", error);
     }
   };
-  logCurrentUser();
+
   return (
     <form className={styles.signInForm} onSubmit={handleSignIn}>
       <div className={styles.signInInput}>

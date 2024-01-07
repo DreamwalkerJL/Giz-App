@@ -7,7 +7,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { UserDto } from "../../apiServices/Apollo/Types";
 import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
-import { logCurrentUser } from "../../firebase/AuthFunction";
+
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
 
@@ -56,8 +56,8 @@ const NeedUserNameForm: FunctionComponent = () => {
               });
   
               await updateCurrentUserProfile(userName);
-              console.log("Registration successful");
-              logCurrentUser();
+
+
               navigate("/status-site");
             } catch (regError) {
               console.error("Error during registration", regError);
