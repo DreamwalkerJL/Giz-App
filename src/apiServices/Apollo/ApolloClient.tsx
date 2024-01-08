@@ -21,30 +21,7 @@ export const setTokenRetrievalFunction = (
   getToken = tokenRetrievalFunction;
 };
 
-// const httpLink = new HttpLink({
-//   uri: 'http://localhost:8080/graphql'
-// });
 
-// const wsLink = new GraphQLWsLink(createClient({
-//   url: 'ws://localhost:8080/graphql-ws',
-// }));
-
-// // The split function takes three parameters:
-// //
-// // * A function that's called for each operation to execute
-// // * The Link to use for an operation if the function returns a "truthy" value
-// // * The Link to use for an operation if the function returns a "falsy" value
-// const splitLink = split(
-//   ({ query }) => {
-//     const definition = getMainDefinition(query);
-//     return (
-//       definition.kind === 'OperationDefinition' &&
-//       definition.operation === 'subscription'
-//     );
-//   },
-//   wsLink,
-//   httpLink,
-// );
 
 const authLink = new ApolloLink((operation, forward) => {
   // const token = getToken();
@@ -56,36 +33,20 @@ const authLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-// const httpLink = new HttpLink({
-//   uri: "http://localhost:8080/graphql",
-// });
-
 const httpLink = new HttpLink({
-  uri: "https://api.gizapp.net/graphql",
+  uri: "http://localhost:8080/graphql",
 });
+
+// const httpLink = new HttpLink({
+//   uri: "https://api.gizapp.net/graphql",
+// });
 
 // Use the authLink to concatenate with the httpLink
 const httpAuthLink = authLink.concat(httpLink);
 
-// const wsLink = new GraphQLWsLink(
-//   createClient({
-//     url: "ws://localhost:8080/graphql-ws",
-//     connectionParams: () => {
-//       // This function will be called every time the client connects or reconnects.
-//       const token = getToken();
-
-//       return {
-//         headers: {
-//           Authorization: token ? `Bearer ${token}` : "",
-//         },
-//       };
-//     },
-//   })
-// );
-
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "wss://api.gizapp.net/graphql-ws",
+    url: "ws://localhost:8080/graphql-ws",
     connectionParams: () => {
       // This function will be called every time the client connects or reconnects.
       const token = getToken();
@@ -98,6 +59,22 @@ const wsLink = new GraphQLWsLink(
     },
   })
 );
+
+// const wsLink = new GraphQLWsLink(
+//   createClient({
+//     url: "wss://api.gizapp.net/graphql-ws",
+//     connectionParams: () => {
+//       // This function will be called every time the client connects or reconnects.
+//       const token = getToken();
+
+//       return {
+//         headers: {
+//           Authorization: token ? `Bearer ${token}` : "",
+//         },
+//       };
+//     },
+//   })
+// );
 
 const splitLink = split(
   ({ query }) => {
