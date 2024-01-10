@@ -66,14 +66,14 @@
 
 .invitesBadge {
   position:absolute;
-  background-color: #67a4bd;
-  color: white;
+
+  color: #1c012c;
   font-family: 'Anybody', sans-serif; /* Replace with your font */
   font-style: italic;
   font-weight: 400;
   font-size: 16px;
   border-radius: 50%;
-  padding: 2px 6px; /* Adjust for size */
+  padding: 2px 6px; 
   margin-left: 4px;
   display: inline-flex;
   align-items: center;
@@ -88,13 +88,24 @@ left: 58px;
 .count {
   position: relative;
   top: 1px;
+  color: rgb(48, 43, 79); /* White text */
+  text-shadow: 
+    -1px -1px 0 #88ee95, 
+    1px -1px 0 #88ee95, 
+    -1px 1px 0 #88ee95, 
+    1px 1px 0 #88ee95,
+    0px -1px 0 #88ee95, 
+    -1px 0px 0 #88ee95, 
+    1px 0px 0 #88ee95, 
+    0px 1px 0 #88ee95;
 }
 
-@media screen and (min-width: 500px) {
+
+@media screen and (min-width: 400px) {
 .invitesBadge {
 
   bottom: 7px;
-  left: 65px
+  left: 62px;
 
 }
 

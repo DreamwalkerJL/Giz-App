@@ -28,6 +28,7 @@ import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
 import Loader from "./components/Loader";
 import { motion } from "framer-motion";
 
+
 function App() {
   const action = useNavigationType();
   const location = useLocation();
@@ -188,6 +189,7 @@ function App() {
               zIndex: 1,
             }}
           >
+
             <div style={{ position: "relative", zIndex: 2 }}>
               <Routes location={location} key={location.pathname}>
                 <Route

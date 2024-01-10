@@ -39,10 +39,8 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
     },
   };
 
-  
-
-  const { gizCompleteData} = useGizData();
-  console.log(gizCompleteData.length)
+  const { gizCompleteData } = useGizData();
+  console.log(gizCompleteData.length);
   const pendingInvitesCount = gizCompleteData.length;
 
   return (
@@ -73,10 +71,19 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
           initial="inactive" // Set the initial state
           animate={activeTab === "INVITES" ? "active" : "inactive"}
         >
-          <b className={styles.optionsCreateT}>INVITES          {pendingInvitesCount > 0 && (
-            <motion.span  className={styles.invitesBadge} initial={{opacity: 0, y: "-13%"}} animate={{opacity: 1, y: "0%"}} transition={{delay: 0.3}}><div className={styles.count}>{pendingInvitesCount}</div></motion.span >
-          )}</b>
-
+          <b className={styles.optionsCreateT}>
+            INVITES
+            {pendingInvitesCount > 0 && (
+              <motion.span
+                className={styles.invitesBadge}
+                initial={{ opacity: 0, y: "-20%" }}
+                animate={{ opacity: 1, y: "0" }}
+                transition={{ delay: .5, duration: 0.25 }}
+              >
+                <div className={styles.count}>{pendingInvitesCount}</div>
+              </motion.span>
+            )}
+          </b>
         </motion.div>
       </div>
     </div>

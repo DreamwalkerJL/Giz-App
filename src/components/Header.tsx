@@ -41,7 +41,8 @@ const Header: FunctionComponent<HeaderType> = () => {
           whileHover="hover"
           whileTap="pressed"
         >
-          <img className={styles.bellIcon} alt="" src="/bell.svg" />
+          {/* <img className={styles.bellIcon} alt="" src="/bell.svg" /> */}
+
         </motion.div>
         <motion.div
           className={styles.menu}
