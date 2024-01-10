@@ -169,7 +169,7 @@ function App() {
     }, 2300); // Duration before starting the wipe animation
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [loading]);
 
   return (
     <>
