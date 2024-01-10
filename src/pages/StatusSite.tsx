@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Options from "../components/Options";
 import styles from "./StatusSite.module.css";
 import StatusGiz from "../components/StatusSite/StatusGiz";
-import { useGizData } from "../components/GizDataContext";
+import { GizDataProvider, useGizData } from "../components/GizDataContext";
 import { motion } from "framer-motion";
 
 
@@ -27,7 +27,7 @@ const StatusSite: FunctionComponent = () => {
   return (
     <div className={styles.statusSite}>
       <Header />
-      <Options activeTab={"STATUS"} />
+      <GizDataProvider status="invited"> <Options activeTab={"STATUS"} /></GizDataProvider>
       {/* <button onClick={refreshData}>Refresh</button> */}
 
       {gizCompleteData.length > 0 || loading ? (

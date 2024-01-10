@@ -157,16 +157,11 @@ function App() {
   }, []);
 
   const [loading, setLoading] = useState(true);
-  const [animationComplete, setAnimationComplete] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("1")
       setLoading(false);
-      setTimeout(() => {
-        console.log("2")
-        setAnimationComplete(true);
-      }, 2000); // Duration of your animation
-    }, 2300); // Duration before starting the wipe animation
+    }, 2100); // Duration before starting the wipe animation
 
     return () => clearTimeout(timer);
   }, [loading]);
@@ -178,11 +173,14 @@ function App() {
       ) : (
         <>
           <motion.div
-            initial={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
-            animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-            transition={{ duration: 2, ease: [0.1, .5, 0.2, 1] }} // Custom bezier curve for ease-in-out
+            // initial={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
+            // animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
+            // transition={{ duration: 2, ease: [0.1, .5, 0.2, 1] }} // Custom bezier curve for ease-in-out
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
             style={{
-              position: animationComplete ? "static" : "fixed",
+              position: "static",
               top: 0,
               left: 0,
               right: 0,
@@ -190,9 +188,7 @@ function App() {
               zIndex: 1,
             }}
           >
-            <div
-              style={{ position: "relative", zIndex: 2}}
-            >
+            <div style={{ position: "relative", zIndex: 2 }}>
               <Routes location={location} key={location.pathname}>
                 <Route
                   path="/"

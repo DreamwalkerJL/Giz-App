@@ -19,9 +19,9 @@ export default defineConfig({
         display: "standalone",
         scope: "/",
         start_url: "/",
-        short_name: "vite test",
-        description: "testing vite pwa",
-        name: "vite test",
+        short_name: "GizApp",
+        description: "GizApp",
+        name: "GizApp",
         icons: [
           {
             src: "/android-chrome-192x192.png",

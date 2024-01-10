@@ -23,6 +23,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GizDataProvider } from "../components/GizDataContext";
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -211,7 +212,7 @@ const CreateSite: FunctionComponent = () => {
   return (
     <div className={styles.createSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
-      <Options activeTab={"CREATE"} />
+      <GizDataProvider status="invited">  <Options activeTab={"CREATE"} /></GizDataProvider > 
       <motion.div
         className={styles.giz}
         initial="out"

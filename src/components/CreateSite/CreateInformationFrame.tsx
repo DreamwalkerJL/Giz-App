@@ -65,54 +65,60 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
 
         <div className={styles.dateAndTime}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className={styles.date}>
-              <DateField
-                label="Now"
-                value={date}
-                onChange={(newValue: dayjs.Dayjs | null | undefined ) => {
-                  if (newValue !== null && newValue !== undefined) {
-                    setDate(newValue) 
-                  } else { setDate(dayjs())}
-                }}
-                variant="standard"
-                format="DD-MM-YYYY"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                sx={{
-                  input: {
-                    textAlign: "center",
-                    color: "white",
-                    fontFamily: "Anybody",
-                    fontSize: "20px",
-                    fontWeight: "Regular",
-                    paddingBottom: "15px",
-                  },
-                }}
-              />
+            <div className={styles.dateFrame}>
+            <i className={styles.headline}>DATE</i>
+              <div className={styles.date}>
+                <DateField
+                  label="Now"
+                  value={date}
+                  onChange={(newValue: dayjs.Dayjs | null | undefined ) => {
+                    if (newValue !== null && newValue !== undefined) {
+                      setDate(newValue)
+                    } else { setDate(dayjs())}
+                  }}
+                  variant="standard"
+                  format="DD-MM-YYYY"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{
+                    input: {
+                      textAlign: "center",
+                      color: "white",
+                      fontFamily: "Anybody",
+                      fontSize: "20px",
+                      fontWeight: "Regular",
+                      paddingBottom: "15px",
+                    },
+                  }}
+                />
+              </div>
             </div>
-            <div className={styles.date}>
-              <TimeField
-                label="Format without meridiem"
-                value={time}
-                format="HH:mm"
-                onChange={(newValue: dayjs.Dayjs | null | undefined ) => {
-                  if (newValue !== null && newValue !== undefined) {
-                    setTime(newValue) 
-                  } else { setTime(dayjs())}
-                }}
-                variant="standard"
-                sx={{
-                  input: {
-                    textAlign: "center",
-                    color: "white",
-                    fontFamily: "Anybody",
-                    fontSize: "20px",
-                    fontWeight: "Thin",
-                    paddingBottom: "15px",
-                  },
-                }}
-              />
+            <div className={styles.dateFrame}>
+            <i className={styles.headline}>TIME</i>
+              <div className={styles.date}>
+                <TimeField
+                  label="Format without meridiem"
+                  value={time}
+                  format="HH:mm"
+                  onChange={(newValue: dayjs.Dayjs | null | undefined ) => {
+                    if (newValue !== null && newValue !== undefined) {
+                      setTime(newValue)
+                    } else { setTime(dayjs())}
+                  }}
+                  variant="standard"
+                  sx={{
+                    input: {
+                      textAlign: "center",
+                      color: "white",
+                      fontFamily: "Anybody",
+                      fontSize: "20px",
+                      fontWeight: "Thin",
+                      paddingBottom: "15px",
+                    },
+                  }}
+                />
+              </div>
             </div>
           </LocalizationProvider>
         </div>

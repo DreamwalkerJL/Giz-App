@@ -2,6 +2,7 @@ import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Options.module.css";
 import { motion } from "framer-motion";
+import { useGizData } from "./GizDataContext";
 
 type OptionsType = {
   activeTab: "CREATE" | "STATUS" | "INVITES";
@@ -38,6 +39,12 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
     },
   };
 
+  
+
+  const { gizCompleteData} = useGizData();
+  console.log(gizCompleteData.length)
+  const pendingInvitesCount = gizCompleteData.length;
+
   return (
     <div className={styles.optionsFrame}>
       <div className={styles.optionsButtonFrame}>
@@ -66,7 +73,10 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
           initial="inactive" // Set the initial state
           animate={activeTab === "INVITES" ? "active" : "inactive"}
         >
-          <b className={styles.optionsCreateT}>INVITES</b>
+          <b className={styles.optionsCreateT}>INVITES          {pendingInvitesCount > 0 && (
+            <motion.span  className={styles.invitesBadge} initial={{opacity: 0, y: "-13%"}} animate={{opacity: 1, y: "0%"}} transition={{delay: 0.3}}><div className={styles.count}>{pendingInvitesCount}</div></motion.span >
+          )}</b>
+
         </motion.div>
       </div>
     </div>

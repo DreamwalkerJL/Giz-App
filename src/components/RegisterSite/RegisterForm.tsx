@@ -16,6 +16,8 @@ import {
 import { allPps } from "../AllPps";
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
+import { sendEmailVerification } from "firebase/auth";
+
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -54,6 +56,9 @@ const RegisterForm: FunctionComponent = () => {
       const userCredential: UserCredential =
         await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      await sendEmailVerification(user);
+      toast.success("Registration successful! Please check your email to verify your account.");  
 
       await registerUser({
         variables: {
