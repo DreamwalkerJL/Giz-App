@@ -28,7 +28,7 @@ interface StatusGizProps {
   loading: boolean;
 }
 
-const StatusGiz: FunctionComponent<StatusGizProps> = ({ gizCompleteQuery }) => {
+const StatusGiz: FunctionComponent<StatusGizProps> = ({ gizCompleteQuery}) => {
 
 
   const { currentUser } = useAuth();
@@ -128,6 +128,7 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({ gizCompleteQuery }) => {
     // Within the same category, sort by closeness to now
     return Math.abs(timeDiffA) - Math.abs(timeDiffB);
   });
+  
 
 
   return (

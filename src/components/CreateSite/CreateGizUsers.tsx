@@ -34,7 +34,7 @@ const AddUsers: FunctionComponent<AddUserType> = ({
         : [...prev, userId]
     );
   };
-;
+
   const handleRemoveSelectedUsers = () => {
     const updatedUserData = userData.filter(
       (user) => !selectedUsers.includes(user.userId)

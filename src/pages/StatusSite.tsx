@@ -6,6 +6,7 @@ import StatusGiz from "../components/StatusSite/StatusGiz";
 import { useGizData } from "../components/GizDataContext";
 import { motion } from "framer-motion";
 
+
 const StatusSite: FunctionComponent = () => {
   const { gizCompleteData, loading } = useGizData();
 
@@ -20,6 +21,8 @@ const StatusSite: FunctionComponent = () => {
       [gizId]: !prevMap[gizId],
     }));
   };
+
+
 
   return (
     <div className={styles.statusSite}>
