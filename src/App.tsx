@@ -160,8 +160,10 @@ function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
+      console.log("1")
       setLoading(false);
       setTimeout(() => {
+        console.log("2")
         setAnimationComplete(true);
       }, 2000); // Duration of your animation
     }, 2300); // Duration before starting the wipe animation
