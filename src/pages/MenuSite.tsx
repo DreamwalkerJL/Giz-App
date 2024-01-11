@@ -1,3 +1,4 @@
+
 import { FunctionComponent, useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MenuSite.module.css";
@@ -10,35 +11,25 @@ import { messaging } from "../firebase/firebaseConfig";
 import { getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useGizData } from "../components/GizDataContext";
-
 const MenuSite: FunctionComponent = () => {
   const navigate = useNavigate();
-
   const onChangeProfilePictureClick = useCallback(() => {
     navigate("/edit-profile");
   }, [navigate]);
-
   const onContactUsTClick = useCallback(() => {
     navigate("/contact-us-site");
   }, [navigate]);
-
   const onGoBackTClick = useCallback(() => {
     navigate("/status-site");
   }, [navigate]);
-
   const handleSignOut = async () => {
     await signOutUser();
-
     // Additional logic after sign out, like redirecting the user
   };
-
   const { currentUser } = getAuth();
   const uid = currentUser?.uid;
-
   const [refreshFcmToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
-
   const { notificationData, setNotificationData } = useGizData();
-
   const handleNotificationChange = async (isEnabled: boolean) => {
     if (isEnabled && Notification.permission !== "granted") {
       const permission = await Notification.requestPermission();
@@ -53,11 +44,8 @@ const MenuSite: FunctionComponent = () => {
         return;
       }
     }
-
     setNotificationData(isEnabled);
-
     let fcmToken = null;
-
     if (isEnabled) {
       if (
         Notification.permission === "granted" ||
@@ -75,7 +63,6 @@ const MenuSite: FunctionComponent = () => {
     } else {
       fcmToken = null;
     }
-
     try {
       await refreshFcmToken({
         variables: {
@@ -88,7 +75,6 @@ const MenuSite: FunctionComponent = () => {
     }
   };
 
-
   const buttonVariants = {
     hover: {
       scale: 1.07,
@@ -97,7 +83,6 @@ const MenuSite: FunctionComponent = () => {
       scale: 0.94, // Slightly smaller scale when pressed
     },
   };
-
   return (
     <motion.div className={styles.menuSite}>
       <div className={styles.header}>
@@ -174,5 +159,4 @@ const MenuSite: FunctionComponent = () => {
     </motion.div>
   );
 };
-
 export default MenuSite;
