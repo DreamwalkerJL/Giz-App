@@ -40,7 +40,7 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
   };
 
   const { gizCompleteData } = useGizData();
-  console.log(gizCompleteData.length);
+
   const pendingInvitesCount = gizCompleteData.length;
 
   return (
@@ -78,7 +78,7 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
                 className={styles.invitesBadge}
                 initial={{ opacity: 0, y: "-20%" }}
                 animate={{ opacity: 1, y: "0" }}
-                transition={{ delay: .5, duration: 0.25 }}
+                transition={{ delay: 0.5, duration: 0.25 }}
               >
                 <div className={styles.count}>{pendingInvitesCount}</div>
               </motion.span>

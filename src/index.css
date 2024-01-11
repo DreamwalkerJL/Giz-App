@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Blinker:wght@300;400;600;700;800&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,300;0,400;1,100;1,200;1,400&1,700display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 body {
   margin: 0;
@@ -29,3 +28,30 @@ html {
 }
 
 
+@font-face {
+  font-family: 'Blinker';
+  src: url('/assets/fonts/Blinker_WOFF2/Blinker-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Blinker';
+  src: url('/assets/fonts/Blinker_WOFF2/Blinker-SemiBold.woff2') format('woff2');
+  font-weight: 600; /* SemiBold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Blinker';
+  src: url('/assets/fonts/Blinker_WOFF2/Blinker-Bold.woff2') format('woff2');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Anybody';
+  src: url('/assets/fonts/Anybody_WOFF2/Anybody-BoldItalic.woff2') format('woff2');
+  font-weight: 700; /* Bold */
+  font-style: italic;
+}
