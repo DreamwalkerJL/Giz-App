@@ -26,28 +26,28 @@ html {
 
 @font-face {
   font-family: 'Blinker';
-  src: url('/assets/fonts/Blinker_WOFF2/Blinker-Regular.woff2') format('woff2');
+  src: url('/assets/fonts/Blinker-Regular.ttf') format('ttf');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Blinker';
-  src: url('/assets/fonts/Blinker_WOFF2/Blinker-SemiBold.woff2') format('woff2');
+  src: url('/assets/fonts/Blinker-SemiBold.ttf') format('ttf');
   font-weight: 600; /* SemiBold */
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Blinker';
-  src: url('/assets/fonts/Blinker_WOFF2/Blinker-Bold.woff2') format('woff2');
+  src: url('/assets/fonts/Blinker-Bold.ttf') format('ttf');
   font-weight: 700; /* Bold */
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Anybody';
-  src: url('/assets/fonts/Anybody_WOFF2/Anybody-BoldItalic.woff2') format('woff2');
+  src: url('/assets/fonts/Anybody-BoldItalic.ttf') format('ttf');
   font-weight: 700; /* Bold */
   font-style: italic;
 }
