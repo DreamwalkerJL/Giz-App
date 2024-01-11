@@ -15,7 +15,7 @@ import { getAuth } from "firebase/auth";
 import CreateGizUsers from "../components/CreateSite/CreateGizUsers";
 import CreateGizInformationFrame from "../components/CreateSite/CreateInformationFrame";
 
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation} from "@apollo/client";
 
 import {
   GizComplete,
@@ -26,7 +26,6 @@ import {
   GIZ_EDIT_MUTATION,
 } from "../apiServices/Apollo/Mutations";
 import {
-  GIZ_COMPLETE_QUERY,
   USER_PUBLIC_QUERY,
 } from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";

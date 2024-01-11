@@ -18,16 +18,14 @@ import ProtectedRoute from "./firebase/ProtectedRoute";
 import LoggedInRoute from "./firebase/LoggedInRoute";
 import EditSite from "./pages/EditSite";
 import { getAuth } from "firebase/auth";
-import { GizDataProvider } from "./components/GizDataContext";
 import NeedUserNameSite from "./pages/NeedUserNameSite";
 import { ToastContainer } from "react-toastify";
-import { getToken, onMessage } from "firebase/messaging";
+import { getToken } from "firebase/messaging";
 import { messaging } from "./firebase/firebaseConfig"; // Ensure this is the correct path to your Firebase Messaging instance
 import { useMutation } from "@apollo/client";
 import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
 import Loader from "./components/Loader";
 import { motion } from "framer-motion";
-
 
 function App() {
   const action = useNavigationType();
@@ -189,7 +187,6 @@ function App() {
               zIndex: 1,
             }}
           >
-
             <div style={{ position: "relative", zIndex: 2 }}>
               <Routes location={location} key={location.pathname}>
                 <Route
@@ -215,9 +212,8 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <ToastContainer />
-   
-                        <StatusSite />
-      
+
+                      <StatusSite />
                     </ProtectedRoute>
                   }
                 />
@@ -226,9 +222,8 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <ToastContainer />
-      
-                        <InvitesSite />
-            
+
+                      <InvitesSite />
                     </ProtectedRoute>
                   }
                 />
@@ -246,9 +241,8 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <ToastContainer />
-         
-                        <EditProfile />
-        
+
+                      <EditProfile />
                     </ProtectedRoute>
                   }
                 />

@@ -26,18 +26,17 @@ import {
   GizEditUserInvitesSubscriptionData,
   UserChangedPpSubscriptionData,
   UserHandledGizInviteSubscriptionData,
-  isNotificationEnabled,
 } from "../apiServices/Apollo/Types";
 import { GIZ_COMPLETE_QUERY, IS_NOTIFICATION_ENABLED } from "../apiServices/Apollo/Querys";
 // Define a type for your context state
 type GizDataContextType = {
   gizCompleteData: GizComplete[]; // Replace `any` with a more specific type as needed
-  notificationData: Boolean;
+  notificationData: boolean;
   loading: boolean;
   error: unknown; // or a more specific error type
   refetchGizData: () => void;
   setGizCompleteData: React.Dispatch<React.SetStateAction<GizComplete[]>>;
-  setNotificationData: React.Dispatch<React.SetStateAction<Boolean>>;
+  setNotificationData: React.Dispatch<React.SetStateAction<boolean>>;
   // ... other state or functions
 };
 // Provide a default value that matches the type
@@ -92,7 +91,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     variables: { userName, status },
 
   });
-  const [notificationData, setNotificationData] = useState<Boolean>(false);
+  const [notificationData, setNotificationData] = useState<boolean>(false);
   const { data: notificationDataQuery } = useQuery(IS_NOTIFICATION_ENABLED, {
     variables: { userUid },
     fetchPolicy: "cache-and-network",

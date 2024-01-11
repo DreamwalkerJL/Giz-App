@@ -42,7 +42,7 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
 
   const { currentUser } = useAuth();
   const userName = currentUser?.displayName;
-  const { gizCompleteData, loading } = useGizData();
+  const { gizCompleteData} = useGizData();
 
   const filteredGizCompleteData = gizCompleteData.filter((giz) => {
     return giz.invitedUsers.some(

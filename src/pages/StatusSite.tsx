@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Options from "../components/Options";
 import styles from "./StatusSite.module.css";
 import StatusGiz from "../components/StatusSite/StatusGiz";
-import { GizDataProvider, useGizData } from "../components/GizDataContext";
+import {useGizData } from "../components/GizDataContext";
 import { motion } from "framer-motion";
 import { useAuth } from "../firebase/AuthContext";
 

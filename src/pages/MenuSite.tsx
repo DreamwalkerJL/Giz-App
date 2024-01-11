@@ -1,14 +1,13 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MenuSite.module.css";
 import { signOutUser } from "../firebase/AuthSignout";
 import { motion } from "framer-motion";
 import { REFRESH_FCM_TOKEN_MUTATION } from "../apiServices/Apollo/Mutations";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation} from "@apollo/client";
 import { getToken } from "firebase/messaging";
 import { messaging } from "../firebase/firebaseConfig";
 import { getAuth } from "firebase/auth";
-import { IS_NOTIFICATION_ENABLED } from "../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
 import { useGizData } from "../components/GizDataContext";
 
