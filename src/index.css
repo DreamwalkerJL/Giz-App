@@ -1,6 +1,6 @@
-/* Remove the @import for Blinker and Anybody as you're hosting these fonts locally */
+/* @import url("https://fonts.googleapis.com/css2?family=Blinker:wght@300;400;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,300;0,400;1,100;1,200;1,400&1,700display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
-
 body {
   margin: 0;
   line-height: normal;
@@ -18,36 +18,13 @@ html {
   font-family: 'Blinker', sans-serif; /* Set your desired font family */
   font-size: 20px; /* Set your desired font size */
   font-weight: bold; /* Set your desired font weight */
+
+
+
 }
 
 .Toastify__progress-bar {
-  /* Your styles for progress bar */
+
 }
 
-@font-face {
-  font-family: 'Blinker';
-  src: url('/assets/fonts/Blinker-Regular.ttf') format('ttf');
-  font-weight: 400;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: 'Blinker';
-  src: url('/assets/fonts/Blinker-SemiBold.ttf') format('ttf');
-  font-weight: 600; /* SemiBold */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Blinker';
-  src: url('/assets/fonts/Blinker-Bold.ttf') format('ttf');
-  font-weight: 700; /* Bold */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Anybody';
-  src: url('/assets/fonts/Anybody-BoldItalic.ttf') format('ttf');
-  font-weight: 700; /* Bold */
-  font-style: italic;
-}
