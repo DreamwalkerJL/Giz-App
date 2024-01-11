@@ -77,3 +77,7 @@ export interface UserDto {
   profilePicture: string;
   fcmToken: string;
 }
+
+export interface isNotificationEnabled {
+  isNotificationEnabled: boolean;
+}

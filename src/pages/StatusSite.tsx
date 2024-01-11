@@ -5,10 +5,22 @@ import styles from "./StatusSite.module.css";
 import StatusGiz from "../components/StatusSite/StatusGiz";
 import { GizDataProvider, useGizData } from "../components/GizDataContext";
 import { motion } from "framer-motion";
-
+import { useAuth } from "../firebase/AuthContext";
 
 const StatusSite: FunctionComponent = () => {
+  const { currentUser } = useAuth();
+  const userName = currentUser?.displayName;
   const { gizCompleteData, loading } = useGizData();
+
+  const filteredGizCompleteData = gizCompleteData.filter((giz) => {
+    return giz.invitedUsers.some(
+      (user) =>
+        (user.userName === userName && user.status === "creator") ||
+        (user.userName === userName && user.status === "accepted")
+    );
+  });
+
+
 
   const [editToggleMap, setEditToggleMap] = useState<{
     [key: string]: boolean;
@@ -22,17 +34,15 @@ const StatusSite: FunctionComponent = () => {
     }));
   };
 
-
-
   return (
     <div className={styles.statusSite}>
       <Header />
-      <GizDataProvider status="invited"> <Options activeTab={"STATUS"} /></GizDataProvider>
+      <Options activeTab={"STATUS"} />
       {/* <button onClick={refreshData}>Refresh</button> */}
 
-      {gizCompleteData.length > 0 || loading ? (
+      {filteredGizCompleteData.length > 0 || loading ? (
         <StatusGiz
-          gizCompleteQuery={gizCompleteData}
+          gizCompleteQuery={filteredGizCompleteData}
           editToggleMap={editToggleMap}
           toggleEditForGiz={toggleEditForGiz}
           loading={loading}

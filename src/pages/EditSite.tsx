@@ -31,6 +31,7 @@ import {
 } from "../apiServices/Apollo/Querys";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { useGizData } from "../components/GizDataContext";
 const EditSite: FunctionComponent = () => {
   const navigate = useNavigate();
   const onMenuContainerClick = useCallback(() => {
@@ -67,11 +68,7 @@ const EditSite: FunctionComponent = () => {
   }
 
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
-  const { data, error } = useQuery(GIZ_COMPLETE_QUERY, {
-    variables: { userName: user?.displayName, status: "accepted" },
-    fetchPolicy: "cache-and-network",
-    // fetchPolicy: "network-only",
-  });
+  const { gizCompleteData: data, error } = useGizData();
 
   const gizData = gizCompleteData.find((giz) => giz.id === gizId); // Find the giz
   useEffect(() => {
@@ -110,14 +107,14 @@ const EditSite: FunctionComponent = () => {
     }
   }, [gizData]);
   useEffect(() => {
-    if (data?.gizCompleteQuery) {
-      setGizCompleteData(data.gizCompleteQuery);
+    if (data) {
+      setGizCompleteData(data);
     }
   }, [data]);
   useEffect(() => {
     // setGizData(location.state.gizComplete);
-    if (data?.gizCompleteQuery) {
-      setGizCompleteData(data.gizCompleteQuery);
+    if (data) {
+      setGizCompleteData(data);
       setGizId(location.state.gizComplete.id);
     }
   }, [location.state.gizComplete, location, gizData, data]);

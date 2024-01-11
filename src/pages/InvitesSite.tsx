@@ -7,6 +7,7 @@ import InvitesGiz from "../components/InvitesSite/InvitesGiz";
 import { useGizData } from "../components/GizDataContext";
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
+import { useAuth } from "../firebase/AuthContext";
 
 const InvitesSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -15,9 +16,19 @@ const InvitesSite: FunctionComponent = () => {
     navigate("/menu-site");
   }, [navigate]);
 
+  const { currentUser } = useAuth();
+  const userName = currentUser?.displayName;
   const { gizCompleteData, loading } = useGizData();
 
-  const recentGizCompleteData = gizCompleteData.filter((giz) => {
+  const filteredGizCompleteData = gizCompleteData.filter((giz) => {
+    return giz.invitedUsers.some(
+      (user) =>
+        (user.userName === userName && user.status === "invited") 
+    );
+  });
+
+
+  const recentGizCompleteData = filteredGizCompleteData.filter((giz) => {
     const gizDateTime = dayjs(
       `${giz.date} ${giz.time}`,
       "MMMM DD, YYYY HH:mm A"

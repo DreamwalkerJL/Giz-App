@@ -36,7 +36,6 @@ const CreateSite: FunctionComponent = () => {
     navigate("/status-site");
   }, [navigate]);
 
-
   const userNameRef = useRef<HTMLInputElement | null>(null);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -109,7 +108,6 @@ const CreateSite: FunctionComponent = () => {
     }
   };
 
-
   const [getUser, { data: userPublicData }] = useLazyQuery(USER_PUBLIC_QUERY);
   const [refreshUserData, setRefreshUserData] = useState(false);
 
@@ -144,7 +142,6 @@ const CreateSite: FunctionComponent = () => {
 
       // Check if the userPublicQuery data is not null
       if (response.data && response.data.userPublicQuery !== null) {
-
         // Update the state or perform other actions as needed
         setRefreshUserData((prev) => !prev);
       } else {
@@ -212,7 +209,7 @@ const CreateSite: FunctionComponent = () => {
   return (
     <div className={styles.createSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
-      <GizDataProvider status="invited">  <Options activeTab={"CREATE"} /></GizDataProvider > 
+      <Options activeTab={"CREATE"} />
       <motion.div
         className={styles.giz}
         initial="out"

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Options.module.css";
 import { motion } from "framer-motion";
 import { useGizData } from "./GizDataContext";
+import { useAuth } from "../firebase/AuthContext";
 
 type OptionsType = {
   activeTab: "CREATE" | "STATUS" | "INVITES";
@@ -39,9 +40,19 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
     },
   };
 
-  const { gizCompleteData } = useGizData();
+  const { currentUser } = useAuth();
+  const userName = currentUser?.displayName;
+  const { gizCompleteData, loading } = useGizData();
 
-  const pendingInvitesCount = gizCompleteData.length;
+  const filteredGizCompleteData = gizCompleteData.filter((giz) => {
+    return giz.invitedUsers.some(
+      (user) =>
+        (user.userName === userName && user.status === "invited") 
+    );
+  });
+
+
+  const pendingInvitesCount = filteredGizCompleteData.length;
 
   return (
     <div className={styles.optionsFrame}>

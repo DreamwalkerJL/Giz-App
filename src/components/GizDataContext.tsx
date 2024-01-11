@@ -26,24 +26,29 @@ import {
   GizEditUserInvitesSubscriptionData,
   UserChangedPpSubscriptionData,
   UserHandledGizInviteSubscriptionData,
+  isNotificationEnabled,
 } from "../apiServices/Apollo/Types";
-import { GIZ_COMPLETE_QUERY } from "../apiServices/Apollo/Querys";
+import { GIZ_COMPLETE_QUERY, IS_NOTIFICATION_ENABLED } from "../apiServices/Apollo/Querys";
 // Define a type for your context state
 type GizDataContextType = {
   gizCompleteData: GizComplete[]; // Replace `any` with a more specific type as needed
+  notificationData: Boolean;
   loading: boolean;
   error: unknown; // or a more specific error type
   refetchGizData: () => void;
   setGizCompleteData: React.Dispatch<React.SetStateAction<GizComplete[]>>;
+  setNotificationData: React.Dispatch<React.SetStateAction<Boolean>>;
   // ... other state or functions
 };
 // Provide a default value that matches the type
 const defaultValue: GizDataContextType = {
   gizCompleteData: [],
+  notificationData: false,
   loading: false,
   error: null,
   refetchGizData: () => {}, // noop function
   setGizCompleteData: () => {},
+  setNotificationData: () => {},
   // ... other default values
 };
 const GizDataContext = createContext<GizDataContextType>(defaultValue);
@@ -85,8 +90,15 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName, status },
-    fetchPolicy: "cache-and-network",
+
   });
+  const [notificationData, setNotificationData] = useState<Boolean>(false);
+  const { data: notificationDataQuery } = useQuery(IS_NOTIFICATION_ENABLED, {
+    variables: { userUid },
+    fetchPolicy: "cache-and-network",
+    // fetchPolicy: "network-only", // Ensures fresh data on each component mount
+  });
+
   const { data: userChangedPpSubscriptionData } =
     useSubscription<UserChangedPpSubscriptionData>(
       USER_CHANGED_PP_SUBSCRIPTION,
@@ -126,18 +138,19 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     }, 60000); // 60000 milliseconds = 1 minute
     return () => clearInterval(interval); // Clear interval on component unmount
   }, [refetch]);
-  // Handle query and subscription data updates...
-  useEffect(() => {
-    if (data?.gizCompleteQuery) {
-      setGizCompleteData(data.gizCompleteQuery);
-    }
-  }, [data]);
+
   // Update state when query data is received
   useEffect(() => {
     if (data?.gizCompleteQuery) {
       setGizCompleteData(data.gizCompleteQuery);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (notificationDataQuery?.isNotificationEnabled) {
+      setNotificationData(notificationDataQuery.isNotificationEnabled);
+    }
+  }, [notificationDataQuery]);
   // Update state when subscription data is received
   useEffect(() => {
     if (subscriptionData?.userHandledGizInvite) {
@@ -262,6 +275,8 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   const contextValue = {
     gizCompleteData,
     setGizCompleteData,
+    notificationData,
+    setNotificationData,
     loading,
     error,
     refetchGizData: refetch,

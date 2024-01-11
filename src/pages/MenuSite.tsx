@@ -10,6 +10,7 @@ import { messaging } from "../firebase/firebaseConfig";
 import { getAuth } from "firebase/auth";
 import { IS_NOTIFICATION_ENABLED } from "../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
+import { useGizData } from "../components/GizDataContext";
 
 const MenuSite: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -34,13 +35,10 @@ const MenuSite: FunctionComponent = () => {
 
   const { currentUser } = getAuth();
   const uid = currentUser?.uid;
-  const [notificationPermission, setNotificationPermission] = useState(false);
+
   const [refreshFcmToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
-  const { data, loading, error } = useQuery(IS_NOTIFICATION_ENABLED, {
-    variables: { uid },
-    fetchPolicy: "cache-and-network",
-    // fetchPolicy: "network-only", // Ensures fresh data on each component mount
-  });
+
+  const { notificationData, setNotificationData } = useGizData();
 
   const handleNotificationChange = async (isEnabled: boolean) => {
     if (isEnabled && Notification.permission !== "granted") {
@@ -57,7 +55,7 @@ const MenuSite: FunctionComponent = () => {
       }
     }
 
-    setNotificationPermission(isEnabled);
+    setNotificationData(isEnabled);
 
     let fcmToken = null;
 
@@ -91,12 +89,6 @@ const MenuSite: FunctionComponent = () => {
     }
   };
 
-  useEffect(() => {
-    if (!loading && !error && data) {
-      // Assuming 'isNotificationEnabled' is true if token is present and false if not
-      setNotificationPermission(data.isNotificationEnabled);
-    }
-  }, [data, loading, error]);
 
   const buttonVariants = {
     hover: {
@@ -132,22 +124,22 @@ const MenuSite: FunctionComponent = () => {
         </motion.div>
         <div
           className={styles.notificationsContainer}
-          onClick={() => handleNotificationChange(!notificationPermission)}
+          onClick={() => handleNotificationChange(!notificationData)}
         >
           <div className={styles.notificationsT}>NOTIFICATIONS</div>
           <motion.div
             className={`${styles.notificationsLine} ${
-              notificationPermission ? styles.notificationsLineActive : ""
+              notificationData ? styles.notificationsLineActive : ""
             }`}
             layout
             transition={{ duration: 0.3 }}
           />
           <div
             className={`${styles.notificationsToggleText} ${
-              notificationPermission ? styles.notificationsToggleTextActive : ""
+              notificationData ? styles.notificationsToggleTextActive : ""
             }`}
           >
-            {notificationPermission ? "ON" : "OFF"}
+            {notificationData ? "ON" : "OFF"}
           </div>
         </div>
         <motion.div

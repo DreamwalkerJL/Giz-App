@@ -146,16 +146,16 @@ function App() {
     checkPermissionAndRefreshToken();
   }, []);
 
-  onMessage(messaging, (payload) => {
-    console.log("Message received. ", payload);
-    // ...
-  });
-  useEffect(() => {
-    onMessage(messaging, (payload) => {
-      console.log("Message received in the foreground: ", payload);
-      // Display an in-app message or update the UI
-    });
-  }, []);
+  // onMessage(messaging, (payload) => {
+  //   console.log("Message received. ", payload);
+  //   // ...
+  // });
+  // useEffect(() => {
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Message received in the foreground: ", payload);
+  //     // Display an in-app message or update the UI
+  //   });
+  // }, []);
 
   const [loading, setLoading] = useState(true);
 
@@ -215,9 +215,9 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <ToastContainer />
-                      <GizDataProvider status="accepted">
+   
                         <StatusSite />
-                      </GizDataProvider>
+      
                     </ProtectedRoute>
                   }
                 />
@@ -226,9 +226,9 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <ToastContainer />
-                      <GizDataProvider status="invited">
+      
                         <InvitesSite />
-                      </GizDataProvider>
+            
                     </ProtectedRoute>
                   }
                 />
@@ -246,9 +246,9 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <ToastContainer />
-                      <GizDataProvider status="accepted">
+         
                         <EditProfile />
-                      </GizDataProvider>
+        
                     </ProtectedRoute>
                   }
                 />

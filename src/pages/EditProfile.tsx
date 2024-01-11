@@ -18,7 +18,7 @@ const EditProfile: FunctionComponent = () => {
     navigate("/menu-site");
   }, [navigate]);
 
-  const { refetchGizData } = useGizData();
+  const { setGizCompleteData} = useGizData();
 
   const [
     changePp,
@@ -36,27 +36,43 @@ const EditProfile: FunctionComponent = () => {
     }
   };
 
-  const handleChangePp = (index: number | undefined) => {
+
+  const handleChangePp = async (index: number | undefined) => {
     if (currentUser && index !== undefined) {
-      // Explicitly check for undefined
+      const chosenPp = allPps[index];
       try {
-        const chosenPp = allPps[index];
-        changePp({
+        const response = await changePp({
           variables: { userName: currentUser.displayName, newPp: chosenPp },
         });
-        refetchGizData();
-        navigate("/status-site");
+  
+        // Check if mutation was successful before updating the state
+        if (response.data.changePpMutation.success) {
+          // Update the profile picture in gizCompleteData
+          setGizCompleteData(prevData => prevData.map(gizComplete => ({
+            ...gizComplete,
+            invitedUsers: gizComplete.invitedUsers.map(user => {
+              if (user.userName === currentUser.displayName) {
+                return { ...user, profilePicture: chosenPp };
+              }
+              return user;
+            })
+          })));
+  
+          toast.success("Profile picture updated");
+          navigate("/status-site");
+        } else {
+          toast.error("Failed to update profile picture.");
+        }
       } catch (e) {
-        console.log(changePpError);
-        toast.error("ERROR - Please contact support")
-        toast.error("ERROR - please contact support");
+        console.error(changePpError);
+        toast.error("ERROR - Please contact support");
       }
     } else {
       console.error("No new Profile Picture has been chosen");
       toast.error("No new Profile Picture has been chosen");
     }
   };
-
+  
   const buttonVariants = {
     hover: {
       scale: 1.04,
