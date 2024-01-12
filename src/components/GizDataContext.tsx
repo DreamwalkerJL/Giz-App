@@ -91,7 +91,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     variables: { userName, status },
     skip: !currentUser || !currentUser.displayName, // Skip the query if conditions are not met
   });
-
+  console.log("0.0.1")
   const [notificationData, setNotificationData] = useState<boolean>(false);
 
   const { data: notificationDataQuery } = useQuery(IS_NOTIFICATION_ENABLED, {
