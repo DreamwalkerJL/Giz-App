@@ -84,8 +84,11 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   status,
 }) => {
   const { currentUser } = useAuth();
-  const userName = currentUser?.displayName;
-  const userUid = currentUser?.uid;
+  if (!currentUser || !currentUser.displayName || !currentUser.uid) {
+    throw new Error("Error in GizDataProvider: currentUser is null");
+  }
+  const userName = currentUser.displayName;
+  const userUid = currentUser.uid;
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName, status },
