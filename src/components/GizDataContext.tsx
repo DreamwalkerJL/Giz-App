@@ -84,12 +84,11 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   status,
 }) => {
   const { currentUser } = useAuth();
-  if (!currentUser || !currentUser.displayName || !currentUser.uid) {
-    throw new Error("Error in GizDataProvider: currentUser is null");
-  }
+if(!currentUser || !currentUser.displayName) return (<></>)
   const userName = currentUser.displayName;
   const userUid = currentUser.uid;
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
+  console.log(gizCompleteData)
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName, status },
 
@@ -134,13 +133,13 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       { variables: { userUid } }
     );
   // Refetch data every 1 minute
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refetch();
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     refetch();
 
-    }, 60000); // 60000 milliseconds = 1 minute
-    return () => clearInterval(interval); // Clear interval on component unmount
-  }, [refetch]);
+  //   }, 60000); // 60000 milliseconds = 1 minute
+  //   return () => clearInterval(interval); // Clear interval on component unmount
+  // }, [refetch]);
 
   // Update state when query data is received
   useEffect(() => {
