@@ -132,13 +132,13 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       { variables: { userUid } }
     );
   // Refetch data every 1 minute
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refetch();
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     refetch();
 
-    }, 60000); // 60000 milliseconds = 1 minute
-    return () => clearInterval(interval); // Clear interval on component unmount
-  }, [refetch]);
+  //   }, 60000); // 60000 milliseconds = 1 minute
+  //   return () => clearInterval(interval); // Clear interval on component unmount
+  // }, [refetch]);
 
   // Update state when query data is received
   useEffect(() => {
