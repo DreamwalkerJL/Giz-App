@@ -96,7 +96,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
 
   const { data: notificationDataQuery } = useQuery(IS_NOTIFICATION_ENABLED, {
     variables: { uid: userUid },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "cache-only",
     // fetchPolicy: "network-only", // Ensures fresh data on each component mount
   });
 
