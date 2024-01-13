@@ -90,13 +90,14 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName, status },
     skip: !currentUser || !currentUser.displayName, // Skip the query if conditions are not met
+    fetchPolicy: "cache-first"
   });
   console.log("0.0.1")
   const [notificationData, setNotificationData] = useState<boolean>(false);
 
   const { data: notificationDataQuery } = useQuery(IS_NOTIFICATION_ENABLED, {
     variables: { uid: userUid },
-    fetchPolicy: "cache-only",
+    fetchPolicy: "cache-first",
     // fetchPolicy: "network-only", // Ensures fresh data on each component mount
   });
 
