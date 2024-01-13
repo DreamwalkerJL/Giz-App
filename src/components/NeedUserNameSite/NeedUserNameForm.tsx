@@ -51,7 +51,7 @@ const NeedUserNameForm: FunctionComponent = () => {
             try {
             await registerUser({
                 variables: {
-                  userDto: { userName, email, profilePicture, uid: user.uid },
+                  userDto: { userName, email, profilePicture, uid: user.uid, timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
                 },
               });
   
