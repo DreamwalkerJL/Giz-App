@@ -76,6 +76,7 @@ export interface UserDto {
   userName: string;
   profilePicture: string;
   fcmToken: string;
+  timeZone: string;
 }
 
 export interface isNotificationEnabled {

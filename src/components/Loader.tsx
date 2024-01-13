@@ -10,7 +10,7 @@ export default function Loader() {
       // initial={{ opacity: 0 }}
       // transition={{ duration: 1, delay: 0 }}
     >
-<video autoPlay loop muted style={{ width: '250px', height: '250px', position: "relative", bottom: "5vh" }}>
+<video autoPlay loop muted style={{ width: '250px', height: '250px', position: "relative" }}>
         <source src={logoLoader2} type="video/mp4" />
         Your browser does not support the video tag.
       </video>

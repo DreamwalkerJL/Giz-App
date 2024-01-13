@@ -14,50 +14,43 @@ const firebaseConfig = {
  
   // Retrieve firebase messaging
   const messaging = firebase.messaging();
+
  
-  // messaging.onBackgroundMessage(function(payload) {
-  //   console.log("Received background message ", payload);
+  messaging.onBackgroundMessage(function(payload) {
+   
   
-  //   const notificationTitle = payload.notification.title;
-  //   const notificationOptions = {
-  //     body: payload.notification.body,
-  //     icon: '/path/to/icon.png',
-  //     actions: [
-  //       { action: 'accept', title: 'Accept' },
-  //       { action: 'decline', title: 'Decline' }
-  //     ],
-  //     // other options...
-  //   };
-  
-  //   self.registration.showNotification(notificationTitle, notificationOptions);
-  // });
-  
-  // self.addEventListener('notificationclick', function(event) {
-  //   console.log('On notification click: ', event.notification.tag);
-  //   event.notification.close();
-  
-  //   // Check which action was clicked
-  //   if (event.action === 'accept') {
-  //     // Perform accept action
-  //   } else if (event.action === 'decline') {
-  //     // Perform decline action
-  //   } else {
-  //     // User clicked somewhere else in the notification
-  //   }
-  
-  //   event.waitUntil(
-  //     clients.matchAll({ type: 'window' }).then(function(clientList) {
-  //       for (var i = 0; i < clientList.length; i++) {
-  //         var client = clientList[i];
-  //         if (client.url === '/' && 'focus' in client) {
-  //           return client.focus().then(client => {
-  //             client.postMessage({ action: event.action, data: event.notification.data });
-  //           });
-  //         }
-  //       }
-  //       if (clients.openWindow) {
-  //         return clients.openWindow('/');
-  //       }
-  //     })
-  //   );
-  // });
+    let options = {
+        body: payload.data.body,
+        icon: '/favicon.ico',
+        // actions: [
+        //     { action: 'accept', title: 'Accept' },
+        //     { action: 'decline', title: 'Decline' }
+        // ],
+        // other options...
+    };
+
+    self.registration.showNotification(payload.data.title, options);
+});
+self.addEventListener('notificationclick', function(event) {
+  console.log('Notification click Received.');
+
+  // Close the notification
+  event.notification.close();
+
+  // Redirect to the invites site
+  event.waitUntil(
+      clients.matchAll({ type: 'window' }).then(function(windowClients) {
+          // Check if there is already a window/tab open with the target URL
+          for (var i = 0; i < windowClients.length; i++) {
+              var client = windowClients[i];
+              if (client.url === '/invites-site' && 'focus' in client) {
+                  return client.focus();
+              }
+          }
+          // If not, then open the new window
+          if (clients.openWindow) {
+              return clients.openWindow('/invites-site');
+          }
+      })
+  );
+});

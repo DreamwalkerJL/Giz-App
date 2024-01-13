@@ -66,10 +66,11 @@ const EditSite: FunctionComponent = () => {
     }
   }
 
-  const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
-  const { gizCompleteData: data, error } = useGizData();
+  const [gizComplete, setGizComplete] = useState<GizComplete[]>([]);
+  const { gizCompleteData: data, error, setGizCompleteData } = useGizData();
 
-  const gizData = gizCompleteData.find((giz) => giz.id === gizId); // Find the giz
+  const gizData = gizComplete.find((giz) => giz.id === gizId); // Find the giz
+
   useEffect(() => {
     if (gizData) {
       if (
@@ -107,13 +108,13 @@ const EditSite: FunctionComponent = () => {
   }, [gizData]);
   useEffect(() => {
     if (data) {
-      setGizCompleteData(data);
+      setGizComplete(data);
     }
   }, [data]);
   useEffect(() => {
     // setGizData(location.state.gizComplete);
     if (data) {
-      setGizCompleteData(data);
+      setGizComplete(data);
       setGizId(location.state.gizComplete.id);
     }
   }, [location.state.gizComplete, location, gizData, data]);
@@ -136,7 +137,8 @@ const EditSite: FunctionComponent = () => {
       return;
     }
     try {
-      gizEdit({
+ 
+      const response = await gizEdit({
         variables: {
           gizCompleteInput: {
             id: gizId,
@@ -148,9 +150,30 @@ const EditSite: FunctionComponent = () => {
             invitedUsers: userData.map(({ __typename, ...rest }) => rest), // Remove __typename from each object
           },
         },
-      }).then(() => {
+      })
+      if (response.data.gizEditMutation.success) {
+        // Update the profile picture in gizComplete
+        setGizCompleteData(prevData => prevData.map(gizComplete => {
+          if (gizComplete.id === gizId) {
+            return {
+              ...gizComplete,
+              title,
+              description,
+              date: formattedDate,
+              time: formattedTime,
+              invitedUsers: userData.map(({ __typename, ...rest }) => rest), // Remove __typename from each object
+            };
+          }
+          return gizComplete;
+        }));
+
+        toast.success("Profile picture updated");
         navigate("/status-site");
-      });
+      } else {
+        toast.error("Failed to update profile picture.");
+      }
+        navigate("/status-site");
+    
     } catch (error) {
       console.error("Error executing mutation", error);
     }
