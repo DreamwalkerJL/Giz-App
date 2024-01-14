@@ -23,6 +23,7 @@ const Options: FunctionComponent<OptionsType> = ({ activeTab }) => {
   const onOptionsInvitesFrameClick = useCallback(() => {
     navigate("/invites-site");
   }, [navigate]);
+  
 
   const tabVariants = {
     active: {

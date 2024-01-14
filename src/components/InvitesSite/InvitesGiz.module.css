@@ -6,7 +6,7 @@
 .descriptionT {
   align-self: stretch;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   font-family: Blinker;
 }
 .titleAndDescription {
@@ -22,7 +22,7 @@
 .madeByT {
   align-self: stretch;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
 }
 .dateIsT {
   align-self: stretch;
@@ -135,7 +135,7 @@
   justify-content: center;
   padding: 15px 26px;
   text-align: left;
-  font-size: 24px;
+  font-size: 20px;
   color: #fff;
   font-family: Blinker;
 }
@@ -268,6 +268,14 @@
   padding-right: 20px
 }
 
+.timeStatus {
+  font-family: Anybody;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+
 @media screen and (min-width: 500px) {
 
   .declinedText {
@@ -298,6 +306,28 @@
     left: 30%;
     font-size: 62px;
   }
+
+  .madeByT {
+    font-size: 16px;
+  }
+
+  .dateFrame {
+    font-size: 20px;
+  }
+
+  .descriptionT {
+    font-size: 16px;
+
+  }
+
+  .giz {
+    font-size: 24px;
+  }
+
+  .timeStatus {
+    font-size: 20px;
+  }
+
 
 }
 
@@ -391,12 +421,6 @@
   animation: rainbowText 30s linear infinite;
 }
 
-.timeStatus {
-  font-family: Anybody;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 20px;
-}
 
 .expired {
   color: red; /* Or any style you want for expired items */

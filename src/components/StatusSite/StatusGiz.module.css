@@ -39,7 +39,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  font-size: 16px;
+  font-size: 20px;
 }
 .statusInformationFrame {
   align-self: stretch;
@@ -221,6 +221,14 @@
   padding-right: 20px
 }
 
+.timeStatus {
+  font-family: Anybody;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+
 @media screen and (min-width: 500px) {
 
   .declinedText {
@@ -253,13 +261,10 @@
     font-size: 62px;
   }
 
-  /* .madeByT {
+  .madeByT {
     font-size: 16px;
   }
 
-  .dateFrame {
-    font-size: 2-px;
-  } */
 
   .descriptionT {
     font-size: 16px;
@@ -271,7 +276,7 @@
   }
 
   .timeStatus {
-    font-size: 16px;
+    font-size: 20px;
   }
 
 }
@@ -370,12 +375,6 @@
   animation: rainbowText 30s linear infinite;
 }
 
-.timeStatus {
-  font-family: Anybody;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 16px;
-}
 
 .expired {
   color: red; /* Or any style you want for expired items */
