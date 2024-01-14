@@ -165,6 +165,8 @@ function App() {
     return () => clearTimeout(timer);
   }, [loading]);
 
+  console.log("Version 0.0.4-7")
+
   return (
     <>
       {loading ? (

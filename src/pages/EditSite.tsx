@@ -153,7 +153,7 @@ const EditSite: FunctionComponent = () => {
       })
       if (response.data.gizEditMutation.success) {
         // Update the profile picture in gizComplete
-        console.log(userData)
+
         setGizCompleteData(prevData => prevData.map(gizComplete => {
           if (gizComplete.id === gizId) {
             return {
@@ -167,7 +167,7 @@ const EditSite: FunctionComponent = () => {
           }
           return gizComplete;
         }));
-        console.log(data)
+
         toast.success("Profile picture updated");
         navigate("/status-site");
       } else {

@@ -42,11 +42,10 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
             ...gizComplete,
             invitedUsers: gizComplete.invitedUsers.map((user) => {
               if (user.userName === currentUser.displayName) {
-                console.log(user.userName);
-                console.log("123123");
+
                 return { ...user, status: "accepted" };
               }
-              console.log(user);
+
               return user;
             }),
           }))
@@ -59,7 +58,7 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
             decision,
           },
         });
-        console.log(gizCompleteData);
+
       } else {
         toast.error("Error accepting invite");
       }

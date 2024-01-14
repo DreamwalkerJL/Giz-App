@@ -13,7 +13,7 @@ const RecoverForm: FunctionComponent = () => {
     try {
       await sendPasswordResetEmail(auth, email);
       toast.info("Password reset email sent!");
-      console.log("Password reset email sent!");
+
       navigate("/"); // Navigate to the home page or login page after sending the email
     } catch (error) {
       console.error("Error sending password reset email: ", error);
