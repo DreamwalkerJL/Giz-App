@@ -7,6 +7,7 @@ import styles from "./RegisterSite.module.css";
 const RegisterSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
+
   const onGoBackFrameClick = useCallback(() => {
     navigate("/");
   }, [navigate]);

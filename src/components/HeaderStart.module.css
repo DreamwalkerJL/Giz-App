@@ -59,3 +59,40 @@
   font-family: Blinker;
 }
 
+
+@media screen and (max-width: 767px){
+
+  .nameT {
+    position: relative;
+    font-size: 32px;
+  }
+  .logoAndName {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px 0px;
+  }
+
+  .slogan {
+    align-self: stretch;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0px;
+    font-size: 16px;
+  }
+
+  .instructionT {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+}
+

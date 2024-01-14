@@ -89,6 +89,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                       fontSize: "20px",
                       fontWeight: "Regular",
                       paddingBottom: "15px",
+                      width: "100%",
                     },
                   }}
                 />
@@ -115,6 +116,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                       fontSize: "20px",
                       fontWeight: "Thin",
                       paddingBottom: "15px",
+                      width: "100%",
                     },
                   }}
                 />

@@ -48,25 +48,21 @@
 .recoverAccountSite {
   position: relative;
   width: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: top;
-  text-align: left;
-  font-size: 20px;
-  color: #fff;
-  font-family: Blinker;
-
-  /* ADDED */
-  height: 100%;
-  min-height: 100vh;
-  background: linear-gradient(187.55deg, #1e193b 50%, #fb7885 180%);
-  z-index: 1;
-}
+    text-align: left;
+    font-size: 24px;
+    color: #fff;
+    font-family: Blinker;
+    /* ADDED */
+    height: 100%;
+    min-height: 100vh;
+    background: linear-gradient(187.55deg, #1e193b 50%, #fb7885 180%);
+    z-index: 1;
+  }
 
 /* ADDED */
 .recoverAccountSite::after {
@@ -82,4 +78,11 @@
   background-position: top;
   opacity: 0.5; /* Adjust the opacity as needed */
   z-index: -1; /* Ensure the image is behind the content */
+}
+
+
+@media screen and (max-width: 767px) {
+  .goBack {
+font-size: 14px;
+  }
 }

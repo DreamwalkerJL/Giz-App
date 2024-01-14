@@ -1,0 +1,332 @@
+.logoIcon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    display: none;
+  }
+  .nameT {
+    position: relative;
+  }
+  .logoAndName {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px 0px;
+  }
+  .sloganT {
+    position: relative;
+    font-weight: 600;
+  }
+  .slogan {
+    align-self: stretch;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0px;
+    font-size: 16px;
+  }
+  .header {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .googleIcon {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .google {
+    cursor: pointer;
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: #fff;
+    align-self: stretch;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    width: 64px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .fastSignIn {
+    align-self: stretch;
+    border-radius: 14px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px 5px;
+    box-sizing: border-box;
+  }
+  .line1 {
+    flex: 1;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    height: 1px;
+  }
+  .signin {
+    width: 100%;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 55px;
+    box-sizing: border-box;
+    gap: 35px;
+    max-width: 800px;
+    font-size: 14px;
+  }
+  .emailHeadline {
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: Anybody;
+    color: #fff;
+    text-align: left;
+  }
+  .emailInput {
+    border: 1px solid #fff;
+    outline: none;
+    background-color: #1e193b;
+    align-self: stretch;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 34px;
+    color: white;
+    font-family: Blinker;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  .emailInput:focus {
+    background-color: #1e193b;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+    outline: none;
+  }
+  .email {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .passwordInput {
+    border: 1px solid #fff;
+    outline: none;
+    background-color: #1e193b;
+    align-self: stretch;
+    border-radius: 5px;
+    color: white;
+    font-family: Blinker;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  .passwordInput:focus {
+    outline: none;
+  }
+  .signInInput {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 56px;
+    gap: 20px;
+  }
+  .signInT1 {
+    position: relative;
+    font-size: 16px;
+    font-family: Blinker;
+    color: #fff;
+    text-align: left;
+  }
+  .button {
+    cursor: pointer;
+    border: none;
+    padding: 0px 10px;
+    background-color: #6d58a7;
+    align-self: stretch;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 30px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .button1 {
+    cursor: pointer;
+    border: none;
+    padding: 0px 10px;
+    background-color: #302b4f;
+    align-self: stretch;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 30px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .signInButton {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 56px;
+    gap: 10px;
+  }
+  .forgotPasswordT {
+    position: relative;
+    font-size: 14px;
+    text-decoration: underline;
+    font-family: Blinker;
+    color: #fff;
+    text-align: left;
+  }
+  .forgotPasswordFrame {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .bonusActionFrame {
+    align-self: stretch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px;
+  }
+  .signInForm {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 800px;
+  }
+  .registerNavigation {
+    align-self: stretch;
+    border-radius: 14px;
+    cursor: pointer;
+  }
+  .space {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0);
+    width: 404px;
+    height: 67px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+
+    /* CHANGED THE STRUCTURE QUITE A BIT */
+
+.line1 {
+    position: relative;
+    flex: 1;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    height: 1px;
+  }
+  .signInT {
+    position: relative;
+  }
+  .signin {
+    width: 100%;
+    padding: 10px 55px;
+    box-sizing: border-box;
+    gap: 35px;
+    max-width: 800px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .registerNavigation {
+    align-self: stretch;
+    padding: 20px 0;
+    cursor: pointer;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .space {
+    flex: 1;
+    position: relative;
+    background-color: transparent;
+    width: 404px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .signInSiteMobile {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+    text-align: left;
+    font-size: 24px;
+    color: #fff;
+    font-family: Blinker;
+    /* ADDED */
+    height: 100%;
+    min-height: 100vh;
+    background: linear-gradient(187.55deg, #1e193b 50%, #fb7885 180%);
+    z-index: 1;
+  }
+  
+  /* ADDED */
+  .signInSiteMobile::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(/public/signUpBG.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    opacity: 0.5; /* Adjust the opacity as needed */
+    z-index: -1; /* Ensure the image is behind the content */
+  }
+  
+  

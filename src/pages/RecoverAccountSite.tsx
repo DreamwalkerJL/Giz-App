@@ -28,10 +28,6 @@ const SingUpSite: FunctionComponent = () => {
         className={styles.registerNavigation}
         onClick={onRegisterNavigationContainerClick}
       >
-        <div className={styles.registerNavigationTContainer}>
-          <span>{`Don’t have an account yet? `}</span>
-          <b>Sign Up</b>
-        </div>
       </div>
       <div className={styles.space} />
     </div>

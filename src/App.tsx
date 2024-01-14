@@ -26,8 +26,12 @@ import { useMutation } from "@apollo/client";
 import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
 import Loader from "./components/Loader";
 import { motion } from "framer-motion";
+import { useMediaQuery } from 'react-responsive';
+import SignInSiteMobile from "./pages/SignInSiteMobile";
+
 
 function App() {
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
@@ -196,7 +200,7 @@ function App() {
                   element={
                     <LoggedInRoute>
                       <ToastContainer />
-                      <SignInSite />
+                      {isMobile ? <SignInSiteMobile /> : <SignInSite />}
                     </LoggedInRoute>
                   }
                 />

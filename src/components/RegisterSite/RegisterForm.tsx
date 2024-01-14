@@ -111,6 +111,7 @@ const RegisterForm: FunctionComponent = () => {
           <input
             className={styles.usernameInput}
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-Mail Adress"
