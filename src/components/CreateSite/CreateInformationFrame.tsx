@@ -1,17 +1,16 @@
-import { FunctionComponent} from "react";
+import { FunctionComponent } from "react";
 import styles from "./CreateInformationFrame.module.css";
 
 import {
-
   DateField,
-
+  DatePicker,
   LocalizationProvider,
-
   TimeField,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import dayjs from "dayjs";
+import { useMediaQuery } from "react-responsive";
 
 interface CreateInformationFrameType {
   title: string;
@@ -34,7 +33,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
   setTime,
   setDate,
 }) => {
-
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   return (
     <div className={styles.createInformationFrame}>
@@ -49,6 +48,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
               placeholder="Title"
               type="text"
               required
+              autoComplete="new-password"
             />
           </div>
           <div className={styles.title}>
@@ -59,6 +59,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
               className={styles.descriptionTextarea}
               placeholder="Description"
               required
+              autoComplete="new-password"
             />
           </div>
         </div>
@@ -66,46 +67,76 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
         <div className={styles.dateAndTime}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className={styles.dateFrame}>
-            <i className={styles.headline}>DATE</i>
+              <i className={styles.headline}>DATE</i>
               <div className={styles.date}>
-                <DateField
-                  label="Now"
-                  value={date}
-                  onChange={(newValue: dayjs.Dayjs | null | undefined ) => {
-                    if (newValue !== null && newValue !== undefined) {
-                      setDate(newValue)
-                    } else { setDate(dayjs())}
-                  }}
-                  variant="standard"
-                  format="DD-MM-YYYY"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{
-                    input: {
-                      textAlign: "center",
-                      color: "white",
-                      fontFamily: "Anybody",
-                      fontSize: "20px",
-                      fontWeight: "Regular",
-                      paddingBottom: "15px",
-                      width: "100%",
-                    },
-                  }}
-                />
+                {isMobile ? (
+                  <DatePicker
+                    label="Now"
+                    value={date}
+                    onChange={(newValue: dayjs.Dayjs | null | undefined) => {
+                      if (newValue !== null && newValue !== undefined) {
+                        setDate(newValue);
+                      } else {
+                        setDate(dayjs());
+                      }
+                    }}
+                    format="DD-MM-YYYY"
+                    sx={{
+                      input: {
+                        textAlign: "center",
+                        color: "white",
+                        fontFamily: "Anybody",
+                        fontSize: "20px",
+                        fontWeight: "Regular",
+                        paddingBottom: "15px",
+                        width: "100%",
+                      },
+                    }}
+                  />
+                ) : (
+                  <DateField
+                    label="Now"
+                    value={date}
+                    onChange={(newValue: dayjs.Dayjs | null | undefined) => {
+                      if (newValue !== null && newValue !== undefined) {
+                        setDate(newValue);
+                      } else {
+                        setDate(dayjs());
+                      }
+                    }}
+                    variant="standard"
+                    format="DD-MM-YYYY"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    sx={{
+                      input: {
+                        textAlign: "center",
+                        color: "white",
+                        fontFamily: "Anybody",
+                        fontSize: "20px",
+                        fontWeight: "Regular",
+                        paddingBottom: "15px",
+                        width: "100%",
+                      },
+                    }}
+                  />
+                )}
               </div>
             </div>
             <div className={styles.dateFrame}>
-            <i className={styles.headline}>TIME</i>
+              <i className={styles.headline}>TIME</i>
               <div className={styles.date}>
                 <TimeField
                   label="Format without meridiem"
                   value={time}
                   format="HH:mm"
-                  onChange={(newValue: dayjs.Dayjs | null | undefined ) => {
+                  onChange={(newValue: dayjs.Dayjs | null | undefined) => {
                     if (newValue !== null && newValue !== undefined) {
-                      setTime(newValue)
-                    } else { setTime(dayjs())}
+                      setTime(newValue);
+                    } else {
+                      setTime(dayjs());
+                    }
                   }}
                   variant="standard"
                   sx={{

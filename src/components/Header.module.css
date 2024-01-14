@@ -6,11 +6,13 @@
 
 }
 .nameT {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   position: relative;
-  display: inline-block;
-  width: 94px;
-  height: 38px;
-  flex-shrink: 0;
 }
 .headerLogoAndTitle {
   display: flex;
@@ -77,4 +79,41 @@
   font-size: 32px;
   color: #fff;
   font-family: Blinker;
+}
+
+
+@media screen and (max-width: 767px){
+  .headerLogoIcon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  
+  }
+  .header {
+
+    font-size: 24px;
+
+  }
+  .headerLogoAndTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 0px 0px 16px;
+    z-index: 0;
+    cursor: pointer;
+  }
+
+  .menuIcon {
+    position: relative;
+    width: 16px;
+    height: 14.4px;
+    /* padding-top: 7px; */
+  }
+
+  .headerIcons {
+    top: 10px;
+  }
+
 }

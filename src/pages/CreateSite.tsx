@@ -23,10 +23,13 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useMediaQuery } from "react-responsive";
 
 
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const onMenuContainerClick = useCallback(() => {
     navigate("/menu-site");
@@ -218,7 +221,17 @@ const CreateSite: FunctionComponent = () => {
         variants={pageTransition}
         transition={{ duration: 0.3, delay: 0.1 }}
       >
+
         <div className={styles.gizFrame}>
+     { isMobile &&  <div className={styles.createOptions}>
+            <button className={styles.infosButton}>
+              <b className={styles.infosT}>INFOS</b>
+            </button>
+            <button className={styles.usersButton}>
+              <b className={styles.infosT}>USERS</b>
+            </button>
+          </div>
+          }
           <CreateGizInformationFrame
             title={title}
             setTitle={setTitle}

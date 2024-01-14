@@ -128,7 +128,31 @@
   font-family: Anybody;
 }
 
+
+
 @media screen and (min-width: 500px) {
+
+
+  
+
+}
+
+@media screen and (max-width: 767px) {
+  .headline {
+    position: relative;
+    font-weight: 700;
+ font-size: 14px;
+  }
+  .titleInput {
+    border: 1px solid #fff;
+    background-color: #1e193b;
+    align-self: stretch;
+    border-radius: 5px;
+    color: white;
+    font-family: Blinker;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
 .dateAndTime {
   align-self: stretch;
   height: 60px;

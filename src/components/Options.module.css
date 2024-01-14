@@ -45,7 +45,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 10px 26px;
+  padding: 5px 26px;
   text-align: left;
   font-size: 20px;
   color: #fff;
@@ -101,7 +101,7 @@ left: 58px;
 }
 
 
-@media screen and (min-width: 400px) {
+/* @media screen and (min-width: 400px) {
 .invitesBadge {
 
   bottom: 7px;
@@ -109,4 +109,14 @@ left: 58px;
 
 }
 
+} */
+
+@media screen and (max-width: 767px){
+  .optionsButtonFrame {
+    height: 36px;
+  }
+
+  .optionsFrame {
+    font-size: 16px;
+  }
 }
