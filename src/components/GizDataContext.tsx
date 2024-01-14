@@ -19,7 +19,7 @@ import {
 } from "../apiServices/Apollo/Subscriptions";
 import {
   GizComplete,
-  GizCompleteSub,
+
   GizCreatedSubscriptionData,
   GizDeletedSubscriptionData,
   GizEditSubscriptionData,
@@ -56,27 +56,7 @@ interface GizDataProviderProps {
   children: React.ReactNode; // Correct type for children
   status: string; // Add this line
 }
-const updateGizComplete = (original: GizComplete, updates: GizCompleteSub) => {
-  if (updates.id !== undefined) {
-    original.id = updates.id;
-  }
-  if (updates.title !== undefined) {
-    original.title = updates.title;
-  }
-  if (updates.description !== undefined) {
-    original.description = updates.description;
-  }
-  // ... handle other properties similarly
-  if (updates.usersToBeAdded !== undefined) {
-    // Assuming you want to merge the arrays
-    original.invitedUsers = [...original.invitedUsers, ...updates.usersToBeAdded];
-  }
-  if (updates.usersToBeRemoved !== undefined) {
-    // Assuming you want to remove these users
-    const idsToRemove = new Set(updates.usersToBeRemoved.map(user => user.userId));
-    original.invitedUsers = original.invitedUsers.filter(user => !idsToRemove.has(user.userId));
-  }
-};
+
 
 
 export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({

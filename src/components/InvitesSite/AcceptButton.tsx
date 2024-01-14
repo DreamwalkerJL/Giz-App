@@ -18,6 +18,7 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
   decision,
 }) => {
   const auth = useAuth();
+  const { currentUser } = useAuth();
   const userName = auth.currentUser?.displayName;
   const { gizCompleteData, setGizCompleteData } = useGizData();
   // `useMutation` hook called at the top level
@@ -28,7 +29,7 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
     return null; // Return null or some fallback UI
   }
 
-  const { currentUser } = useAuth();
+
 
   const handleAccept = async () => {
     setTimeout(async () => {

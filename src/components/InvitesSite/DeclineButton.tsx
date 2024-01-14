@@ -3,7 +3,7 @@ import styles from "./InvitesGizButtons.module.css";
 
 import { useAuth } from "../../firebase/AuthContext";
 import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
-import { HandleGizInviteMutationVariable } from "../../apiServices/Apollo/Types";
+
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useGizData } from "../GizDataContext";
@@ -19,9 +19,11 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
   decision,
   decisionText,
 }) => {
+  const [addGizEvent, { error }] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
+  const { setGizCompleteData } = useGizData();
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
-  const [addGizEvent, { error }] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
+
   // Ensure userName is available, otherwise show an error and return null or a fallback UI
   if (!userName) {
     console.error("NO USERNAME FOUND");
@@ -29,10 +31,10 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
     return null;
   }
 
-  const gizCompleteIdString = gizCompleteId.toString();
+
 
   // Call the useMutation hook at the top level
-  const { setGizCompleteData } = useGizData();
+
 
   if (error) {
     toast.error("ERROR - please contact support");
