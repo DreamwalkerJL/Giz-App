@@ -95,32 +95,7 @@ const AddUsers: FunctionComponent<AddUserType> = ({
 
   return (
     <div className={styles.createGizUsers}>
-      <div className={styles.addUser}>
-        <div className={styles.findUser}>
-          <i className={styles.findUserHeadline}>FIND USER</i>
-          <input
-            ref={userNameRef}
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            onKeyDown={handleEnterPress} // Add onKeyDown event handler
-            className={styles.findUserInput}
-            placeholder="Username"
-            type="text"
-          />
-        </div>
-        <div className={styles.addUser1}>
-          <motion.button
-            className={styles.addUserButton}
-            onClick={addUser}
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="pressed"
-          >
-            <b className={styles.adduserbuttont}>ADD USER</b>
-          </motion.button>
-        </div>
-      </div>
-      <div className={styles.toBeAddedUsers}>
+            <div className={styles.toBeAddedUsers}>
         {userDataWithoutCurrentUser.map((user) => (
           <div key={user.userId} className={styles.userFrame}>
             <motion.img
@@ -195,6 +170,33 @@ const AddUsers: FunctionComponent<AddUserType> = ({
           </div>
         ))}
       </div>
+      <div className={styles.addUser}>
+        <div className={styles.findUser}>
+          <i className={styles.findUserHeadline}>FIND USER</i>
+          <input
+            ref={userNameRef}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            onKeyDown={handleEnterPress} // Add onKeyDown event handler
+            className={styles.findUserInput}
+            placeholder="Username"
+            type="text"
+          />
+        </div>
+        
+        <div className={styles.addUser1}>
+          <motion.button
+            className={styles.addUserButton}
+            onClick={addUser}
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="pressed"
+          >
+            <b className={styles.adduserbuttont}>ADD USER</b>
+          </motion.button>
+        </div>
+      </div>
+
       <div className={styles.removeSelectedUsers}>
         <motion.button
           initial={{ opacity: 0.5 }}

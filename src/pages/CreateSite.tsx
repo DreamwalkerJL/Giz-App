@@ -316,7 +316,7 @@ const CreateSite: FunctionComponent = () => {
               >
                 <div className={styles.createGizButtonContainer}>
                   <b className={styles.create}>CREATE</b>
-                  <b className={styles.create}>GIZ</b>
+
                 </div>
               </motion.button>
             </div>

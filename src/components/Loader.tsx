@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import styles from "./Loader.module.css";
-import logoLoader2 from "../assets/logoLoader2.webm"
+import logoLoader3 from "../assets/logoLoader2.webm"
 
 export default function Loader() {
   console.log("Version 0.0.4-7")
@@ -12,7 +12,7 @@ export default function Loader() {
       // transition={{ duration: 1, delay: 0 }}
     >
 <video autoPlay loop muted style={{ width: '250px', height: '250px', position: "relative", bottom: "3vh"}}>
-        <source src={logoLoader2} type="video/mp4" />
+        <source src={logoLoader3} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </motion.div>

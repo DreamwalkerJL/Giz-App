@@ -14,8 +14,8 @@ export default defineConfig({
       registerType: "prompt",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
       manifest: {
-        theme_color: "#f69435",
-        background_color: "#f69435",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
         display: "standalone",
         scope: "/",
         start_url: "/",
