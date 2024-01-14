@@ -8,7 +8,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./apiServices/Apollo/ApolloClient.tsx";
 import { AnimatePresence } from "framer-motion";
 import { GizDataProvider } from "./components/GizDataContext.tsx";
-  console.log("Version 0.0.4-7")
+
 // Register the service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('../firebase-messaging-sw.js')
