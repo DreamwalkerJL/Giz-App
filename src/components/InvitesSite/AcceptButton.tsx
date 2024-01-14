@@ -3,8 +3,10 @@ import styles from "./InvitesGizButtons.module.css";
 
 import { useAuth } from "../../firebase/AuthContext";
 import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
-import { HandleGizInviteMutationVariable } from "../../apiServices/Apollo/Types";
+
 import { motion } from "framer-motion";
+import { useGizData } from "../GizDataContext";
+import { toast } from "react-toastify";
 
 type AcceptButtonProps = {
   gizCompleteId: number;
@@ -17,36 +19,48 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
 }) => {
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
-
+  const { gizCompleteData, setGizCompleteData } = useGizData();
   // `useMutation` hook called at the top level
-  const [addGizEvent, { loading, error }] =
-    useMutation<HandleGizInviteMutationVariable>(GIZ_HANDLE_INVITE_MUTATION);
+  const [addGizEvent] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
 
   if (!userName) {
     console.error("NO USERNAME FOUND");
     return null; // Return null or some fallback UI
   }
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error</div>;
+  const { currentUser } = useAuth();
 
-  const handleAccept = () => {
-    // Using setTimeout
+  const handleAccept = async () => {
     setTimeout(async () => {
-      try {
-        // Call the mutation inside setTimeout
-        await addGizEvent({
+      if (currentUser) {
+        // Check if mutation was successful before updating the state
+
+        // Update the profile picture in gizCompleteData
+        setGizCompleteData((prevData) =>
+          prevData.map((gizComplete) => ({
+            ...gizComplete,
+            invitedUsers: gizComplete.invitedUsers.map((user) => {
+              if (user.userName === currentUser.displayName) {
+                console.log(user.userName);
+                console.log("123123");
+                return { ...user, status: "accepted" };
+              }
+              console.log(user);
+              return user;
+            }),
+          }))
+        );
+
+        addGizEvent({
           variables: {
             userName,
             gizCompleteIdString: gizCompleteId.toString(),
             decision,
           },
         });
-
-        // Handle success here
-      } catch (e) {
-        console.error(e);
-        // Handle error here
+        console.log(gizCompleteData);
+      } else {
+        toast.error("Error accepting invite");
       }
     }, 1000); // Adjust the timeout duration as needed
   };

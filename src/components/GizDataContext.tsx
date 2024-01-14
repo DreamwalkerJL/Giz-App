@@ -156,7 +156,9 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   // Update state when subscription data is received
   useEffect(() => {
     if (subscriptionData?.userHandledGizInvite) {
-      if (subscriptionData.userHandledGizInvite.userName === userName) {
+      if (subscriptionData.userHandledGizInvite.userName === userName &&
+          subscriptionData.userHandledGizInvite.status === "declined") {
+        // Only filter out the user if they have declined
         const filteredData = gizCompleteData.filter(
           (gizComplete) =>
             !(
@@ -168,6 +170,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
         );
         setGizCompleteData(filteredData);
       } else {
+
         // Otherwise, update the invitedUsers array as before
         const updatedData = gizCompleteData.map((gizComplete) => {
           if (gizComplete.id === subscriptionData.userHandledGizInvite.gizId) {
@@ -192,13 +195,38 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   }, [subscriptionData]);
   useEffect(() => {
     if (gizEditSubscriptionData?.gizEditedSubscription) {
-      // Use updateGizComplete function to update the data
+      const editedGizSub = gizEditSubscriptionData.gizEditedSubscription;
+  
       setGizCompleteData((currentData) => {
         return currentData.map((giz) => {
-          if (giz.id === gizEditSubscriptionData.gizEditedSubscription.id) {
-            // Create a copy to avoid direct state mutation
-            const updatedGiz = { ...giz };
-            updateGizComplete(updatedGiz, gizEditSubscriptionData.gizEditedSubscription);
+          if (giz.id === editedGizSub.id) {
+            // Merge existing giz data with the updated fields from the subscription
+            // Only update fields that are defined in the subscription data
+            const updatedGiz: GizComplete = { ...giz };
+            
+            if (editedGizSub.title !== null) updatedGiz.title = editedGizSub.title;
+            if (editedGizSub.description !== null) updatedGiz.description = editedGizSub.description;
+            if (editedGizSub.date !== null) updatedGiz.date = editedGizSub.date;
+            if (editedGizSub.time !== null) updatedGiz.time = editedGizSub.time;
+            if (editedGizSub.creatorUserName !== null) updatedGiz.creatorUserName = editedGizSub.creatorUserName;
+  
+            // Handle usersToBeAdded and usersToBeRemoved arrays
+            // Assuming you want to add new users and remove the specified users
+            if (editedGizSub.usersToBeAdded) {
+              updatedGiz.invitedUsers = [
+                ...updatedGiz.invitedUsers,
+                ...editedGizSub.usersToBeAdded.filter(userToAdd =>
+                  !updatedGiz.invitedUsers.some(user => user.userId === userToAdd.userId)
+                )
+              ];
+            }
+  
+            if (editedGizSub.usersToBeRemoved) {
+              updatedGiz.invitedUsers = updatedGiz.invitedUsers.filter(user =>
+                !editedGizSub.usersToBeRemoved.some(userToRemove => userToRemove.userId === user.userId)
+              );
+            }
+  
             return updatedGiz;
           }
           return giz;

@@ -153,6 +153,7 @@ const EditSite: FunctionComponent = () => {
       })
       if (response.data.gizEditMutation.success) {
         // Update the profile picture in gizComplete
+        console.log(userData)
         setGizCompleteData(prevData => prevData.map(gizComplete => {
           if (gizComplete.id === gizId) {
             return {
@@ -161,12 +162,12 @@ const EditSite: FunctionComponent = () => {
               description,
               date: formattedDate,
               time: formattedTime,
-              invitedUsers: userData.map(({ __typename, ...rest }) => rest), // Remove __typename from each object
+              invitedUsers: userData, // Remove __typename from each object
             };
           }
           return gizComplete;
         }));
-
+        console.log(data)
         toast.success("Profile picture updated");
         navigate("/status-site");
       } else {
@@ -232,11 +233,18 @@ const EditSite: FunctionComponent = () => {
           (user) => user.userId === userPublicData.userPublicQuery.userId
         );
 
-        if (!isUserAlreadyAdded) {
-          return [...prevUserData, userPublicData.userPublicQuery];
-        }
-        return prevUserData;
-      });
+      if (!isUserAlreadyAdded) {
+        // Create a new user object with status "invited"
+        const newUser = {
+          ...userPublicData.userPublicQuery,
+          status: "invited"
+        };
+
+        // Add the new user to the existing array
+        return [...prevUserData, newUser];
+      }
+      return prevUserData;
+    });
 
       // Reset the userName and refocus the input field, if applicable
       setUserName("");

@@ -6,12 +6,12 @@ import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { HandleGizInviteMutationVariable } from "../../apiServices/Apollo/Types";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { useGizData } from "../GizDataContext";
 
 type DeclineButtonProps = {
   gizCompleteId: number;
   decision: string;
   decisionText: string;
-
 };
 
 export const DeclineButton: React.FC<DeclineButtonProps> = ({
@@ -21,7 +21,7 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
 }) => {
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
-  const [addGizEvent, { error }] = useMutation<HandleGizInviteMutationVariable>(GIZ_HANDLE_INVITE_MUTATION);
+  const [addGizEvent, { error }] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
   // Ensure userName is available, otherwise show an error and return null or a fallback UI
   if (!userName) {
     console.error("NO USERNAME FOUND");
@@ -32,24 +32,47 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
   const gizCompleteIdString = gizCompleteId.toString();
 
   // Call the useMutation hook at the top level
-
+  const { setGizCompleteData } = useGizData();
 
   if (error) {
     toast.error("ERROR - please contact support");
   }
 
   const handleDecline = () => {
-    try {
-      // Use setTimeout within the handler function
-      setTimeout(() => {
-        addGizEvent({
-          variables: { userName, gizCompleteIdString, decision },
+    // Using setTimeout
+    setTimeout(async () => {
+      try {
+        // Call the mutation inside setTimeout
+        const response = await addGizEvent({
+          variables: {
+            userName,
+            gizCompleteIdString: gizCompleteId.toString(),
+            decision,
+          },
         });
-      }, 1000); // Duration should match your exit animation
-    } catch (e) {
-      console.error(e);
-      toast.error("ERROR - please contact support");
-    }
+        if (response.data.gizHandleInviteMutation.success) {
+          // Update the profile picture in gizCompleteData
+          setGizCompleteData((prevData) =>
+            prevData.map((gizComplete) => ({
+              ...gizComplete,
+              invitedUsers: gizComplete.invitedUsers.map((user) => {
+                if (user.userName === userName) {
+                  return { ...user, status: decision };
+                }
+                return user;
+              }),
+            }))
+          );
+        } else {
+          toast.error("Failed to update profile picture.");
+        }
+
+        // Handle success here
+      } catch (e) {
+        console.error(e);
+        // Handle error here
+      }
+    }, 1000); // Adjust the timeout duration as needed
   };
 
   const buttonVariants = {
