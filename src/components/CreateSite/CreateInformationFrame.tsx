@@ -86,15 +86,22 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                         textAlign: "center",
                         color: "white",
                         fontFamily: "Anybody",
-                        fontSize: "20px",
+                        fontSize: isMobile ? "16px" : "20px",
                         fontWeight: "Regular",
                         paddingBottom: "15px",
                         width: "100%",
                       },
+               
+          
+                      "& .MuiIconButton-root": {
+                        display: "none",
+                      },
                     }}
+                    
                   />
                 ) : (
                   <DateField
+                  
                     label="Now"
                     value={date}
                     onChange={(newValue: dayjs.Dayjs | null | undefined) => {
@@ -114,7 +121,6 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                         textAlign: "center",
                         color: "white",
                         fontFamily: "Anybody",
-                        fontSize: "20px",
                         fontWeight: "Regular",
                         paddingBottom: "15px",
                         width: "100%",
@@ -128,6 +134,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
               <i className={styles.headline}>TIME</i>
               <div className={styles.date}>
                 <TimeField
+                
                   label="Format without meridiem"
                   value={time}
                   format="HH:mm"
@@ -144,7 +151,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                       textAlign: "center",
                       color: "white",
                       fontFamily: "Anybody",
-                      fontSize: "20px",
+                      fontSize: isMobile ? "16px" : "20px",
                       fontWeight: "Thin",
                       paddingBottom: "15px",
                       width: "100%",

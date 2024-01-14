@@ -64,7 +64,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 20px;
+  gap: 10px;
 }
 .div {
   position: relative;
@@ -94,7 +94,7 @@
   width: 100%;
   height: 60px;
 }
-.dateAndTime {
+/* .dateAndTime {
   align-self: stretch;
   height: 135px;
   display: flex;
@@ -104,6 +104,17 @@
   gap: 10px;
   font-family: Blinker;
 
+} */
+.dateAndTime {
+  align-self: stretch;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  font-family: Blinker;
+  
 }
 .gizDetailsFrame {
   align-self: stretch;
@@ -129,13 +140,19 @@
 }
 
 
-
 @media screen and (min-width: 500px) {
-
-
-  
-
-}
+  /* .dateAndTime {
+    align-self: stretch;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    font-family: Blinker;
+    
+  } */
+  }
 
 @media screen and (max-width: 767px) {
   .headline {
@@ -153,15 +170,18 @@
     font-size: 16px;
     padding: 5px 10px;
   }
-.dateAndTime {
-  align-self: stretch;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  font-family: Blinker;
 
-}
+  .descriptionTextarea {
+    font-size: 16px;
+  }
+  .dateFrame {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 50px;
+  }
+
 }

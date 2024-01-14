@@ -126,7 +126,7 @@
 
 
 .userFrame {
-  height: 110px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -225,4 +225,65 @@
       height: 150px;
     }
   /* ... other modified styles for desktop ... */
+}
+
+@media screen and (max-width: 767px) { 
+
+
+
+  .createGizUsers {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 0px;
+    text-align: left;
+    font-size: 20px;
+    color: #fff;
+    font-family: Anybody;
+  }
+  .findUserHeadline {
+    position: relative;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .findUserInput {
+    border: 1px solid #fff;
+    background-color: #1e193b;
+    align-self: stretch;
+    border-radius: 5px;
+    color: white;
+    font-family: Blinker;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+
+  .adduserbuttont {
+    position: relative;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    line-height: 100%;
+    font-family: Blinker;
+    color: #fff;
+    text-align: left;
+  }
+  .addUserButton {
+    cursor: pointer;
+    border: none;
+    padding: 0px 0px 2px;
+    background-color: #1e193b;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 119px;
+    height: 25px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
 }

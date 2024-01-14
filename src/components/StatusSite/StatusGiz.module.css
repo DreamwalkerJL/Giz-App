@@ -6,7 +6,7 @@
 .descriptionT {
   align-self: stretch;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   font-family: Blinker;
 }
 .titleAndDescription {
@@ -22,7 +22,7 @@
 .madeByT {
   align-self: stretch;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
 }
 .dateIsT {
   position: relative;
@@ -39,7 +39,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  font-size: 20px;
+  font-size: 16px;
 }
 .statusInformationFrame {
   align-self: stretch;
@@ -96,7 +96,7 @@
   justify-content: center;
   padding: 15px 26px;
   text-align: left;
-  font-size: 24px;
+  font-size: 20px;
   color: #fff;
   font-family: Blinker;
 }
@@ -235,6 +235,7 @@
     left: 30%;
     font-size: 62px;
   }
+
 }
 
 @media screen and (min-width: 700px) {
@@ -250,6 +251,27 @@
 
     left: 30%;
     font-size: 62px;
+  }
+
+  /* .madeByT {
+    font-size: 16px;
+  }
+
+  .dateFrame {
+    font-size: 2-px;
+  } */
+
+  .descriptionT {
+    font-size: 16px;
+
+  }
+
+  .giz {
+    font-size: 24px;
+  }
+
+  .timeStatus {
+    font-size: 16px;
   }
 
 }
@@ -352,7 +374,7 @@
   font-family: Anybody;
   font-style: italic;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .expired {

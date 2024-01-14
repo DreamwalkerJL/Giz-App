@@ -25,11 +25,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useMediaQuery } from "react-responsive";
 
-
 const CreateSite: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+
 
   const onMenuContainerClick = useCallback(() => {
     navigate("/menu-site");
@@ -38,6 +37,8 @@ const CreateSite: FunctionComponent = () => {
   const onCancelButtonClick = useCallback(() => {
     navigate("/status-site");
   }, [navigate]);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const [options, setOptions] = useState<string>("INFOS");
 
   const userNameRef = useRef<HTMLInputElement | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -209,6 +210,22 @@ const CreateSite: FunctionComponent = () => {
     },
   };
 
+  const tabVariants = {
+    active: {
+      backgroundColor: "#6b56a3",
+      opacity: 1,
+      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25) inset",
+      border: "1px solid #302B4F",
+      transition: { duration: 0.5 },
+    },
+    inactive: {
+      backgroundColor: "#302B4F",
+      opacity: 1,
+      border: "none",
+      transition: { duration: 0 },
+    },
+  };
+
   return (
     <div className={styles.createSite}>
       <Header onMenuContainerClick={onMenuContainerClick} />
@@ -221,35 +238,73 @@ const CreateSite: FunctionComponent = () => {
         variants={pageTransition}
         transition={{ duration: 0.3, delay: 0.1 }}
       >
-
         <div className={styles.gizFrame}>
-     { isMobile &&  <div className={styles.createOptions}>
-            <button className={styles.infosButton}>
-              <b className={styles.infosT}>INFOS</b>
-            </button>
-            <button className={styles.usersButton}>
-              <b className={styles.infosT}>USERS</b>
-            </button>
-          </div>
-          }
-          <CreateGizInformationFrame
-            title={title}
-            setTitle={setTitle}
-            description={description}
-            setDescription={setDescription}
-            time={time}
-            setTime={setTime}
-            date={date}
-            setDate={setDate}
-          />
-          <CreateGizUsers
-            userNameRef={userNameRef}
-            userName={userName}
-            setUserName={setUserName}
-            addUser={addUser}
-            userData={userData}
-            setUserData={setUserData}
-          />
+          {isMobile && (
+            <div className={styles.createOptions}>
+              <motion.button
+                className={styles.infosButton}
+                onClick={() => setOptions("INFOS")}
+                variants={tabVariants}
+                initial="inactive" // Set the initial state
+                animate={options === "INFOS" ? "active" : "inactive"}
+              >
+                <b className={styles.infosT}>INFOS</b>
+              </motion.button>
+              <motion.button
+                className={styles.usersButton}
+                onClick={() => setOptions("USERS")}
+                variants={tabVariants}
+                initial="inactive" // Set the initial state
+                animate={options === "USERS" ? "active" : "inactive"}
+              >
+                <b className={styles.infosT}>USERS</b>
+              </motion.button>
+            </div>
+          )}
+          {isMobile ? (
+            options === "INFOS" ? (
+              <CreateGizInformationFrame
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                time={time}
+                setTime={setTime}
+                date={date}
+                setDate={setDate}
+              />
+            ) : (
+              <CreateGizUsers
+                userNameRef={userNameRef}
+                userName={userName}
+                setUserName={setUserName}
+                addUser={addUser}
+                userData={userData}
+                setUserData={setUserData}
+              />
+            )
+          ) : (
+            <>
+              <CreateGizInformationFrame
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                time={time}
+                setTime={setTime}
+                date={date}
+                setDate={setDate}
+              />
+              <CreateGizUsers
+                userNameRef={userNameRef}
+                userName={userName}
+                setUserName={setUserName}
+                addUser={addUser}
+                userData={userData}
+                setUserData={setUserData}
+              />
+            </>
+          )}
           <div className={styles.createOrCancel}>
             <div className={styles.createGizButtonFrame}>
               <motion.button

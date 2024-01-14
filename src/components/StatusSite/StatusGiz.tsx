@@ -202,7 +202,6 @@ const StatusGiz: FunctionComponent<StatusGizProps> = ({ gizCompleteQuery}) => {
 
                     <div className={styles.dateFrame}>
                       <div className={styles.dateIsT}>
-                        {" "}
                         {`${checkIfTodayOrTomorrow(
                           gizComplete
                         )} - ${gizDateTimeLocal.format("HH:mm")}`}
