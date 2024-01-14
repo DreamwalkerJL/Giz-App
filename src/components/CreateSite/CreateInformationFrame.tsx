@@ -122,6 +122,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                         color: "white",
                         fontFamily: "Anybody",
                         fontWeight: "Regular",
+                        fontSize: "20px",
                         paddingBottom: "15px",
                         width: "100%",
                       },

@@ -49,7 +49,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0px 30px;
-  gap: 10px;
+  gap: 5px;
 }
 
 .userFrame1 {
@@ -277,6 +277,10 @@
 
   .timeStatus {
     font-size: 20px;
+  }
+
+  .statusInformationFrame {
+    gap: 5px;
   }
 
 }

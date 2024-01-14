@@ -57,7 +57,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0px 30px;
-  gap: 10px;
+  gap: 5px;
 }
 
 .userImageIcon {
@@ -326,6 +326,10 @@
 
   .timeStatus {
     font-size: 20px;
+  }
+
+  .invitesInformationFrame {
+    gap: 10px;
   }
 
 
