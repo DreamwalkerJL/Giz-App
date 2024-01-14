@@ -20,7 +20,7 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
   const auth = useAuth();
   const { currentUser } = useAuth();
   const userName = auth.currentUser?.displayName;
-  const { gizCompleteData, setGizCompleteData } = useGizData();
+  const {setGizCompleteData } = useGizData();
   // `useMutation` hook called at the top level
   const [addGizEvent] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
 
