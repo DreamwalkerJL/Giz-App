@@ -89,7 +89,7 @@ const CreateInformationFrame: FunctionComponent<CreateInformationFrameType> = ({
                         fontSize: isMobile ? "16px" : "20px",
                         fontWeight: "Regular",
                         paddingBottom: "15px",
-                        width: "100%",
+                        width: "500px",
                       },
                
           
