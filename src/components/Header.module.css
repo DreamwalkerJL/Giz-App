@@ -40,9 +40,8 @@
 }
 .menuIcon {
   position: relative;
-  width: 21px;
+  width: 40px;
   height: 18.4px;
-  padding-top: 7px;
 }
 .menu {
   background-color: rgba(0, 0, 0, 0);
@@ -63,7 +62,7 @@
   align-items: center;
   justify-content: flex-end;
   padding: 0px 27px 0px 0px;
-  gap: 36px;
+  gap: 20px;
   z-index: 1;
 }
 .header {
@@ -81,8 +80,32 @@
   font-family: Blinker;
 }
 
+.userNameFrame {
+  position: relative;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.userName {
+  position: relative;
+  font-size: 20px;
+  color: #fff;
+  text-align: left;
+  font-family: Kaushan Script;
+  text-align: center;
+}
 
 @media screen and (max-width: 767px){
+
+  .userName {
+    position: relative;
+    font-size: 14px;
+    color: #fff;
+    text-align: left;
+    font-family: Kaushan Script;
+    text-align: center;
+    
+  }
   .headerLogoIcon {
     position: relative;
     width: 40px;
@@ -107,13 +130,14 @@
 
   .menuIcon {
     position: relative;
-    width: 16px;
+    width: 40px;
     height: 14.4px;
-    /* padding-top: 7px; */
+    padding-top: 0px;
   }
 
   .headerIcons {
-    top: 8px;
+    top: 13px;
+    gap: 5px;
   }
 
 }
