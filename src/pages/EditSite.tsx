@@ -44,7 +44,7 @@ const EditSite: FunctionComponent = () => {
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [options, setOptions] = useState<string>("INFOS");
-
+  const{refetchGizData} = useGizData()
   const location = useLocation();
   // const [gizData, setGizData] = useState<GizComplete>();
 
@@ -151,26 +151,37 @@ const EditSite: FunctionComponent = () => {
             date: formattedDate,
             time: formattedTime,
             creatorUserName: user.displayName,
-            invitedUsers: userData.map(({ __typename, ...rest }) => rest), // Remove __typename from each object
+            invitedUsers: location.state.isRegroup 
+              ? userData.map(userD => {
+                  if (userD.userName === user.displayName) {
+                    console.log(userD);
+                    return { ...userD, status: "creator" };
+                  } else {
+                    return userD;
+                  }
+                }).map(({ __typename, ...rest }) => rest) 
+              : userData.map(({ __typename, ...rest }) => rest),
           },
         },
-      })
-      if (response.data.gizEditMutation.success) {
+      });
+      
+if (response.data.gizEditMutation.success) {
         // Update the profile picture in gizComplete
 
-        setGizCompleteData(prevData => prevData.map(gizComplete => {
-          if (gizComplete.id === gizId) {
-            return {
-              ...gizComplete,
-              title,
-              description,
-              date: formattedDate,
-              time: formattedTime,
-              invitedUsers: userData, // Remove __typename from each object
-            };
-          }
-          return gizComplete;
-        }));
+        // setGizCompleteData(prevData => prevData.map(gizComplete => {
+        //   if (gizComplete.id === gizId) {
+        //     return {
+        //       ...gizComplete,
+        //       title,
+        //       description,
+        //       date: formattedDate,
+        //       time: formattedTime,
+        //       invitedUsers:  userData,
+        //     };
+        //   }
+        //   return gizComplete;
+        // }));
+        refetchGizData()
 
         toast.success("Profile picture updated");
         navigate("/status-site");
