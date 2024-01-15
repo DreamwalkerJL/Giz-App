@@ -136,21 +136,8 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   // Update state when subscription data is received
   useEffect(() => {
     if (subscriptionData?.userHandledGizInvite) {
-      if (subscriptionData.userHandledGizInvite.userName === userName &&
-          subscriptionData.userHandledGizInvite.status === "declined") {
-        // Only filter out the user if they have declined
-        const filteredData = gizCompleteData.filter(
-          (gizComplete) =>
-            !(
-              gizComplete.id === subscriptionData.userHandledGizInvite.gizId &&
-              gizComplete.invitedUsers.some(
-                (user) => user.userName === userName
-              )
-            )
-        );
-        setGizCompleteData(filteredData);
-      } else {
-
+      
+console.log(subscriptionData.userHandledGizInvite)
         // Otherwise, update the invitedUsers array as before
         const updatedData = gizCompleteData.map((gizComplete) => {
           if (gizComplete.id === subscriptionData.userHandledGizInvite.gizId) {
@@ -170,7 +157,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
           return gizComplete;
         });
         setGizCompleteData(updatedData);
-      }
+
     }
   }, [subscriptionData]);
   useEffect(() => {
@@ -265,23 +252,35 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   }, [userChangedPpSubscriptionData]);
   useEffect(() => {
     if (gizEditUserInvitesSubscriptionData?.gizEditUserInvitesSubscription) {
-      const editedGiz =
-        gizEditUserInvitesSubscriptionData.gizEditUserInvitesSubscription;
-      // Add the giz to gizCompleteData if it's not already present and if currentStatus matches
-      if (status === "invited") {
-        // Add this condition
-        setGizCompleteData((prevGizCompleteData) => {
-          const isGizAlreadyPresent = prevGizCompleteData.some(
-            (giz) => giz.id === editedGiz.id
-          );
-          if (!isGizAlreadyPresent) {
-            return [...prevGizCompleteData, editedGiz];
+      console.log("Tadeos");
+      console.log(gizEditSubscriptionData?.gizEditedSubscription);
+      const editedGiz = gizEditUserInvitesSubscriptionData.gizEditUserInvitesSubscription;
+  
+      setGizCompleteData((prevGizCompleteData) => {
+        const updatedGizCompleteData = prevGizCompleteData.map((giz) => {
+          if (giz.id === editedGiz.id) {
+            return {
+              ...giz,
+              invitedUsers: giz.invitedUsers.map((user) => {
+                const editUser = editedGiz.invitedUsers.find(editUser => editUser.userId === user.userId);
+                return editUser ? { ...user, status: editUser.status } : user;
+              }),
+            };
           }
-          return prevGizCompleteData;
+          return giz;
         });
-      }
+  
+        const isGizAlreadyPresent = updatedGizCompleteData.some(giz => giz.id === editedGiz.id);
+        
+        if (!isGizAlreadyPresent) {
+          return [...updatedGizCompleteData, editedGiz];
+        } 
+        
+        return updatedGizCompleteData;
+      });
+  
     }
-  }, [gizEditUserInvitesSubscriptionData]); // Include currentStatus in the dependency array
+  }, [gizEditUserInvitesSubscriptionData]);
   const contextValue = {
     gizCompleteData,
     setGizCompleteData,

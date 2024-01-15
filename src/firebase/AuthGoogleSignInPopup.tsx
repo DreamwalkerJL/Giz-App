@@ -25,6 +25,7 @@ export const signInWithGoogle = (onSuccess: () => void): void => {
     .then(async (result) => {
       // Use getAdditionalUserInfo to check if it's the first time the user is signing in
       const additionalUserInfo = getAdditionalUserInfo(result);
+
       if (additionalUserInfo?.isNewUser) {
         // Generate a random username
         const randomUsername = generateRandomUsername(100);

@@ -31,6 +31,25 @@ const RegisterForm: FunctionComponent = () => {
     return allPps[randomIndex];
   };
 
+  const requestNotificationPermission = async () => {
+    if ('Notification' in window) {
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          toast.success("Notifications enabled!");
+          // Additional logic if needed when permission is granted
+        } else {
+          toast.info("Notifications disabled");
+          // Handle other cases like "denied" or "default"
+        }
+      } catch (error) {
+        console.error("Error requesting notification permission", error);
+        toast.error("Error requesting notification permission");
+      }
+    }
+  };
+  
+
   const auth = getAuth();
   const profilePicture = getRandomImagePath();
 
@@ -67,6 +86,8 @@ const RegisterForm: FunctionComponent = () => {
       });
 
       updateCurrentUserProfile(userName);
+
+      await requestNotificationPermission();
 
       toast.success("Registration successful");
       navigate("/status-site");

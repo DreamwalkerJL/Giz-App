@@ -37,19 +37,19 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
         // Check if mutation was successful before updating the state
 
         // Update the profile picture in gizCompleteData
-        setGizCompleteData((prevData) =>
-          prevData.map((gizComplete) => ({
-            ...gizComplete,
-            invitedUsers: gizComplete.invitedUsers.map((user) => {
-              if (user.userName === currentUser.displayName) {
+        // setGizCompleteData((prevData) =>
+        //   prevData.map((gizComplete) => ({
+        //     ...gizComplete,
+        //     invitedUsers: gizComplete.invitedUsers.map((user) => {
+        //       if (user.userName === currentUser.displayName) {
 
-                return { ...user, status: "accepted" };
-              }
+        //         return { ...user, status: "accepted" };
+        //       }
 
-              return user;
-            }),
-          }))
-        );
+        //       return user;
+        //     }),
+        //   }))
+        // );
 
         addGizEvent({
           variables: {

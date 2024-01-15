@@ -16,30 +16,35 @@ const NeedUserNameForm: FunctionComponent = () => {
 
   const [userName, setUserName] = useState<string>("");
 
-
   const getRandomImagePath = () => {
     const randomIndex = Math.floor(Math.random() * allPps.length);
     return allPps[randomIndex];
   };
 
-  const {currentUser: user} = getAuth();
+  const { currentUser: user } = getAuth();
   const profilePicture = getRandomImagePath();
 
   const email = user?.email;
-  const [registerUser] = useMutation<UserDto>(
-    REGISTER_USER_MUTATION
-  );
-  
+  const [registerUser] = useMutation<UserDto>(REGISTER_USER_MUTATION);
+
   const [getUserPublic] = useLazyQuery(USER_PUBLIC_QUERY);
 
-  const handleRegister = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleRegister = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
-    if (!user || !userName || !email) return;
-  
+    if (!user) {
+      toast.error("Please go back and Sign In again!");
+      return;
+    } else if (!email) {
+      toast.error("You already have an Account with this E-Mail!");
+      return;
+    }
+
     try {
       // Execute the query and handle the response within the callback
-      getUserPublic({ 
-        variables: { userName }, 
+      getUserPublic({
+        variables: { userName },
         onCompleted: async (data) => {
           if (data && data.userPublicQuery) {
             // Username exists, handle this scenario
@@ -49,14 +54,19 @@ const NeedUserNameForm: FunctionComponent = () => {
           } else {
             // Username does not exist, proceed with registration
             try {
-            await registerUser({
+              await registerUser({
                 variables: {
-                  userDto: { userName, email, profilePicture, uid: user.uid, timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
+                  userDto: {
+                    userName,
+                    email,
+                    profilePicture,
+                    uid: user.uid,
+                    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  },
                 },
               });
-  
-              await updateCurrentUserProfile(userName);
 
+              await updateCurrentUserProfile(userName);
 
               navigate("/status-site");
             } catch (regError) {
@@ -68,7 +78,7 @@ const NeedUserNameForm: FunctionComponent = () => {
         onError: (queryError) => {
           console.error("Error checking user existence", queryError);
           // Handle error in checking user
-        }
+        },
       });
     } catch (e) {
       console.error("Error during registration", e);
@@ -79,10 +89,12 @@ const NeedUserNameForm: FunctionComponent = () => {
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUsername = e.target.value;
     // Allow only alphanumeric characters and limit to 16 characters
-    const sanitizedUsername = newUsername.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
+    const sanitizedUsername = newUsername
+      .replace(/[^a-zA-Z0-9]/g, "")
+      .slice(0, 16);
     setUserName(sanitizedUsername);
   };
-  
+
   return (
     <form className={styles.needUserNameForm} onSubmit={handleRegister}>
       <div className={styles.needUserNameInput}>
@@ -92,13 +104,13 @@ const NeedUserNameForm: FunctionComponent = () => {
             className={styles.userNameInput}
             type="userName"
             value={userName}
-            onChange={handleUsernameChange} 
+            onChange={handleUsernameChange}
             placeholder="Username"
             required
           />
         </div>
       </div>
-      <div className={styles.signInButton} >
+      <div className={styles.signInButton}>
         <button className={styles.button} type="submit">
           <b className={styles.signInT}>CONTINUE</b>
         </button>

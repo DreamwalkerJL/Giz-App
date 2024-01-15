@@ -35,14 +35,15 @@ const MenuSite: FunctionComponent = () => {
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         toast.info(
-          "🔼   🔼   🔼 To enable notifications, click the icon somwehere above here in the address bar and choose 'Allow' for notifications.",
+          "🔼 To enable notifications, you need to first click the settings icon in the address bar and choose 'Allow' for notifications.",
           {
             position: toast.POSITION.TOP_LEFT,
             autoClose: 15000,
           }
         );
         return;
-      }
+      } 
+
     }
     setNotificationData(isEnabled);
     let fcmToken = null;
@@ -56,6 +57,7 @@ const MenuSite: FunctionComponent = () => {
             vapidKey:
               "BPEZCuuO4soum6IPVkxeeg_8g2iIABONW87tZmDPNIdlFKUfaCC9vM1yPa4aZA7CrjjZIRj7Mf7OJ5vGpumTZAk",
           });
+  
         } catch (error) {
           console.error("Error fetching FCM token", error);
         }

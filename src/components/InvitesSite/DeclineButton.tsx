@@ -52,22 +52,22 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
             decision,
           },
         });
-        if (response.data.gizHandleInviteMutation.success) {
-          // Update the profile picture in gizCompleteData
-          setGizCompleteData((prevData) =>
-            prevData.map((gizComplete) => ({
-              ...gizComplete,
-              invitedUsers: gizComplete.invitedUsers.map((user) => {
-                if (user.userName === userName) {
-                  return { ...user, status: decision };
-                }
-                return user;
-              }),
-            }))
-          );
-        } else {
-          toast.error("Failed to update profile picture.");
-        }
+        // if (response.data.gizHandleInviteMutation.success) {
+        //   // Update the profile picture in gizCompleteData
+        //   setGizCompleteData((prevData) =>
+        //     prevData.map((gizComplete) => ({
+        //       ...gizComplete,
+        //       invitedUsers: gizComplete.invitedUsers.map((user) => {
+        //         if (user.userName === userName) {
+        //           return { ...user, status: decision };
+        //         }
+        //         return user;
+        //       }),
+        //     }))
+        //   );
+        // } else {
+        //   toast.error("Failed to update profile picture.");
+        // }
 
         // Handle success here
       } catch (e) {
