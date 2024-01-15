@@ -4,6 +4,7 @@ import {
   Route,
   useNavigationType,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import SignInSite from "./pages/SignInSite";
 import RegisterSite from "./pages/RegisterSite";
@@ -19,8 +20,8 @@ import LoggedInRoute from "./firebase/LoggedInRoute";
 import EditSite from "./pages/EditSite";
 import { getAuth } from "firebase/auth";
 import NeedUserNameSite from "./pages/NeedUserNameSite";
-import { ToastContainer } from "react-toastify";
-import { getToken } from "firebase/messaging";
+import { ToastContainer, toast } from "react-toastify";
+import { getToken, onMessage } from "firebase/messaging";
 import { messaging } from "./firebase/firebaseConfig"; // Ensure this is the correct path to your Firebase Messaging instance
 import { useMutation } from "@apollo/client";
 import { REFRESH_FCM_TOKEN_MUTATION } from "./apiServices/Apollo/Mutations";
@@ -32,6 +33,7 @@ import SignInSiteMobile from "./pages/SignInSiteMobile";
 
 function App() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const navigate = useNavigate()
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
@@ -114,6 +116,7 @@ function App() {
     const checkPermissionAndRefreshToken = async () => {
       let fcmToken = null;
       if (Notification.permission === "granted") {
+        console.log("NOTIFICATIONS:ON - Unsubscribing from previous topics, and subscribing to new topics. Errors are expected if the user is not subscribed to certain topics.");
         try {
           fcmToken = await getToken(messaging, {
             vapidKey:
@@ -158,6 +161,21 @@ function App() {
   //     // Display an in-app message or update the UI
   //   });
   // }, []);
+  onMessage(messaging, (payload) => {
+    if (payload.data && payload.data.title && payload.data.body) {
+        toast.info(
+            <div onClick={()=> navigate("/invites-site")}>
+                {payload.data.title}
+                <br />
+                {payload.data.body}
+            </div>,
+            {
+                // Additional toast options here
+            }
+        );
+    }
+  });
+  
 
   const [loading, setLoading] = useState(true);
 

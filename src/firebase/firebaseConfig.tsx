@@ -19,20 +19,7 @@ const messaging = getMessaging(app);
 
 
 
-onMessage(messaging, (payload) => {
-  if (payload.data && payload.data.title && payload.data.body) {
-      toast.info(
-          <div>
-              {payload.data.title}
-              <br />
-              {payload.data.body}
-          </div>,
-          {
-              // Additional toast options here
-          }
-      );
-  }
-});
+
 
 
 
