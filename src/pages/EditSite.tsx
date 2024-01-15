@@ -71,7 +71,7 @@ const EditSite: FunctionComponent = () => {
   }
 
   const [gizComplete, setGizComplete] = useState<GizComplete[]>([]);
-  const { gizCompleteData: data, error, setGizCompleteData } = useGizData();
+  const { gizCompleteData: data, error} = useGizData();
 
   const gizData = gizComplete.find((giz) => giz.id === gizId); // Find the giz
 
