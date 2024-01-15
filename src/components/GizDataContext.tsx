@@ -137,7 +137,7 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   useEffect(() => {
     if (subscriptionData?.userHandledGizInvite) {
       
-console.log(subscriptionData.userHandledGizInvite)
+
         // Otherwise, update the invitedUsers array as before
         const updatedData = gizCompleteData.map((gizComplete) => {
           if (gizComplete.id === subscriptionData.userHandledGizInvite.gizId) {
@@ -252,8 +252,8 @@ console.log(subscriptionData.userHandledGizInvite)
   }, [userChangedPpSubscriptionData]);
   useEffect(() => {
     if (gizEditUserInvitesSubscriptionData?.gizEditUserInvitesSubscription) {
-      console.log("Tadeos");
-      console.log(gizEditSubscriptionData?.gizEditedSubscription);
+
+
       const editedGiz = gizEditUserInvitesSubscriptionData.gizEditUserInvitesSubscription;
   
       setGizCompleteData((prevGizCompleteData) => {

@@ -154,7 +154,7 @@ const EditSite: FunctionComponent = () => {
             invitedUsers: location.state.isRegroup 
               ? userData.map(userD => {
                   if (userD.userName === user.displayName) {
-                    console.log(userD);
+
                     return { ...userD, status: "creator" };
                   } else {
                     return userD;
