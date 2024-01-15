@@ -6,7 +6,7 @@ import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
 
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { useGizData } from "../GizDataContext";
+
 
 type DeclineButtonProps = {
   gizCompleteId: number;
@@ -20,7 +20,7 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
   decisionText,
 }) => {
   const [addGizEvent, { error }] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
-  const { setGizCompleteData } = useGizData();
+  // const { setGizCompleteData } = useGizData();
   const auth = useAuth();
   const userName = auth.currentUser?.displayName;
 
@@ -45,7 +45,7 @@ export const DeclineButton: React.FC<DeclineButtonProps> = ({
     setTimeout(async () => {
       try {
         // Call the mutation inside setTimeout
-        const response = await addGizEvent({
+       await addGizEvent({
           variables: {
             userName,
             gizCompleteIdString: gizCompleteId.toString(),

@@ -12,12 +12,10 @@ import { GizDataProvider } from "./components/GizDataContext.tsx";
 // Register the service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('../firebase-messaging-sw.js')
-    .then(function(registration) {
-      console.log('Registration successful, scope is:', registration.scope);
-      
+    .then(function() {
       // Add an event listener to handle messages from the service worker
       navigator.serviceWorker.addEventListener('message', function(event) {
-        console.log('Received a message from service worker: ', event.data);
+
         if (event.data.action === 'accept') {
           // Handle the accept action
           // Call the function that handles the accept mutation

@@ -1,6 +1,6 @@
 import { initializeApp, FirebaseApp } from "firebase/app";
-import { getMessaging, onMessage,} from "firebase/messaging";
-import { toast } from "react-toastify";
+import { getMessaging} from "firebase/messaging";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,

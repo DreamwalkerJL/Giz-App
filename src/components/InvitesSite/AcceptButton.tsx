@@ -5,7 +5,6 @@ import { useAuth } from "../../firebase/AuthContext";
 import { GIZ_HANDLE_INVITE_MUTATION } from "../../apiServices/Apollo/Mutations";
 
 import { motion } from "framer-motion";
-import { useGizData } from "../GizDataContext";
 import { toast } from "react-toastify";
 
 type AcceptButtonProps = {
@@ -20,7 +19,7 @@ export const AcceptButton: React.FC<AcceptButtonProps> = ({
   const auth = useAuth();
   const { currentUser } = useAuth();
   const userName = auth.currentUser?.displayName;
-  const {setGizCompleteData } = useGizData();
+  // const {setGizCompleteData } = useGizData();
   // `useMutation` hook called at the top level
   const [addGizEvent] = useMutation(GIZ_HANDLE_INVITE_MUTATION);
 

@@ -3,7 +3,7 @@ import styles from "./Loader.module.css";
 import logoLoader3 from "../assets/logoLoader2.webm"
 
 export default function Loader() {
-  console.log("Version 0.0.4-7")
+  console.log("Version: 0.0.5-1")
   return (
     <motion.div
       className={styles.loaderSite}
