@@ -9,8 +9,8 @@ import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import axios, { AxiosInstance } from "axios";
 
 // const BASE_URL = "http://localhost:8080";
-// const BASE_URL = "https://api.gizapp.net/";
-const BASE_URL = "https://Gizapp-env-3.eba-xvqp4wt6.eu-north-1.elasticbeanstalk.com";
+const BASE_URL = "https://api.gizapp.net/";
+// const BASE_URL = "https://Gizapp-env-3.eba-xvqp4wt6.eu-north-1.elasticbeanstalk.com";
 interface AuthContextType {
   currentUser: User | null;
   idToken: string | null;
