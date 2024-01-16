@@ -60,8 +60,12 @@ const authLink = new ApolloLink((operation, forward) => {
 //   uri: "http://localhost:8080/graphql",
 // });
 
+// const httpLink = new HttpLink({
+//   uri: "https://api.gizapp.net/graphql",
+// });
+
 const httpLink = new HttpLink({
-  uri: "https://api.gizapp.net/graphql",
+  uri: "Gizapp-env-3.eba-xvqp4wt6.eu-north-1.elasticbeanstalk.com/graphql",
 });
 
 // Use the authLink to concatenate with the httpLink
@@ -83,9 +87,25 @@ const httpAuthLink = authLink.concat(httpLink);
 //   })
 // );
 
+// const wsLink = new GraphQLWsLink(
+//   createClient({
+//     url: "wss://api.gizapp.net/graphql-ws",
+//     connectionParams: () => {
+//       // This function will be called every time the client connects or reconnects.
+//       const token = getToken();
+
+//       return {
+//         headers: {
+//           Authorization: token ? `Bearer ${token}` : "",
+//         },
+//       };
+//     },
+//   })
+// );
+
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "wss://api.gizapp.net/graphql-ws",
+    url: "wss://Gizapp-env-3.eba-xvqp4wt6.eu-north-1.elasticbeanstalk.com/graphql-ws",
     connectionParams: () => {
       // This function will be called every time the client connects or reconnects.
       const token = getToken();
