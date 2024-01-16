@@ -65,7 +65,7 @@ const authLink = new ApolloLink((operation, forward) => {
 // });
 
 const httpLink = new HttpLink({
-  uri: "Gizapp-env-3.eba-xvqp4wt6.eu-north-1.elasticbeanstalk.com/graphql",
+  uri: "https://Gizapp-env-3.eba-xvqp4wt6.eu-north-1.elasticbeanstalk.com/graphql",
 });
 
 // Use the authLink to concatenate with the httpLink
