@@ -58,3 +58,15 @@ export const IS_NOTIFICATION_ENABLED = gql`
   }
 `;
 
+export const USER_FAVORITES_QUERY = gql`
+  query UserFavoritesQuery($uid: String!) {
+    userFavoritesQuery(uid: $uid) {
+      gizId
+      userId
+      userName
+      profilePicture
+      status
+    }
+  }
+`;
+

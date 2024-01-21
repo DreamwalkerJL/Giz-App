@@ -7,7 +7,7 @@ import React, {
   useEffect,
   FunctionComponent,
 } from "react";
-import { useQuery, useSubscription } from "@apollo/client";
+import {useQuery, useSubscription } from "@apollo/client";
 import { useAuth } from "../firebase/AuthContext";
 import {
   GIZ_CREATED_SUBSCRIPTION,
@@ -26,28 +26,33 @@ import {
   GizEditUserInvitesSubscriptionData,
   UserChangedPpSubscriptionData,
   UserHandledGizInviteSubscriptionData,
+  UserPublic,
 } from "../apiServices/Apollo/Types";
-import { GIZ_COMPLETE_QUERY, IS_NOTIFICATION_ENABLED } from "../apiServices/Apollo/Querys";
+import { GIZ_COMPLETE_QUERY, IS_NOTIFICATION_ENABLED, USER_FAVORITES_QUERY } from "../apiServices/Apollo/Querys";
 // Define a type for your context state
 type GizDataContextType = {
   gizCompleteData: GizComplete[]; // Replace `any` with a more specific type as needed
   notificationData: boolean;
+  userFavorites: UserPublic[];
   loading: boolean;
   error: unknown; // or a more specific error type
   refetchGizData: () => void;
   setGizCompleteData: React.Dispatch<React.SetStateAction<GizComplete[]>>;
   setNotificationData: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserFavorites: React.Dispatch<React.SetStateAction<UserPublic[]>>;
   // ... other state or functions
 };
 // Provide a default value that matches the type
 const defaultValue: GizDataContextType = {
   gizCompleteData: [],
   notificationData: false,
+  userFavorites: [],
   loading: false,
   error: null,
   refetchGizData: () => {}, // noop function
   setGizCompleteData: () => {},
   setNotificationData: () => {},
+  setUserFavorites: () => {},
   // ... other default values
 };
 const GizDataContext = createContext<GizDataContextType>(defaultValue);
@@ -64,8 +69,9 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   status,
 }) => {
   const { currentUser } = useAuth();
+
   const userName = currentUser?.displayName;
-  const userUid = currentUser?.uid;
+  const userUid = currentUser?.uid
   const [gizCompleteData, setGizCompleteData] = useState<GizComplete[]>([]);
   const { data, loading, error, refetch } = useQuery(GIZ_COMPLETE_QUERY, {
     variables: { userName, status },
@@ -79,6 +85,13 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     variables: { uid: userUid },
     fetchPolicy: "cache-first",
     // fetchPolicy: "network-only", // Ensures fresh data on each component mount
+  });
+
+  const [userFavorites, setUserFavorites] = useState<UserPublic[]>([]);
+
+  const { data: userFavoritesData } = useQuery(USER_FAVORITES_QUERY, {
+    variables: { uid: userUid },
+    fetchPolicy: "cache-first"
   });
 
   const { data: userChangedPpSubscriptionData } =
@@ -122,6 +135,10 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
   // }, [refetch]);
 
   // Update state when query data is received
+
+
+
+
   useEffect(() => {
     if (data?.gizCompleteQuery) {
       setGizCompleteData(data.gizCompleteQuery);
@@ -133,6 +150,15 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
       setNotificationData(notificationDataQuery.isNotificationEnabled);
     }
   }, [notificationDataQuery]);
+
+  useEffect(() => {
+
+    if (userFavoritesData?.userFavoritesQuery) {
+      setUserFavorites(userFavoritesData.userFavoritesQuery);
+    }
+  }
+  , [userFavoritesData]);
+
   // Update state when subscription data is received
   useEffect(() => {
     if (subscriptionData?.userHandledGizInvite) {
@@ -286,6 +312,8 @@ export const GizDataProvider: FunctionComponent<GizDataProviderProps> = ({
     setGizCompleteData,
     notificationData,
     setNotificationData,
+    userFavorites,
+    setUserFavorites,
     loading,
     error,
     refetchGizData: refetch,

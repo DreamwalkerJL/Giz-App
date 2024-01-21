@@ -19,6 +19,7 @@ import { useLazyQuery, useMutation} from "@apollo/client";
 
 import {
   GizComplete,
+  UserPublic,
   UserPublicWithTypename,
 } from "../apiServices/Apollo/Types";
 import {
@@ -130,9 +131,9 @@ const EditSite: FunctionComponent = () => {
       `${date.format("YYYY-MM-DD")}T${time.format("HH:mm")}`
     ).utc();
 
-    const formattedTime = userDateTimeUTC.format("HH:mm");
-    const formattedDate = userDateTimeUTC.format("MMMM D, YYYY");
 
+    const formattedDate = userDateTimeUTC.format("MMMM DD, YYYY"); 
+    const formattedTime = userDateTimeUTC.format("HH:mm");
     if (!idToken || !user || !user?.displayName) {
       console.error(
         "No IdToken / Logged in User / Displayname to User assigned"
@@ -198,6 +199,33 @@ if (response.data.gizEditMutation.success) {
   const [getUser, { data: userPublicData }] = useLazyQuery(USER_PUBLIC_QUERY);
 
   const [refreshUserData, setRefreshUserData] = useState(false);
+
+  const addFavoriteUser = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    user: UserPublic
+  ): Promise<void> => {
+    event.preventDefault();
+    try {
+      setUserData((prevUserData) => {
+        // Add the new user if not already in the list
+        const isUserAlreadyAdded = prevUserData.some(
+          (existingUser) => existingUser.userId === user.userId
+        );
+        
+
+        if (!isUserAlreadyAdded) {
+          return [...prevUserData, user];
+        }
+        toast.error("User has already been added");
+        return prevUserData;
+      }
+      );
+
+    } catch (error) {
+      console.error("Error fetching user data", error);
+      toast.error("ERROR - User does not exist");
+    }
+  };
 
   const addUser = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -391,6 +419,7 @@ if (response.data.gizEditMutation.success) {
                 userName={userName}
                 setUserName={setUserName}
                 addUser={addUser}
+                addFavoriteUser={addFavoriteUser}
                 userData={userData}
                 setUserData={setUserData}
               />
@@ -412,6 +441,7 @@ if (response.data.gizEditMutation.success) {
                 userName={userName}
                 setUserName={setUserName}
                 addUser={addUser}
+                addFavoriteUser={addFavoriteUser}
                 userData={userData}
                 setUserData={setUserData}
               />

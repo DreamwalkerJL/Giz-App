@@ -210,6 +210,73 @@
   box-sizing: border-box;
 }
 
+.userImageBorder {
+  display: flex;
+  position: relative;
+}
+
+
+.starOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34px;
+  font-size: 24px; /* Adjust size as needed */
+  cursor: pointer;
+  color: #72FF80; /* Adjust color as needed */
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000; /* Stroke effect */
+  z-index: 1;
+  
+}
+
+.favoritesFrame {
+  border-radius: 5px;
+  background-color: #1e193b;
+  border: 1px solid #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 10px 0px 0px;
+  gap: 10px;
+  cursor: pointer;
+}
+.favorites {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 25px 25px;
+  gap: 20px;
+}
+
+.plus {
+  position: relative;
+  font-family: Blinker;
+  font-size: 16px;
+  color: white;
+}
+
+
+.plusFrame {
+  border-radius: 5px 0px 0px 5px;
+  background-color: #6b56a3;
+
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px;
+}
+
 @media screen and (min-width: 700px) {  /* Adjust the min-width as needed */
   .userFrame {
       height: 195px;

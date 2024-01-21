@@ -5,7 +5,7 @@ import styles from "./RegisterForm.module.css";
 import { updateCurrentUserProfile } from "../../firebase/updateCurrentUserProfile";
 
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
+import { REFRESH_FCM_TOKEN_MUTATION, REGISTER_USER_MUTATION } from "../../apiServices/Apollo/Mutations";
 import { UserDto } from "../../apiServices/Apollo/Types";
 
 import {
@@ -17,7 +17,8 @@ import { allPps } from "../AllPps";
 import { USER_PUBLIC_QUERY } from "../../apiServices/Apollo/Querys";
 import { toast } from "react-toastify";
 import { sendEmailVerification } from "firebase/auth";
-
+import { getToken } from "firebase/messaging";
+import { messaging } from "../../firebase/firebaseConfig";
 
 const RegisterForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const RegisterForm: FunctionComponent = () => {
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const [refreshFcmToken] = useMutation(REFRESH_FCM_TOKEN_MUTATION);
   const getRandomImagePath = () => {
     const randomIndex = Math.floor(Math.random() * allPps.length);
     return allPps[randomIndex];
@@ -37,14 +38,42 @@ const RegisterForm: FunctionComponent = () => {
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
           toast.success("Notifications enabled!");
-          // Additional logic if needed when permission is granted
+          return true; // User granted permission
         } else {
           toast.info("Notifications disabled");
-          // Handle other cases like "denied" or "default"
+          return false; // User denied permission
         }
       } catch (error) {
         console.error("Error requesting notification permission", error);
         toast.error("Error requesting notification permission");
+        return false;
+      }
+    }
+    return false; // Notification not supported or permission already denied
+  };
+  
+
+
+  const handleFcmToken = async () => {
+    let fcmToken = null;
+    if (Notification.permission === "granted") {
+      try {
+        fcmToken = await getToken(messaging, {
+          vapidKey: "BPEZCuuO4soum6IPVkxeeg_8g2iIABONW87tZmDPNIdlFKUfaCC9vM1yPa4aZA7CrjjZIRj7Mf7OJ5vGpumTZAk",
+        });
+      } catch (error) {
+        console.error("Error fetching FCM token", error);
+      }
+
+      try {
+        await refreshFcmToken({
+          variables: {
+            fcmToken,
+            uid: auth.currentUser?.uid,
+          },
+        });
+      } catch (error) {
+        console.error("Error refreshing FCM token", error);
       }
     }
   };
@@ -87,10 +116,16 @@ const RegisterForm: FunctionComponent = () => {
 
       updateCurrentUserProfile(userName);
 
-      await requestNotificationPermission();
+
+
 
       toast.success("Registration successful");
       navigate("/status-site");
+      const notificationsAccepted = await requestNotificationPermission();
+      await handleFcmToken();
+      if (notificationsAccepted) {
+      window.location.reload()
+      }
     } catch (e) {
       console.error("Error registering user", e);
       toast.error("Error registering user");

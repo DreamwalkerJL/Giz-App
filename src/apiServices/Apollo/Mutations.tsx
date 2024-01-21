@@ -80,3 +80,12 @@ export const REFRESH_FCM_TOKEN_MUTATION = gql`
     }
   }
 `;
+
+export const USER_FAVORITES_MUTATION = gql`
+  mutation UserFavoritesMutation($uid: String!, $userId: ID!) {
+    userFavoritesMutation(uid: $uid, userId: $userId) {
+      success
+      message
+    }
+  }
+`;

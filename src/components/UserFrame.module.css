@@ -106,6 +106,22 @@
   flex: 1;
 }
 
+.starOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34px;
+  font-size: 24px; /* Adjust size as needed */
+  cursor: pointer;
+  color: #72FF80; /* Adjust color as needed */
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000; /* Stroke effect */
+  z-index: 1;
+  
+}
 @media screen and (min-width: 700px) {
   /* Adjust the min-width as needed */
   .userFrame {

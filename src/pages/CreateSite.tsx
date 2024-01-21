@@ -71,16 +71,14 @@ const CreateSite: FunctionComponent = () => {
   );
 
   const handleCreateGiz = async () => {
-    const userDateTime = dayjs(
-      `${date.format("YYYY-MM-DD")}T${time.format("HH:mm")}`
-    );
+    const userDateTime = dayjs(`${date.format("YYYY-MM-DD")}T${time.format("HH:mm")}`);
 
     // Convert to UTC
     const userDateTimeUTC = userDateTime.utc();
 
     // Format date and time
-    const formattedDate = userDateTimeUTC.format("MMMM D, YYYY"); // Date in "MMMM D, YYYY" format
-    const formattedTime = userDateTimeUTC.format("HH:mm"); // Time in "HH:mm" format
+    const formattedDate = userDateTimeUTC.format("MMMM DD, YYYY"); // Adjusted format
+    const formattedTime = userDateTimeUTC.format("HH:mm");
 
     if (!idToken || !user || !user?.displayName) {
       console.error(
@@ -114,6 +112,33 @@ const CreateSite: FunctionComponent = () => {
 
   const [getUser, { data: userPublicData }] = useLazyQuery(USER_PUBLIC_QUERY);
   const [refreshUserData, setRefreshUserData] = useState(false);
+
+  const addFavoriteUser = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    user: UserPublic
+  ): Promise<void> => {
+    event.preventDefault();
+    try {
+      setUserData((prevUserData) => {
+        // Add the new user if not already in the list
+        const isUserAlreadyAdded = prevUserData.some(
+          (existingUser) => existingUser.userId === user.userId
+        );
+        
+
+        if (!isUserAlreadyAdded) {
+          return [...prevUserData, user];
+        }
+        toast.error("User has already been added");
+        return prevUserData;
+      }
+      );
+
+    } catch (error) {
+      console.error("Error fetching user data", error);
+      toast.error("ERROR - User does not exist");
+    }
+  };
 
   const addUser = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -279,6 +304,7 @@ const CreateSite: FunctionComponent = () => {
                 userName={userName}
                 setUserName={setUserName}
                 addUser={addUser}
+                addFavoriteUser={addFavoriteUser}
                 userData={userData}
                 setUserData={setUserData}
               />
@@ -300,6 +326,7 @@ const CreateSite: FunctionComponent = () => {
                 userName={userName}
                 setUserName={setUserName}
                 addUser={addUser}
+                addFavoriteUser={addFavoriteUser}
                 userData={userData}
                 setUserData={setUserData}
               />

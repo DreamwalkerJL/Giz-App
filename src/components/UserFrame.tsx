@@ -1,7 +1,11 @@
 import React, { CSSProperties, useState } from "react";
 import styles from "./UserFrame.module.css";
 import { motion } from "framer-motion";
-import { GizComplete } from "../apiServices/Apollo/Types";
+import { GizComplete, UserPublic } from "../apiServices/Apollo/Types";
+import { useMutation } from "@apollo/client";
+import { USER_FAVORITES_MUTATION } from "../apiServices/Apollo/Mutations";
+import { useAuth } from "../firebase/AuthContext";
+import { useGizData } from "./GizDataContext";
 
 interface StatusVariant {
   borderColor: string;
@@ -38,7 +42,36 @@ interface UserFrameProps {
 
 const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
   const [windowWidth] = useState(window.innerWidth);
-  
+  const { currentUser } = useAuth();
+  const uid = currentUser?.uid;
+
+  const { userFavorites, setUserFavorites } = useGizData();
+
+  const [favoritesMutation] = useMutation(USER_FAVORITES_MUTATION);
+
+  function isFavourite(userId: number) {
+    return userFavorites?.some((user)=> user.userId === userId)
+  }
+
+  function toggleFavorite(user: UserPublic) {
+    // Update this function to work with UserPublicData
+    if(user.userName === currentUser?.displayName) {
+      return;
+    }
+
+    favoritesMutation({
+      variables: { uid: uid, userId: user.userId },
+    });
+    setUserFavorites((prev) => {
+      const isAlreadyFavorite = prev.some((favUser) => favUser.userId === user.userId);
+      if (isAlreadyFavorite) {
+        return prev.filter((favUser) => favUser.userId !== user.userId);
+      } else {
+        return [...prev, user];
+      }
+    });
+  }
+
   const sortedInvitedUsers = [...gizComplete.invitedUsers].sort((a, b) => {
     const statusValues: { [key: string]: number } = {
       creator: 1,
@@ -68,15 +101,11 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
     setHoveredUserId(null);
   };
 
-  // const getImagePath = (profilePicture: string) => {
-  //   const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
-  //   return `public/${folder}/${profilePicture}`;
-  // };
-
   const getImagePath = (profilePicture: string) => {
-    const folder = windowWidth > 800 ? 'ImageUrlsDesktop' : 'ImageUrlsMobile';
+    const folder = windowWidth > 800 ? "ImageUrlsDesktop" : "ImageUrlsMobile";
     return `/${folder}/${profilePicture}`;
   };
+
 
   return (
     <div className={styles.invitedUsers}>
@@ -103,21 +132,38 @@ const UserFrame: React.FC<UserFrameProps> = ({ gizComplete }) => {
               className={styles.userImageBorder}
               onMouseEnter={() => handleMouseEnter(user.userId, "#ffffff")}
               onMouseLeave={handleMouseLeave}
-              style={{
-                "--borderColor": hoveredUserId === user.userId ? borderColor : userStatusVariant.borderColor
-              } as CSSProperties}
+              style={
+                {
+                  "--borderColor":
+                    hoveredUserId === user.userId
+                      ? borderColor
+                      : userStatusVariant.borderColor,
+                } as CSSProperties
+              }
               whileHover={{
                 opacity: 1,
                 boxShadow: "0 0 20px rgba(255, 255, 255, 0.8)",
                 y: "-1.2%",
                 transition: { duration: 0.2 },
+                cursor: "pointer",
+              }}
+              onClick={() => {
+
+                toggleFavorite(user);
               }}
             >
+              <div
+                className={styles.starOverlay}
+                style={{ color: isFavourite(user.userId) ? "gold" : "white" }}
+              >
+                {currentUser?.displayName === user.userName ? "" : isFavourite(user.userId) ? "★" : "☆"}
+              </div>
               <motion.img
                 className={styles.userImageIcon}
                 alt={user.userName}
                 src={getImagePath(user.profilePicture)}
               />
+
               <motion.span
                 className={styles.userNameOverlay}
                 initial={{ opacity: 0 }}

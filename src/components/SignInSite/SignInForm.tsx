@@ -2,6 +2,7 @@ import { FunctionComponent, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignInForm.module.css";
 import { signInWithEmailPassword } from "../../firebase/AuthSignInWithEmailPassword";
+import { toast } from "react-toastify";
 
 const SignUpForm: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const SignUpForm: FunctionComponent = () => {
         navigate("/status-site");
       }
     } catch (error) {
+      toast.error("Email or password is incorrect")
       console.error("There was an error!", error);
     }
   };

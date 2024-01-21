@@ -16,41 +16,46 @@ const firebaseConfig = {
   const messaging = firebase.messaging();
 
  
-  messaging.onBackgroundMessage(function(payload) {
-   
-  
+// Initialize a counter for notifications
+let notificationCount = 0;
+
+// Function to handle incoming messages
+messaging.onBackgroundMessage(function(payload) {
+    // Create a unique tag based on title and body
+    let uniqueTag = `tag-${payload.data.title}-${payload.data.body}`;
+
+    // Prepare the notification options with a unique tag
     let options = {
         body: payload.data.body,
         icon: '/favicon.ico',
-        // actions: [
-        //     { action: 'accept', title: 'Accept' },
-        //     { action: 'decline', title: 'Decline' }
-        // ],
-        // other options...
+        tag: uniqueTag, // Unique tag for grouping specific notifications
+        // ... other options
     };
 
+    // Show the notification
     self.registration.showNotification(payload.data.title, options);
 });
+
+// Event listener for notification clicks
 self.addEventListener('notificationclick', function(event) {
-  console.log('Notification click Received.');
+    console.log('Notification click Received.');
+    event.notification.close(); // Close the notification
 
-  // Close the notification
-  event.notification.close();
+    // Reset the notification count
+    notificationCount = 0;
 
-  // Redirect to the invites site
-  event.waitUntil(
-      clients.matchAll({ type: 'window' }).then(function(windowClients) {
-          // Check if there is already a window/tab open with the target URL
-          for (var i = 0; i < windowClients.length; i++) {
-              var client = windowClients[i];
-              if (client.url === '/invites-site' && 'focus' in client) {
-                  return client.focus();
-              }
-          }
-          // If not, then open the new window
-          if (clients.openWindow) {
-              return clients.openWindow('/invites-site');
-          }
-      })
-  );
+    // Handle the click event, e.g., open a window or focus an existing one
+    event.waitUntil(
+        clients.matchAll({ type: 'window' }).then(function(windowClients) {
+            for (var i = 0; i < windowClients.length; i++) {
+                var client = windowClients[i];
+                if (client.url === '/invites-site' && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow('/invites-site');
+            }
+        })
+    );
 });

@@ -125,6 +125,7 @@ function App() {
         } catch (error) {
           console.error("Error fetching FCM token", error);
         }
+        
       } else {
         console.log("Notification permission not granted or declined");
       }
